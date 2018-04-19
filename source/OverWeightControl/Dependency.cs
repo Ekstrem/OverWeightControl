@@ -10,6 +10,7 @@ namespace OverWeightControl
             Order = order;
             Name = string.Empty;
             Lifetime = new ContainerControlledLifetimeManager();
+            Register = true;
         }
 
         public int Order { get; set; }
@@ -18,5 +19,12 @@ namespace OverWeightControl
         public string Name { get; set; }
         public bool Register { get; set; }
         public LifetimeManager Lifetime { get; set; }
+
+        /// <summary>Возвращает строку, представляющую текущий объект.</summary>
+        /// <returns>Строка, представляющая текущий объект.</returns>
+        public override string ToString()
+        {
+            return $"{Abstractions.Name}, {Realization.Name}, {Name}";
+        }
     }
 }
