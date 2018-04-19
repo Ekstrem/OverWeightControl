@@ -151,38 +151,44 @@ namespace OverWeightControl
                 new Dependency(1)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(FinderFiles)
+                    Realization = typeof(FinderFiles),
+                    Name = nameof(FinderFiles)
                 },
                 new Dependency(2)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(BufferedFiles)
+                    Realization = typeof(BufferedFiles),
+                    Name = nameof(BufferedFiles)
                 },
                 new Dependency(3)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(Md5HashComputerFiles)
+                    Realization = typeof(Md5HashComputerFiles),
+                    Name = nameof(Md5HashComputerFiles)
                 },
                 new Dependency(4)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(CompresserFiles)
+                    Realization = typeof(CompresserFiles),
+                    Name = nameof(CompresserFiles)
                 },
                 new Dependency(5)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(SenderFiles)
+                    Realization = typeof(SenderFiles),
+                    Name = nameof(SenderFiles)
                 },
-                new Dependency(6)
+                /*new Dependency(6)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(SenderFiles),
                     Register = false
-                },
+                },*/
                 new Dependency(7)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(UnCompresserFiles),
+                    Name = nameof(UnCompresserFiles),
                     Register = false
                 }
             };
