@@ -1,6 +1,5 @@
-G:\OverWeightControl\source\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
-G:\OverWeightControl\source\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
 G:\OverWeightControl\bin\Core.dll
 G:\OverWeightControl\bin\Core.pdb
+G:\OverWeightControl\source\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
 G:\OverWeightControl\source\Core\obj\Debug\Core.dll
 G:\OverWeightControl\source\Core\obj\Debug\Core.pdb

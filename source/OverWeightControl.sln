@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileTransferManager.Server"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverWeightControl", "OverWeightControl\OverWeightControl.csproj", "{23FF7387-5E24-449B-8898-FA514D0B5134}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActsUI", "ClienActsUI\ActsUI.csproj", "{95F37AE0-0599-4354-985A-4209886070C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{23FF7387-5E24-449B-8898-FA514D0B5134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23FF7387-5E24-449B-8898-FA514D0B5134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23FF7387-5E24-449B-8898-FA514D0B5134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F37AE0-0599-4354-985A-4209886070C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F37AE0-0599-4354-985A-4209886070C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F37AE0-0599-4354-985A-4209886070C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F37AE0-0599-4354-985A-4209886070C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{65D292D6-A81C-4CC7-9754-191B5AAD8706} = {A555001B-2978-4AA5-8926-2214BE5BAA62}
 		{952E1A61-3430-4CB4-9A7A-1D620DAF97D6} = {A555001B-2978-4AA5-8926-2214BE5BAA62}
 		{23FF7387-5E24-449B-8898-FA514D0B5134} = {A555001B-2978-4AA5-8926-2214BE5BAA62}
+		{95F37AE0-0599-4354-985A-4209886070C6} = {2C4D089B-CEF6-4977-B302-47EED7F3EA62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B45642E3-DB30-46A5-8DF5-33415D748002}
