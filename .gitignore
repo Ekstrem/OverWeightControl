@@ -2,3 +2,5 @@
 source/.vs/*
 source/Common/obj/*
 *.pdb
+.vs/OverWeightControl/v15/.suo
+bin/*
