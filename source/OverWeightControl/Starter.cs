@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using OverWeightControl.Clients.ActsUI;
-using OverWeightControl.Core.CompositionRoot;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.ConsoleService;
 using OverWeightControl.Core.FileTransfer.Client;

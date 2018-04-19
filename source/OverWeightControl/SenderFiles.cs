@@ -1,5 +1,4 @@
 ﻿using OverWeightControl.Core.Console;
-using OverWeightControl.Core.FileTransfer;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
 
