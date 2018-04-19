@@ -1,2 +1,4 @@
 *.lock
 source/.vs/*
+source/Common/obj/*
+*.pdb
