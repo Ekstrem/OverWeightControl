@@ -12,3 +12,4 @@ source/SettingsService/obj/*
 source/FileTransferManager.Client/obj/*
 source/FileTransferManager.Server/obj/*
 source/OverWeightControl/obj/*
+source/ClienActsUI/obj/*
