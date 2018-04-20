@@ -31,6 +31,8 @@ namespace OverWeightControl.Clients.ActsUI
             InitializeComponent();
         }
 
+        #region IEditeble<CargoInfo> members
+
         /// <summary>
         /// Загрузка данных в контрол.
         /// </summary>
@@ -100,6 +102,10 @@ namespace OverWeightControl.Clients.ActsUI
             }
         }
 
+        #endregion
+
+        #region IEditeble<RawCargoInfo> members
+
         public bool LoadData(RawCargoInfo data)
         {
             try
@@ -153,5 +159,7 @@ namespace OverWeightControl.Clients.ActsUI
                 return false;
             }
         }
+
+        #endregion
     }
 }
