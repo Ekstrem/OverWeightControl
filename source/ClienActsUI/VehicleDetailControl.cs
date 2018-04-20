@@ -8,6 +8,7 @@ using OverWeightControl.Common.RawData;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
 using Unity.Attributes;
+using Unity.Interception.Utilities;
 
 namespace OverWeightControl.Clients.ActsUI
 {
@@ -57,11 +58,18 @@ namespace OverWeightControl.Clients.ActsUI
             }
         }
 
-        public ICollection<VehicleDetail> UpdateData()
+        public bool UpdateData(ICollection<VehicleDetail> data)
         {
             try
             {
-                return dataGridView1.Rows.Cast<DataGridViewRow>()
+                if (data == null)
+                {
+                    data = new List<VehicleDetail>();
+                }
+
+                data.Clear();
+
+                dataGridView1.Rows.Cast<DataGridViewRow>()
                     .TakeWhile(row => row.Cells[0].Value != null)
                     .Select(row => new VehicleDetail
                     {
@@ -70,12 +78,14 @@ namespace OverWeightControl.Clients.ActsUI
                         VehicleModel = row.Cells[2].Value.ToString(),
                         StateNumber = row.Cells[3].Value.ToString()
                     })
-                    .ToList();
+                    .ForEach(data.Add);
+
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
@@ -106,29 +116,32 @@ namespace OverWeightControl.Clients.ActsUI
             }
         }
 
-        ICollection<RawVehicleDetail> IEditable<ICollection<RawVehicleDetail>>.UpdateData()
+        public bool UpdateData(ICollection<RawVehicleDetail> data)
         {
             try
             {
-                return dataGridView1.Rows.Cast<DataGridViewRow>()
+                if (data == null)
+                {
+                    data = new List<RawVehicleDetail>();
+                }
+
+                data.Clear();
+                dataGridView1.Rows.Cast<DataGridViewRow>()
                     .TakeWhile(row => row.Cells[0].Value != null)
                     .Select(row => new RawVehicleDetail
                     {
-                        VehicleType = new RecognizedValue(
-                            row.Cells[0].Value.ToString()),
-                        VehicleBrand = new RecognizedValue(
-                            row.Cells[1].Value.ToString()),
-                        VehicleModel = new RecognizedValue(
-                            row.Cells[2].Value.ToString()),
-                        StateNumber = new RecognizedValue(
-                            row.Cells[3].Value.ToString())
+                        VehicleType = row.UpdateData(0),
+                        VehicleBrand = row.UpdateData(1),
+                        VehicleModel = row.UpdateData(2),
+                        StateNumber = row.UpdateData(3)
                     })
-                    .ToList();
+                    .ForEach(data.Add);
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 

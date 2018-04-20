@@ -4,3 +4,10 @@ G:\OverWeightControl\source\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
 G:\OverWeightControl\source\Core\obj\Debug\Core.dll
 G:\OverWeightControl\source\Core\obj\Debug\Core.pdb
 G:\OverWeightControl\source\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+C:\Projects\OverWeightControl\bin\Core.dll
+C:\Projects\OverWeightControl\bin\Core.pdb
+C:\Projects\OverWeightControl\source\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+C:\Projects\OverWeightControl\source\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
+C:\Projects\OverWeightControl\source\Core\obj\Debug\Core.csproj.CopyComplete
+C:\Projects\OverWeightControl\source\Core\obj\Debug\Core.dll
+C:\Projects\OverWeightControl\source\Core\obj\Debug\Core.pdb
