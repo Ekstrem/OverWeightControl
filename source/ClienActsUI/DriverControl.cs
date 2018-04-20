@@ -66,7 +66,22 @@ namespace OverWeightControl.Clients.ActsUI
 
         RawDriverInfo IEditable<RawDriverInfo>.UpdateData()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return new RawDriverInfo
+                {
+                    FnMnSname = fnMnSnameTextBox.UpdateData(),
+                    DriversLicenseNumber = driversLicenseNumberTextBox.UpdateData(),
+                    OperatorName = operatorNameTextBox.UpdateData(),
+                    GibddName = gibddNameTextBox.UpdateData(),
+                    GetingMark = getingMarkTextBox.UpdateData()
+                };
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         public DriverInfo UpdateData()
