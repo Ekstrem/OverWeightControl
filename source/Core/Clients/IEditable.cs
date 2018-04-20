@@ -16,6 +16,6 @@
         /// Получение данных из контрола после редактирования.
         /// </summary>
         /// <returns>Обновляемые данные.</returns>
-        TEditableEntity UpdateData();
+        bool UpdateData(TEditableEntity data);
     }
 }
