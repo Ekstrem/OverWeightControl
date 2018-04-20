@@ -28,6 +28,8 @@ namespace OverWeightControl.Clients.ActsUI
             InitializeComponent();
         }
 
+        #region IEditable<DriverInfo> members
+
         public bool LoadData(DriverInfo data)
         {
             try
@@ -45,6 +47,29 @@ namespace OverWeightControl.Clients.ActsUI
                 return false;
             }
         }
+
+        public bool UpdateData(DriverInfo data)
+        {
+            try
+            {
+                data.FnMnSname = fnMnSnameTextBox.Text;
+                data.DriversLicenseNumber = driversLicenseNumberTextBox.Text;
+                data.OperatorName = operatorNameTextBox.Text;
+                data.GibddName = gibddNameTextBox.Text;
+                data.GetingMark = getingMarkTextBox.Text;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
+            }
+        }
+
+        #endregion
+        
+        #region IEditable<DriverInfo> members
 
         public bool LoadData(RawDriverInfo data)
         {
@@ -64,44 +89,26 @@ namespace OverWeightControl.Clients.ActsUI
             }
         }
 
-        RawDriverInfo IEditable<RawDriverInfo>.UpdateData()
+        public bool UpdateData(RawDriverInfo data)
         {
             try
             {
-                return new RawDriverInfo
-                {
-                    FnMnSname = fnMnSnameTextBox.UpdateData(),
-                    DriversLicenseNumber = driversLicenseNumberTextBox.UpdateData(),
-                    OperatorName = operatorNameTextBox.UpdateData(),
-                    GibddName = gibddNameTextBox.UpdateData(),
-                    GetingMark = getingMarkTextBox.UpdateData()
-                };
+                data.FnMnSname = fnMnSnameTextBox.UpdateData();
+                data.DriversLicenseNumber = driversLicenseNumberTextBox.UpdateData();
+                data.OperatorName = operatorNameTextBox.UpdateData();
+                data.GibddName = gibddNameTextBox.UpdateData();
+                data.GetingMark = getingMarkTextBox.UpdateData();
+
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
-        public DriverInfo UpdateData()
-        {
-            try
-            {
-                return new DriverInfo
-                {
-                    FnMnSname = fnMnSnameTextBox.Text,
-                    DriversLicenseNumber = driversLicenseNumberTextBox.Text,
-                    OperatorName = operatorNameTextBox.Text,
-                    GibddName = gibddNameTextBox.Text,
-                    GetingMark = getingMarkTextBox.Text
-                };
-            }
-            catch (Exception e)
-            {
-                _console.AddException(e);
-                return null;
-            }
-        }
+        #endregion
+
     }
 }
