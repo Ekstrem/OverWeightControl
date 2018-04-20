@@ -91,6 +91,7 @@
     <Compile Include="CargoControl.Designer.cs">
       <DependentUpon>CargoControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataLoader.cs" />
     <Compile Include="DriverControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
