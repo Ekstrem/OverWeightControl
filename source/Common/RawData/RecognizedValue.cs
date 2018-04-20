@@ -9,17 +9,19 @@ namespace OverWeightControl.Common.RawData
     public class RecognizedValue
     {
         // Диапазон для RecognizedAccuracy
-        private static double _minAccuracy = 0.0;
-        private static double _maxAccuracy = 1.0;
+        private const double _minAccuracy = 0.0;
+        private const double _maxAccuracy = 1.0;
 
         /// <summary>
         /// Конструктор класса.
         /// </summary>
         public RecognizedValue() => RecognizedAccuracy = _maxAccuracy;
 
-        public RecognizedValue(string value)
+        public RecognizedValue(
+            string value,
+            double accuracy = _maxAccuracy)
         {
-            RecognizedAccuracy = _maxAccuracy;
+            RecognizedAccuracy = accuracy;
             Value = value;
         }
 
@@ -63,5 +65,9 @@ namespace OverWeightControl.Common.RawData
                 RecognizedAccuracy = recognizedAccurancy
             };
         }
+
+        public override string ToString() => Value;
+
+        public override bool Equals(object obj) => ((string)obj).Equals(Value);
     }
 }
