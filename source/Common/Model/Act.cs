@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Globalization;
+using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
 
@@ -18,7 +20,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Конструктор класса.
         /// </summary>
-        /// <param name="act"></param>
+        /// <param name="act">Акт перевеса.</param>
         public Act(RawAct act) : base()
         {
             Id = act.Id;
@@ -26,6 +28,16 @@ namespace OverWeightControl.Common.Model
                          RecognizedValue.MaxAccuracy)
                 ? int.Parse(act.ActNumber.Value)
                 : -1;
+
+            DateTime.TryParse(act.ActDate.Value, out var date);
+            TimeSpan.TryParse(act.ActTime.Value, out var time);
+            if (act.ActDate.RecognizedAccuracy == RecognizedValue.MaxAccuracy
+                && date != null && time != null)
+            {
+                ActDateTime = (date + time)
+                    .ToString(CultureInfo.CurrentCulture);
+            }
+
             ActDateTime = (act.ActDate.RecognizedAccuracy ==
                        RecognizedValue.MaxAccuracy)
                 ? act.ActDate.Value
@@ -56,14 +68,7 @@ namespace OverWeightControl.Common.Model
         /// </summary>
         [JsonProperty(Order = 2)]
         public string ActDateTime { get; set; }
-
-        /* /// <summary>
-        /// Время акта.
-        /// HH:mm:ss
-        /// </summary>
-        [JsonProperty(Order = 3)]
-        public string ActTime { get; set; }*/
-
+        
         /// <summary>
         /// Номер ППВК.
         /// value>0.
