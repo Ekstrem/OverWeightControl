@@ -35,6 +35,8 @@ namespace OverWeightControl.Clients.ActsUI
             // digitsCheck = (s, e) => { }
         }
 
+        #region IEditeble<Acts> members
+
         /// <summary>
         /// Загрузка данных в контрол.
         /// </summary>
@@ -66,6 +68,46 @@ namespace OverWeightControl.Clients.ActsUI
                 return false;
             }
         }
+
+        /// <summary>
+        /// Получение данных из контрола после редактирования.
+        /// </summary>
+        /// <returns>Обновляемые данные.</returns>
+        public bool UpdateData(Act data)
+        {
+            try
+            {
+                data.ActNumber = int.Parse(actNumberTextBox.Text);
+                data.ActDateTime = dateTimePicker.Value.ToString(CultureInfo.InvariantCulture);
+                data.PpvkNumber = int.Parse(ppvkNumberTextBox.Text);
+                data.WeightPoint = weightPointTextBox.Text;
+                weighterControl1.UpdateData(data.Weighter);
+                vehicleControl1.UpdateData(data.Vehicle);
+                cargoControl1.UpdateData(data.Cargo);
+                driverControl1.UpdateData(data.Driver);
+                vehicleDetailControl1.UpdateData(data.Vehicle);
+                axisInfoControl1.UpdateData(data.Cargo.Axises);
+
+                return true;
+            }
+            catch (FormatException fe)
+            {
+                _console.AddException(fe);
+                return false;
+            }
+            catch (NullReferenceException nre)
+            {
+                _console?.AddException(nre);
+                return false;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
+            }
+        }
+
+        #endregion
 
         public bool LoadData(RawAct data)
         {
