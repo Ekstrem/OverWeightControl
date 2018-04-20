@@ -51,29 +51,26 @@ namespace OverWeightControl.Clients.ActsUI
             }
         }
 
-        public WeighterInfo UpdateData()
+        public bool UpdateData(WeighterInfo data)
         {
             try
             {
-                var result = new WeighterInfo
-                {
-                    WeigherNumber = weigherNumberTextBox.Text,
-                    VerificationDate = verificationDatePicker.Value.ToShortDateString(),
-                    CertificateNumber = certificateNumberTextBox.Text,
-                    ViolationNature = violatioNatureTextBox.Text
-                };
+                data.WeigherNumber = weigherNumberTextBox.Text;
+                data.VerificationDate = verificationDatePicker.Value.ToShortDateString();
+                data.CertificateNumber = certificateNumberTextBox.Text;
+                data.ViolationNature = violatioNatureTextBox.Text;
                 if (violationKoapComboBox.Items.Count > 0
                     && violationKoapComboBox.SelectedIndex != -1)
                 {
-                    result.ViolationKoap = violationKoapComboBox.SelectedValue.ToString();
+                    data.ViolationKoap = violationKoapComboBox.SelectedValue.ToString();
                 }
 
-                return result;
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
@@ -100,20 +97,17 @@ namespace OverWeightControl.Clients.ActsUI
             }
         }
 
-        RawWeighterInfo IEditable<RawWeighterInfo>.UpdateData()
+        public bool UpdateData(RawWeighterInfo data)
         {
             try
             {
                 var result = new RawWeighterInfo
                 {
-                    WeigherNumber = new RecognizedValue(
-                        weigherNumberTextBox.Text),
+                    WeigherNumber = weigherNumberTextBox.UpdateData(),
                     VerificationDate = new RecognizedValue(
                         verificationDatePicker.Value.ToShortDateString()),
-                    CertificateNumber = new RecognizedValue(
-                        certificateNumberTextBox.Text),
-                    ViolationNature = new RecognizedValue(
-                        violatioNatureTextBox.Text)
+                    CertificateNumber = certificateNumberTextBox.UpdateData(),
+                    ViolationNature = violatioNatureTextBox.UpdateData()
                 };
                 if (violationKoapComboBox.Items.Count > 0
                     && violationKoapComboBox.SelectedIndex != -1)
@@ -122,12 +116,12 @@ namespace OverWeightControl.Clients.ActsUI
                         violationKoapComboBox.SelectedValue.ToString());
                 }
 
-                return result;
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
