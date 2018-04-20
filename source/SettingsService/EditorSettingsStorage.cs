@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OverWeightControl.Core.Clients;
@@ -60,35 +61,32 @@ namespace OverWeightControl.Core.Settings
             return true;
         }
 
-        public IDictionary<string, string> UpdateData()
+        public bool UpdateData(IDictionary<string, string> data)
         {
             try
             {
+                if (data == null)
+                {
+                    data = new ConcurrentDictionary<string, string>();
+                }
+
+                data.Clear();
+
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     if (row.Cells[0].Value == null)
                         break;
-                    var key = row.Cells[0].Value.ToString();
-                    var value = row.Cells[1].Value.ToString();
-                    if (!_args.ContainsKey(key))
-                    {
-                        _args.Add(key, value);
-                        break;
-                    }
-
-                    if (_args[key] != value)
-                    {
-                        _args.Remove(key);
-                        _args.Add(key, value);
-                    }
+                    data.Add(
+                        row.Cells[0].Value.ToString(),
+                        row.Cells[1].Value.ToString());
                 }
 
-                return _args;
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
@@ -98,7 +96,7 @@ namespace OverWeightControl.Core.Settings
             form.LoadData(_args);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                form.UpdateData();
+                form.UpdateData(_args);
             }
         }
     }
