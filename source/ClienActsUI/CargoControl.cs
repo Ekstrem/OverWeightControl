@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using OverWeightControl.Common.Model;
+using OverWeightControl.Common.RawData;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
 using Unity.Attributes;
@@ -10,7 +11,9 @@ using Unity.Attributes;
 namespace OverWeightControl.Clients.ActsUI
 {
     public partial class CargoControl :
-        UserControl, IEditable<CargoInfo>
+        UserControl,
+        IEditable<CargoInfo>,
+        IEditable<RawCargoInfo>
     {
         private readonly IConsoleService _console;
 
@@ -70,31 +73,84 @@ namespace OverWeightControl.Clients.ActsUI
         /// Получение данных из контрола после редактирования.
         /// </summary>
         /// <returns>Обновляемые данные.</returns>
-        public CargoInfo UpdateData()
+        public bool UpdateData(CargoInfo data)
         {
             try
             {
-                return new CargoInfo
-                {
-                    CargoCharacter = cargoCharacterTextBox.Text,
-                    CargoType = cargoTypeTextBox.Text,
-                    LegalWeight = float.Parse(legalWeightTextBox.Text),
-                    ValetWeight = float.Parse(valetWeightTextBox.Text),
-                    FactWeight = float.Parse(factWeightTextBox.Text),
-                    PercentWeightOverflow = float.Parse(percentWeightOverflowTextBox.Text),
-                    CargoSpecialAllow = float.Parse(cargoSpecialAllowTextBox.Text),
-                    Tariffs = int.Parse(tariffsTextBox.Text),
-                    LegLength = float.Parse(legLengthTextBox.Text),
-                    RoadSection = roadSectionTextBox.Text,
-                    Pass = passTextBox.Text,
-                    OtherViolation = otherViolationTextBox.Text,
-                    DriverExplanation = driverExplanationTextBox.Text
-                };
+                data.CargoCharacter = cargoCharacterTextBox.Text;
+                data.CargoType = cargoTypeTextBox.Text;
+                data.LegalWeight = float.Parse(legalWeightTextBox.Text);
+                data.ValetWeight = float.Parse(valetWeightTextBox.Text);
+                data.FactWeight = float.Parse(factWeightTextBox.Text);
+                data.PercentWeightOverflow = float.Parse(percentWeightOverflowTextBox.Text);
+                data.CargoSpecialAllow = float.Parse(cargoSpecialAllowTextBox.Text);
+                data.Tariffs = int.Parse(tariffsTextBox.Text);
+                data.LegLength = float.Parse(legLengthTextBox.Text);
+                data.RoadSection = roadSectionTextBox.Text;
+                data.Pass = passTextBox.Text;
+                data.OtherViolation = otherViolationTextBox.Text;
+                data.DriverExplanation = driverExplanationTextBox.Text;
+
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
+            }
+        }
+
+        public bool LoadData(RawCargoInfo data)
+        {
+            try
+            {
+                cargoCharacterTextBox.LoadData(data.CargoCharacter);
+                cargoTypeTextBox.LoadData(data.CargoType);
+                legalWeightTextBox.LoadData(data.LegalWeight);
+                valetWeightTextBox.LoadData(data.ValetWeight);
+                factWeightTextBox.LoadData(data.FactWeight);
+                percentWeightOverflowTextBox.LoadData(data.PercentWeightOverflow);
+                cargoSpecialAllowTextBox.LoadData(data.CargoSpecialAllow);
+                tariffsTextBox.LoadData(data.Tariffs);
+                legLengthTextBox.LoadData(data.LegLength);
+                roadSectionTextBox.LoadData(data.RoadSection);
+                passTextBox.LoadData(data.Pass);
+                otherViolationTextBox.LoadData(data.OtherViolation);
+                driverExplanationTextBox.LoadData(data.DriverExplanation);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
+            }
+        }
+
+        public bool UpdateData(RawCargoInfo data)
+        {
+            try
+            {
+                data.CargoCharacter = cargoCharacterTextBox.UpdateData();
+                data.CargoType = cargoTypeTextBox.UpdateData();
+                data.LegalWeight = legalWeightTextBox.UpdateData();
+                data.ValetWeight = valetWeightTextBox.UpdateData();
+                data.FactWeight = factWeightTextBox.UpdateData();
+                data.PercentWeightOverflow = percentWeightOverflowTextBox.UpdateData();
+                data.CargoSpecialAllow = cargoSpecialAllowTextBox.UpdateData();
+                data.Tariffs = tariffsTextBox.UpdateData();
+                data.LegLength = legLengthTextBox.UpdateData();
+                data.RoadSection = roadSectionTextBox.UpdateData();
+                data.Pass = passTextBox.UpdateData();
+                data.OtherViolation = otherViolationTextBox.UpdateData();
+                data.DriverExplanation = driverExplanationTextBox.UpdateData();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
             }
         }
     }
