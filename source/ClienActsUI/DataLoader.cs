@@ -26,6 +26,11 @@ namespace OverWeightControl.Clients.ActsUI
         {
             return new RecognizedValue(control.Text);
         }
+        internal static RecognizedValue UpdateData(this DataGridViewRow row, int cellNum)
+        {
+            var value = row.Cells[cellNum].Value.ToString();
+            return new RecognizedValue(value);
+        }
 
     }
 }

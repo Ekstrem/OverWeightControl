@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OverWeightControl.Common.Model;
+using OverWeightControl.Common.RawData;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
 using Unity.Attributes;
@@ -9,7 +10,9 @@ using Unity.Attributes;
 namespace OverWeightControl.Clients.ActsUI
 {
     public partial class AxisInfoControl :
-        UserControl, IEditable<ICollection<AxisInfo>>
+        UserControl,
+        IEditable<ICollection<AxisInfo>>,
+        IEditable<ICollection<RawAxisInfo>>
     {
         private IConsoleService _console;
 
@@ -25,6 +28,8 @@ namespace OverWeightControl.Clients.ActsUI
             _console = console;
             InitializeComponent();
         }
+
+        #region IEditable<ICollection<AxisInfo>> members
 
         /// <summary>
         /// Загрузка данных в контрол.
@@ -70,11 +75,16 @@ namespace OverWeightControl.Clients.ActsUI
         /// Получение данных из контрола после редактирования.
         /// </summary>
         /// <returns>Обновляемые данные.</returns>
-        public ICollection<AxisInfo> UpdateData()
+        public bool UpdateData(ICollection<AxisInfo> data)
         {
             try
             {
-                var result = new List<AxisInfo>();
+                if (data == null)
+                {
+                    data = new List<AxisInfo>();
+                }
+
+                data.Clear();
                 foreach (var row in dataGridView1.Rows)
                 {
                     var axle = new AxisInfo
@@ -91,16 +101,97 @@ namespace OverWeightControl.Clients.ActsUI
                         PercentRecordedExcess = (float)((DataGridViewRow)row).Cells[9].Value,
                         Overweight = ((DataGridViewRow)row).Cells[10].Value.ToString()
                     };
-                    result.Add(axle);
+                    data.Add(axle);
                 }
 
-                return result;
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
+
+        #endregion
+
+
+        #region IEditable<ICollection<AxisInfo>> members
+
+        public bool LoadData(ICollection<RawAxisInfo> data)
+        {
+            try
+            {
+                var axisCount = data?.Count ?? 12;
+                axisCountTextBox.Text = axisCount.ToString();
+
+                dataGridView1.Rows.Clear();
+                for (int i = 0; i < int.Parse(axisCountTextBox.Text); i++)
+                {
+                    dataGridView1.Rows.Add();
+                }
+
+                foreach (var axle in data)
+                {
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[0].Value = axle.AxisNum;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[1].Value = axle.AxisStinginess;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[2].Value = axle.SuspentionType;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[3].Value = axle.Distance2NextAxis;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[4].Value = axle.MeasuredAsisWeight;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[5].Value = axle.LegalAxisWeight;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[6].Value = axle.SpecialAllow;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[7].Value = axle.UsedAxisAllow;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[8].Value = axle.WeightRecordedExcess;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[9].Value = axle.PercentRecordedExcess;
+                    dataGridView1.Rows[int.Parse(axle.AxisNum.Value) - 1].Cells[10].Value = axle.Overweight;
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
+            }
+        }
+
+        public bool UpdateData(ICollection<RawAxisInfo> data)
+        {
+            try
+            {
+                if (data == null)
+                {
+                    data = new List<RawAxisInfo>();
+                }
+
+                data.Clear();
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    var axle = new RawAxisInfo
+                    {
+                        AxisNum = row.UpdateData(0),
+                        AxisStinginess = row.UpdateData(1),
+                        SuspentionType = row.UpdateData(2),
+                        Distance2NextAxis = row.UpdateData(3),
+                        MeasuredAsisWeight = row.UpdateData(4),
+                        LegalAxisWeight = row.UpdateData(5),
+                        SpecialAllow = row.UpdateData(6),
+                        UsedAxisAllow = row.UpdateData(7),
+                        WeightRecordedExcess = row.UpdateData(8),
+                        PercentRecordedExcess = row.UpdateData(9),
+                        Overweight = row.UpdateData(10)
+                    };
+                    data.Add(axle);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
+            }
+        }
+
+        #endregion
     }
 }
