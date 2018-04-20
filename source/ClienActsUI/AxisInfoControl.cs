@@ -14,7 +14,7 @@ namespace OverWeightControl.Clients.ActsUI
         IEditable<ICollection<AxisInfo>>,
         IEditable<ICollection<RawAxisInfo>>
     {
-        private IConsoleService _console;
+        private readonly IConsoleService _console;
 
         public AxisInfoControl()
         {
@@ -114,8 +114,7 @@ namespace OverWeightControl.Clients.ActsUI
         }
 
         #endregion
-
-
+        
         #region IEditable<ICollection<AxisInfo>> members
 
         public bool LoadData(ICollection<RawAxisInfo> data)
@@ -193,5 +192,6 @@ namespace OverWeightControl.Clients.ActsUI
         }
 
         #endregion
+
     }
 }
