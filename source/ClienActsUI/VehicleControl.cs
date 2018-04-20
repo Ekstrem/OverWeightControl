@@ -60,27 +60,24 @@ namespace OverWeightControl.Clients.ActsUI
         /// Получение данных из контрола после редактирования.
         /// </summary>
         /// <returns>Обновляемые данные.</returns>
-        public VehicleInfo UpdateData()
+        public bool UpdateData(VehicleInfo data)
         {
             try
             {
-                var result = new VehicleInfo
-                {
-                    VehicleOwner = vehicleOwnerTextBox.Text,
-                    VehicleCountry = vehicleCountryTextBox.Text,
-                    VehicleSubjectCode = int.Parse(vehicleSubjectCodeTextBox.Text),
-                    CarriageType = carriageTypeTextBox.Text,
-                    VehicleRoute = vehicleRouteTextBox.Text,
-                    FederalHighwaysDistance = federalHighwaysDistanceTextBox.Text,
-                    VehicleShipper = vehicleShipperTextBox.Text
-                };
+                data.VehicleOwner = vehicleOwnerTextBox.Text;
+                data.VehicleCountry = vehicleCountryTextBox.Text;
+                data.VehicleSubjectCode = int.Parse(vehicleSubjectCodeTextBox.Text);
+                data.CarriageType = carriageTypeTextBox.Text;
+                data.VehicleRoute = vehicleRouteTextBox.Text;
+                data.FederalHighwaysDistance = federalHighwaysDistanceTextBox.Text;
+                data.VehicleShipper = vehicleShipperTextBox.Text;
 
-                return result;
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
@@ -117,28 +114,24 @@ namespace OverWeightControl.Clients.ActsUI
         /// Получение данных из контрола после редактирования.
         /// </summary>
         /// <returns>Обновляемые данные.</returns>
-        RawVehicleInfo IEditable<RawVehicleInfo>.UpdateData()
+        public bool UpdateData(RawVehicleInfo data)
         {
             try
             {
-                var result = new RawVehicleInfo
-                {
-                    VehicleOwner = new RecognizedValue(vehicleOwnerTextBox.Text),
-                    VehicleCountry = new RecognizedValue(vehicleCountryTextBox.Text),
-                    VehicleSubjectCode = new RecognizedValue(vehicleSubjectCodeTextBox.Text),
-                    CarriageType = new RecognizedValue(carriageTypeTextBox.Text),
-                    VehicleRoute = new RecognizedValue(vehicleRouteTextBox.Text),
-                    FederalHighwaysDistance = new RecognizedValue(
-                        federalHighwaysDistanceTextBox.Text),
-                    VehicleShipper = new RecognizedValue(vehicleShipperTextBox.Text)
-                };
+                data.VehicleOwner = vehicleOwnerTextBox.UpdateData();
+                data.VehicleCountry = vehicleCountryTextBox.UpdateData();
+                data.VehicleSubjectCode = vehicleSubjectCodeTextBox.UpdateData();
+                data.CarriageType = carriageTypeTextBox.UpdateData();
+                data.VehicleRoute = vehicleRouteTextBox.UpdateData();
+                data.FederalHighwaysDistance = federalHighwaysDistanceTextBox.UpdateData();
+                data.VehicleShipper = vehicleShipperTextBox.UpdateData();
 
-                return result;
+                return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
