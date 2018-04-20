@@ -85,7 +85,7 @@ namespace OverWeightControl.Clients.ActsUI
                 vehicleControl1.UpdateData(data.Vehicle);
                 cargoControl1.UpdateData(data.Cargo);
                 driverControl1.UpdateData(data.Driver);
-                vehicleDetailControl1.UpdateData(data.Vehicle);
+                vehicleDetailControl1.UpdateData(data.Vehicle.Detail);
                 axisInfoControl1.UpdateData(data.Cargo.Axises);
 
                 return true;
@@ -108,6 +108,8 @@ namespace OverWeightControl.Clients.ActsUI
         }
 
         #endregion
+
+        #region IEditeble<RawActs> members
 
         public bool LoadData(RawAct data)
         {
@@ -146,81 +148,39 @@ namespace OverWeightControl.Clients.ActsUI
             }
         }
 
-        RawAct IEditable<RawAct>.UpdateData()
+        public bool UpdateData(RawAct data)
         {
             try
             {
-                // TODO: Исправить видимость перезагруженых методов
-                var result = new RawAct
-                {
-                    ActNumber = actNumberTextBox.UpdateData(),
+                data.ActNumber = actNumberTextBox.UpdateData();
+                data.ActDate = new RecognizedValue(
+                    dateTimePicker.Value.ToShortDateString());
+                data.ActTime = new RecognizedValue(
+                    dateTimePicker.Value.ToShortTimeString());
+                data.PpvkNumber = ppvkNumberTextBox.UpdateData();
+                data.WeightPoint = weightPointTextBox.UpdateData();
+                weighterControl1.UpdateData(data.Weighter);
+                vehicleControl1.UpdateData(data.Vehicle);
+                cargoControl1.UpdateData(data.Cargo);
+                driverControl1.UpdateData(data.Driver);
+                vehicleDetailControl1.UpdateData(data.Vehicle.Detail);
+                axisInfoControl1.UpdateData(data.Cargo.Axises);
 
-                    //ActDateTime = dateTimePicker.Value.ToString(CultureInfo.InvariantCulture),
-                    PpvkNumber = ppvkNumberTextBox.UpdateData(),
-                    WeightPoint = weightPointTextBox.UpdateData()
-                    /*Weighter = weighterControl1.UpdateData(),
-                    Vehicle = vehicleControl1.UpdateData(),
-                    Cargo = cargoControl1.UpdateData(),
-                    Driver = driverControl1.UpdateData()*/
-                };
-
-                /*result.Vehicle.Detail = vehicleDetailControl1.UpdateData();
-                result.Cargo.Axises = axisInfoControl1.UpdateData();*/
-
-                return result;
+                return true;
             }
             catch (FormatException fe)
             {
                 _console.AddException(fe);
-                return null;
+                return false;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return null;
+                return false;
             }
         }
 
-        /// <summary>
-        /// Получение данных из контрола после редактирования.
-        /// </summary>
-        /// <returns>Обновляемые данные.</returns>
-        public Act UpdateData()
-        {
-            try
-            {
-                var result = new Act
-                {
-                    ActNumber = int.Parse(actNumberTextBox.Text),
-                    ActDateTime = dateTimePicker.Value.ToString(CultureInfo.InvariantCulture),
-                    PpvkNumber = int.Parse(ppvkNumberTextBox.Text),
-                    WeightPoint = weightPointTextBox.Text,
-                    Weighter = weighterControl1.UpdateData(),
-                    Vehicle = vehicleControl1.UpdateData(),
-                    Cargo = cargoControl1.UpdateData(),
-                    Driver = driverControl1.UpdateData()
-                };
+        #endregion
 
-                result.Vehicle.Detail = vehicleDetailControl1.UpdateData();
-                result.Cargo.Axises = axisInfoControl1.UpdateData();
-
-                return result;
-            }
-            catch (FormatException fe)
-            {
-                _console.AddException(fe);
-                return null;
-            }
-            catch (NullReferenceException nre)
-            {
-                _console?.AddException(nre);
-                return null;
-            }
-            catch (Exception e)
-            {
-                _console.AddException(e);
-                return null;
-            }
-        }
     }
 }
