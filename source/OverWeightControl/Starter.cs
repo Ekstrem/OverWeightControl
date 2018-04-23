@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OverWeightControl.Clients.ActsUI;
 using OverWeightControl.Core.Console;
-using OverWeightControl.Core.ConsoleService;
-using OverWeightControl.Core.FileTransfer.Client;
-using OverWeightControl.Core.FileTransfer.Server;
-using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
 using OverWeightControl.Core.Unity;
 using Unity;
@@ -16,34 +11,23 @@ namespace OverWeightControl
 {
     public class Starter
     {
-        private readonly IConsoleService _console;
+        private IConsoleService _console;
+        private readonly CompositionRoot _compositionRoot;
 
         public Starter()
         {
             try
             {
-                // Регистрация компонентов инфраструктуры.
-                RegisterDependencies(
-                    Container, CompositionRoot.InfrastructureDependencies);
+                _compositionRoot = CompositionRoot.Factory();
+                
+                ContainerRegistations();
 
-                _console = Container.Resolve<IConsoleService>();
-
-                Container.AddExtension(new DecoratorContainerExtension());
-                // Регистрация рабочего процесса.
-                RegisterDependencies(
-                    Container, CompositionRoot.WorkFlowDependencies);
-
-                // Регистрация приложений.
-                RegisterDependencies(
-                    Container, CompositionRoot.ApplicationsDependencies);
-
-                EditorSettingsStorage.ShowModal(Container);
+                //EditorSettingsStorage.ShowModal(Container);
                 _console.Flush();
 
             }
             catch (Exception e)
             {
-
                 Console.WriteLine(e);
                 throw;
             }
@@ -55,7 +39,25 @@ namespace OverWeightControl
                     disposes.ForEach(d => ((IDisposable)d).Dispose());
             }
         }
-        
+
+        private void ContainerRegistations()
+        {
+            // Регистрация компонентов инфраструктуры.
+            RegisterDependencies(
+                Container, _compositionRoot.InfrastructureDependencies);
+
+            _console = Container.Resolve<IConsoleService>();
+
+            Container.AddExtension(new DecoratorContainerExtension());
+            // Регистрация рабочего процесса.
+            RegisterDependencies(
+                Container, _compositionRoot.WorkFlowDependencies);
+
+            // Регистрация приложений.
+            RegisterDependencies(
+                Container, _compositionRoot.ApplicationsDependencies);
+        }
+
         private IUnityContainer RegisterDependencies(
             IUnityContainer container,
             ICollection<Dependency> dependencies)
@@ -78,120 +80,5 @@ namespace OverWeightControl
         public IConsoleService ConsoleService => _console;
 
         public IUnityContainer Container => CompositionRoot.Container;
-    }
-
-    public static class CompositionRoot
-    {
-        static CompositionRoot()
-        {
-            InfrastructureDependencies = GetInfrastructureDependencies();
-            WorkFlowDependencies = GetWorkFlowDependencies();
-            ApplicationsDependencies = GetApplicationsDependencies();
-        }
-
-        private static IUnityContainer s_container;
-
-        public static IUnityContainer Container => s_container
-                                                   ?? (s_container = new UnityContainer());
-
-        public static ICollection<Dependency> ApplicationsDependencies { get; set; }
-        private static ICollection<Dependency> GetApplicationsDependencies()
-        {
-            return new List<Dependency>
-            {
-                new Dependency(1)
-                {
-                    Abstractions = typeof(ActEditForm),
-                    Realization = typeof(ActEditForm),
-                    Register = false
-                },
-                new Dependency(2)
-                {
-                    Abstractions = typeof(EditorSettingsStorage),
-                    Realization = typeof(EditorSettingsStorage),
-                    Register = false
-                }
-            };
-        }
-
-        public static ICollection<Dependency> InfrastructureDependencies { get; set; }
-        private static ICollection<Dependency> GetInfrastructureDependencies()
-        {
-            return new List<Dependency>
-            {
-                new Dependency(1)
-                {
-                    Abstractions = typeof(IConsoleService),
-                    Realization = typeof(DefaultConsoleService)
-                },
-                new Dependency(2)
-                {
-                    Abstractions = typeof(ISettingsStorage),
-                    Realization = typeof(DefaultSettingsStorage)
-                },
-                new Dependency(3)
-                {
-                    Abstractions = typeof(ArgsFileLocation),
-                    Realization = typeof(ArgsFileLocation)
-                },
-                new Dependency(4)
-                {
-                    Abstractions = typeof(IConsoleService),
-                    Realization = typeof(FileConsoleServiceService),
-                    Register = false
-                }
-            };
-        }
-
-        public static ICollection<Dependency> WorkFlowDependencies { get; set; }
-        private static ICollection<Dependency> GetWorkFlowDependencies()
-        {
-            return new List<Dependency>
-            {
-                new Dependency(1)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(FinderFiles),
-                    Name = nameof(FinderFiles)
-                },
-                new Dependency(2)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(BufferedFiles),
-                    Name = nameof(BufferedFiles)
-                },
-                new Dependency(3)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(Md5HashComputerFiles),
-                    Name = nameof(Md5HashComputerFiles)
-                },
-                new Dependency(4)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(CompresserFiles),
-                    Name = nameof(CompresserFiles)
-                },
-                new Dependency(5)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(SenderFiles),
-                    Name = nameof(SenderFiles)
-                },
-                /*new Dependency(6)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(SenderFiles),
-                    Register = false
-                },*/
-                new Dependency(7)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(UnCompresserFiles),
-                    Name = nameof(UnCompresserFiles),
-                    Register = false
-                }
-            };
-        }
     }
 }
