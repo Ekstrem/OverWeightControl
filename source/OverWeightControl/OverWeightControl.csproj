@@ -77,6 +77,12 @@
     <Compile Include="Class1.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Dependency.cs" />
+    <Compile Include="DependencyListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DependencyListControl.Designer.cs">
+      <DependentUpon>DependencyListControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="PackageAdmining.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DependencyListControl.resx">
+      <DependentUpon>DependencyListControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PackageAdmining.resx">
       <DependentUpon>PackageAdmining.cs</DependentUpon>
     </EmbeddedResource>

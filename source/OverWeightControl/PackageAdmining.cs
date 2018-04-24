@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace OverWeightControl
 {
@@ -15,6 +7,22 @@ namespace OverWeightControl
         public PackageAdmining()
         {
             InitializeComponent();
+        }
+
+        public static void ShowModal()
+        {
+            var form = new PackageAdmining();
+            form.dependencyListControl1.LoadData(
+                CompositionRoot.Instance.InfrastructureDependencies);
+            form.dependencyListControl2.LoadData(
+                CompositionRoot.Instance.WorkFlowDependencies);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                form.dependencyListControl1.UpdateData(
+                    CompositionRoot.Instance.InfrastructureDependencies);
+                form.dependencyListControl2.UpdateData(
+                    CompositionRoot.Instance.WorkFlowDependencies);
+            }
         }
     }
 }

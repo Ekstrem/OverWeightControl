@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using OverWeightControl.Core.Console;
-using OverWeightControl.Core.Settings;
 using OverWeightControl.Core.Unity;
 using Unity;
 using Unity.Interception.Utilities;
@@ -23,8 +22,8 @@ namespace OverWeightControl
                 ContainerRegistations();
 
                 //EditorSettingsStorage.ShowModal(Container);
+                PackageAdmining.ShowModal();
                 _console.Flush();
-
             }
             catch (Exception e)
             {

@@ -30,6 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,17 +39,23 @@
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dependencyListControl2 = new OverWeightControl.DependencyListControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.dependencyListControl1 = new OverWeightControl.DependencyListControl();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.okButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Multiline = true;
@@ -73,6 +81,26 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Роли узла";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(47, 217);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(165, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Клиент для заказа отчётности.";
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox4.Location = new System.Drawing.Point(23, 192);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(151, 22);
+            this.checkBox4.TabIndex = 6;
+            this.checkBox4.Text = "Клиент отчетов";
+            this.checkBox4.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -139,6 +167,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.dependencyListControl2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -147,33 +176,50 @@
             this.tabPage2.Text = "Цепочка обработки";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // dependencyListControl2
+            // 
+            this.dependencyListControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dependencyListControl2.Location = new System.Drawing.Point(3, 3);
+            this.dependencyListControl2.Name = "dependencyListControl2";
+            this.dependencyListControl2.Size = new System.Drawing.Size(729, 654);
+            this.dependencyListControl2.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.dependencyListControl1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(735, 660);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Инфраструктурные зависимости";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dependencyListControl1
+            // 
+            this.dependencyListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dependencyListControl1.Location = new System.Drawing.Point(0, 0);
+            this.dependencyListControl1.Name = "dependencyListControl1";
+            this.dependencyListControl1.Size = new System.Drawing.Size(735, 660);
+            this.dependencyListControl1.TabIndex = 0;
+            // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.okButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 629);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(743, 57);
             this.panel1.TabIndex = 1;
             // 
-            // label4
+            // okButton
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(47, 217);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(165, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Клиент для заказа отчётности.";
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.checkBox4.Location = new System.Drawing.Point(23, 192);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(151, 22);
-            this.checkBox4.TabIndex = 6;
-            this.checkBox4.Text = "Клиент отчетов";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.okButton.Location = new System.Drawing.Point(528, 22);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 0;
+            this.okButton.Text = "OK";
+            this.okButton.UseVisualStyleBackColor = true;
             // 
             // PackageAdmining
             // 
@@ -187,6 +233,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -205,5 +254,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.TabPage tabPage3;
+        private DependencyListControl dependencyListControl1;
+        private System.Windows.Forms.Button okButton;
+        private DependencyListControl dependencyListControl2;
     }
 }

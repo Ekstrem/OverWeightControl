@@ -28,14 +28,15 @@ namespace OverWeightControl
         {
             if (File.Exists(_fullName))
             {
-                return LoadFromFile();
+                ins = LoadFromFile();
+                return ins;
             }
             else
             {
-                var cr = new CompositionRoot();
-                cr.SetDefaultDependency();
-                cr.SaveConfigToFile();
-                return cr;
+                ins = new CompositionRoot();
+                ins.SetDefaultDependency();
+                ins.SaveConfigToFile();
+                return ins;
             }
         }
 
@@ -48,6 +49,8 @@ namespace OverWeightControl
 
 
         private static IUnityContainer s_container;
+        private static CompositionRoot ins;
+        public static CompositionRoot Instance => ins ?? Factory();
 
         [JsonIgnore]
         public static IUnityContainer Container => s_container
