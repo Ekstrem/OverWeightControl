@@ -28,12 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox = new System.Windows.Forms.GroupBox();
-            this.dataGrid = new System.Windows.Forms.DataGridView();
-            this.upButton = new System.Windows.Forms.Button();
             this.downButton = new System.Windows.Forms.Button();
-            this.okButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
+            this.upButton = new System.Windows.Forms.Button();
+            this.dataGrid = new System.Windows.Forms.DataGridView();
             this.orderColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.abstractionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.realizationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,8 +44,6 @@
             // 
             // groupBox
             // 
-            this.groupBox.Controls.Add(this.cancelButton);
-            this.groupBox.Controls.Add(this.okButton);
             this.groupBox.Controls.Add(this.downButton);
             this.groupBox.Controls.Add(this.upButton);
             this.groupBox.Controls.Add(this.dataGrid);
@@ -57,6 +54,26 @@
             this.groupBox.TabIndex = 0;
             this.groupBox.TabStop = false;
             // 
+            // downButton
+            // 
+            this.downButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.downButton.Location = new System.Drawing.Point(551, 57);
+            this.downButton.Name = "downButton";
+            this.downButton.Size = new System.Drawing.Size(32, 32);
+            this.downButton.TabIndex = 2;
+            this.downButton.Text = "v";
+            this.downButton.UseVisualStyleBackColor = true;
+            // 
+            // upButton
+            // 
+            this.upButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.upButton.Location = new System.Drawing.Point(551, 19);
+            this.upButton.Name = "upButton";
+            this.upButton.Size = new System.Drawing.Size(32, 32);
+            this.upButton.TabIndex = 1;
+            this.upButton.Text = "^";
+            this.upButton.UseVisualStyleBackColor = true;
+            // 
             // dataGrid
             // 
             this.dataGrid.AllowUserToAddRows = false;
@@ -65,6 +82,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.dataGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.orderColumn,
@@ -72,54 +93,23 @@
             this.realizationColumn,
             this.depNameColumn,
             this.registerColumn});
-            this.dataGrid.Location = new System.Drawing.Point(6, 19);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ControlLight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGrid.GridColor = System.Drawing.SystemColors.Control;
+            this.dataGrid.Location = new System.Drawing.Point(18, 19);
             this.dataGrid.MultiSelect = false;
             this.dataGrid.Name = "dataGrid";
+            this.dataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.dataGrid.RowHeadersVisible = false;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(488, 326);
+            this.dataGrid.Size = new System.Drawing.Size(527, 326);
             this.dataGrid.TabIndex = 0;
-            // 
-            // upButton
-            // 
-            this.upButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.upButton.Location = new System.Drawing.Point(500, 19);
-            this.upButton.Name = "upButton";
-            this.upButton.Size = new System.Drawing.Size(83, 32);
-            this.upButton.TabIndex = 1;
-            this.upButton.Text = "Вверх";
-            this.upButton.UseVisualStyleBackColor = true;
-            // 
-            // downButton
-            // 
-            this.downButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.downButton.Location = new System.Drawing.Point(500, 57);
-            this.downButton.Name = "downButton";
-            this.downButton.Size = new System.Drawing.Size(83, 32);
-            this.downButton.TabIndex = 2;
-            this.downButton.Text = "Вниз";
-            this.downButton.UseVisualStyleBackColor = true;
-            // 
-            // okButton
-            // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(500, 275);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(83, 32);
-            this.okButton.TabIndex = 3;
-            this.okButton.Text = "Принять";
-            this.okButton.UseVisualStyleBackColor = true;
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(500, 313);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(83, 32);
-            this.cancelButton.TabIndex = 4;
-            this.cancelButton.Text = "Отменить";
-            this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // orderColumn
             // 
@@ -171,8 +161,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox;
-        private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button downButton;
         private System.Windows.Forms.Button upButton;
         private System.Windows.Forms.DataGridView dataGrid;
