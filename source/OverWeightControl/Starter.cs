@@ -23,6 +23,9 @@ namespace OverWeightControl
                 ContainerRegistations();
 
                 //EditorSettingsStorage.ShowModal(Container);
+                var f = new PackageAdmining();
+                f.LoadInfrasructureData(_compositionRoot);
+                f.ShowDialog();
                 _console.Flush();
 
             }
