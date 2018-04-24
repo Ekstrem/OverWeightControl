@@ -9,10 +9,20 @@ namespace OverWeightControl
             InitializeComponent();
         }
 
-        public bool LoadInfrasructureData(CompositionRoot cr)
+        public static void ShowModal()
         {
-            return dependencyListControl1
-                .LoadData(cr.InfrastructureDependencies);
+            var form = new PackageAdmining();
+            form.dependencyListControl1.LoadData(
+                CompositionRoot.Instance.InfrastructureDependencies);
+            form.dependencyListControl2.LoadData(
+                CompositionRoot.Instance.WorkFlowDependencies);
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                form.dependencyListControl1.UpdateData(
+                    CompositionRoot.Instance.InfrastructureDependencies);
+                form.dependencyListControl2.UpdateData(
+                    CompositionRoot.Instance.WorkFlowDependencies);
+            }
         }
     }
 }

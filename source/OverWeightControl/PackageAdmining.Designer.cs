@@ -39,12 +39,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.dependencyListControl2 = new OverWeightControl.DependencyListControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dependencyListControl1 = new OverWeightControl.DependencyListControl();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.okButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -163,6 +167,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.dependencyListControl2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -171,13 +176,13 @@
             this.tabPage2.Text = "Цепочка обработки";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // dependencyListControl2
             // 
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 629);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(743, 57);
-            this.panel1.TabIndex = 1;
+            this.dependencyListControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dependencyListControl2.Location = new System.Drawing.Point(3, 3);
+            this.dependencyListControl2.Name = "dependencyListControl2";
+            this.dependencyListControl2.Size = new System.Drawing.Size(729, 654);
+            this.dependencyListControl2.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -191,10 +196,30 @@
             // 
             // dependencyListControl1
             // 
-            this.dependencyListControl1.Location = new System.Drawing.Point(8, 19);
+            this.dependencyListControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dependencyListControl1.Location = new System.Drawing.Point(0, 0);
             this.dependencyListControl1.Name = "dependencyListControl1";
-            this.dependencyListControl1.Size = new System.Drawing.Size(620, 356);
+            this.dependencyListControl1.Size = new System.Drawing.Size(735, 660);
             this.dependencyListControl1.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.okButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 629);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(743, 57);
+            this.panel1.TabIndex = 1;
+            // 
+            // okButton
+            // 
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.okButton.Location = new System.Drawing.Point(528, 22);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 0;
+            this.okButton.Text = "OK";
+            this.okButton.UseVisualStyleBackColor = true;
             // 
             // PackageAdmining
             // 
@@ -208,7 +233,9 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -229,5 +256,7 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.TabPage tabPage3;
         private DependencyListControl dependencyListControl1;
+        private System.Windows.Forms.Button okButton;
+        private DependencyListControl dependencyListControl2;
     }
 }
