@@ -37,6 +37,8 @@ namespace OverWeightControl
                     CompositionRoot.Instance.NodeRoles.Add(NodeRole.VerificationStation);
                 if (form.checkBox4.Checked)
                     CompositionRoot.Instance.NodeRoles.Add(NodeRole.ReportsStation);
+
+                CompositionRoot.Instance.SaveConfigToFile();
             }
         }
     }

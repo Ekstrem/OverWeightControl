@@ -43,6 +43,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dependencyListControl1 = new OverWeightControl.DependencyListControl();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -204,6 +205,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cancelButton);
             this.panel1.Controls.Add(this.okButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 629);
@@ -211,10 +213,20 @@
             this.panel1.Size = new System.Drawing.Size(743, 57);
             this.panel1.TabIndex = 1;
             // 
+            // cancelButton
+            // 
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(637, 22);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 1;
+            this.cancelButton.Text = "Отменить";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            // 
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(528, 22);
+            this.okButton.Location = new System.Drawing.Point(542, 22);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 0;
@@ -229,7 +241,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
             this.Name = "PackageAdmining";
-            this.Text = "PackageAdmining";
+            this.Text = "Менеджер конфигурации пакетов";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -258,5 +270,6 @@
         private DependencyListControl dependencyListControl1;
         private System.Windows.Forms.Button okButton;
         private DependencyListControl dependencyListControl2;
+        private System.Windows.Forms.Button cancelButton;
     }
 }
