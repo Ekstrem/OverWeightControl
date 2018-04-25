@@ -20,14 +20,10 @@ namespace OverWeightControl
                 _compositionRoot = CompositionRoot.Factory();
                 
                 ContainerRegistations();
-
-                //EditorSettingsStorage.ShowModal(Container);
-                PackageAdmining.ShowModal();
                 _console.Flush();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 throw;
             }
             finally
@@ -79,5 +75,13 @@ namespace OverWeightControl
         public IConsoleService ConsoleService => _console;
 
         public IUnityContainer Container => CompositionRoot.Container;
+
+        public static bool IsAdminMode { get; set; }
+
+        public static void Main(string[] args)
+        {
+            IsAdminMode = args.Contains("-admin");
+            var app = new Starter();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -173,5 +174,7 @@ namespace OverWeightControl
             var json = JsonConvert.SerializeObject(this, jss);
             File.WriteAllText(_fullName, json);
         }
+
+        internal ICollection<Roles> NodeRoles { get; set; }
     }
 }
