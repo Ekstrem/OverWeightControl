@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
 using OverWeightControl.Clients.ActsUI;
@@ -62,15 +63,24 @@ namespace OverWeightControl
             {
                 new Dependency(1)
                 {
-                    Abstractions = typeof(ActEditForm),
+                    Abstractions = typeof(Form),
                     Realization = typeof(ActEditForm),
-                    Register = false
+                    Name = nameof(ActEditForm),
+                    Register = true
                 },
                 new Dependency(2)
                 {
-                    Abstractions = typeof(EditorSettingsStorage),
+                    Abstractions = typeof(Form),
                     Realization = typeof(EditorSettingsStorage),
-                    Register = false
+                    Name = nameof(EditorSettingsStorage),
+                    Register = true
+                },
+                new Dependency(3)
+                {
+                    Abstractions = typeof(Form),
+                    Realization = typeof(PackageAdmining),
+                    Name = nameof(PackageAdmining),
+                    Register = true
                 }
             };
         }

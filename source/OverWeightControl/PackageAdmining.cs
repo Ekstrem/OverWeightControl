@@ -1,45 +1,94 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using Unity.Attributes;
+using OverWeightControl.Core.Console;
+using OverWeightControl.Core.Clients;
+using System;
 
 namespace OverWeightControl
 {
-    public partial class PackageAdmining : Form
+    public partial class PackageAdmining : Form, IEditable<ICollection<NodeRole>>
     {
+        private readonly IConsoleService _console;
+
         public PackageAdmining()
         {
             InitializeComponent();
+            Init();
+
+            FormClosing += (s, e) => Save();
         }
 
-        public static void ShowModal()
+        [InjectionConstructor]
+        public PackageAdmining(
+            [OptionalDependency] IConsoleService console)
         {
-            var form = new PackageAdmining();
-            form.dependencyListControl1.LoadData(
-                CompositionRoot.Instance.InfrastructureDependencies);
-            form.dependencyListControl2.LoadData(
-                CompositionRoot.Instance.WorkFlowDependencies);
-            form.checkBox1.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.PPVK);
-            form.checkBox2.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.AFC);
-            form.checkBox3.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.VerificationStation);
-            form.checkBox4.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.ReportsStation);
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                form.dependencyListControl1.UpdateData(
-                    CompositionRoot.Instance.InfrastructureDependencies);
-                form.dependencyListControl2.UpdateData(
-                    CompositionRoot.Instance.WorkFlowDependencies);
+            _console = console;
+        }
 
+        #region IEditable<ICollection<NodeRole>> members
+
+        public bool LoadData(ICollection<NodeRole> data)
+        {
+            try
+            {
+                checkBox1.Checked = data.Contains(NodeRole.PPVK);
+                checkBox2.Checked = data.Contains(NodeRole.AFC);
+                checkBox3.Checked = data.Contains(NodeRole.VerificationStation);
+                checkBox4.Checked = data.Contains(NodeRole.ReportsStation);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                _console?.AddException(e);
+                return false;
+            }
+        }
+
+        public bool UpdateData(ICollection<NodeRole> data)
+        {
+            try
+            {
                 CompositionRoot.Instance.NodeRoles.Clear();
-                if (form.checkBox1.Checked)
+                if (checkBox1.Checked)
                     CompositionRoot.Instance.NodeRoles.Add(NodeRole.PPVK);
-                if (form.checkBox2.Checked)
+                if (checkBox2.Checked)
                     CompositionRoot.Instance.NodeRoles.Add(NodeRole.AFC);
-                if (form.checkBox3.Checked)
+                if (checkBox3.Checked)
                     CompositionRoot.Instance.NodeRoles.Add(NodeRole.VerificationStation);
-                if (form.checkBox4.Checked)
+                if (checkBox4.Checked)
                     CompositionRoot.Instance.NodeRoles.Add(NodeRole.ReportsStation);
 
-                CompositionRoot.Instance.SaveConfigToFile();
+                return true;
             }
+            catch (Exception e)
+            {
+                _console?.AddException(e);
+                return false;
+            }
+        }
+
+        #endregion
+
+        private void Init()
+        {
+            dependencyListControl1.LoadData(
+                CompositionRoot.Instance.InfrastructureDependencies);
+            dependencyListControl2.LoadData(
+                CompositionRoot.Instance.WorkFlowDependencies);
+            LoadData(CompositionRoot.Instance.NodeRoles);            
+        }
+
+        private void Save()
+        {
+            dependencyListControl1.UpdateData(
+                    CompositionRoot.Instance.InfrastructureDependencies);
+            dependencyListControl2.UpdateData(
+                CompositionRoot.Instance.WorkFlowDependencies);
+            UpdateData(CompositionRoot.Instance.NodeRoles);
+
+            CompositionRoot.Instance.SaveConfigToFile();
         }
     }
 }

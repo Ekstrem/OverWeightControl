@@ -7,14 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Unity;
 
 namespace OverWeightControl.Clients.ParrentUI
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        public MainForm(IUnityContainer container)
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            actListVerificationToolStripMenuItem.Click += (s, e) =>
+                container.Resolve<Form>("ActEditForm");
+            // actVerificationWizardToolStripMenuItem.Click += (s, e) =>
+            adminingToolStripMenuItem.Click += (s, e) =>
+                container.Resolve<Form>("PackageAdmining");
+            
         }
 
         public void Initial(ICollection<NodeRole> roles, bool adminMode = false)
