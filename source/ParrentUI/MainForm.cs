@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
+using Unity.Attributes;
 
 namespace OverWeightControl.Clients.ParrentUI
 {
@@ -8,16 +9,20 @@ namespace OverWeightControl.Clients.ParrentUI
     {
         private readonly IUnityContainer _container;
 
+        [InjectionConstructor]
         public MainForm(IUnityContainer container)
         {
             _container = container;
             InitializeComponent();
             TopLevel = true;
 
+            // Станция верфикации
             actListVerificationToolStripMenuItem.Click += (s, e) => StartForm("ActEditForm");
-            nodeRolesToolStripMenuItem.Click += (s, e) => StartForm("PackageAdmining");
-            settingsToolStripMenuItem.Click += (s, e) => StartForm("EditorSettingsStorage");
             // actVerificationWizardToolStripMenuItem.Click += (s, e) =>
+
+            // Администрирование
+            settingsToolStripMenuItem.Click += (s, e) => StartForm("EditorSettingsStorage");
+            nodeRolesToolStripMenuItem.Click += (s, e) => StartForm("PackageAdmining");
         }
 
         public void Initial(ICollection<NodeRole> roles, bool adminMode = false)
@@ -54,8 +59,9 @@ namespace OverWeightControl.Clients.ParrentUI
         private void StartForm(string dependencyName)
         {
             var form = _container.Resolve<Form>(dependencyName);
-            form.TopLevel = false;
-            form.Parent = this;
+            // TODO: set parent conrol.
+            // form.TopLevel = false;
+            // form.Parent = this;
             form.ShowDialog();
         }
     }

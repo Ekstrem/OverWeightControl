@@ -40,15 +40,6 @@ namespace OverWeightControl.Core.Unity
                 context.AddResolverOverrides(overrides);
             }
 
-            /*stack.ForEach(t =>
-                {
-                    value = context.NewBuildUp(t, key.Name);
-                    var overrides = new DependencyOverride(
-                        key.Type, value);
-                    context.AddResolverOverrides(overrides);
-                }
-            );*/
-
             context.Existing = value;
             context.BuildComplete = true;
         }
