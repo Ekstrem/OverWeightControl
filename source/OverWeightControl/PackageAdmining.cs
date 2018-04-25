@@ -24,6 +24,15 @@ namespace OverWeightControl
             [OptionalDependency] IConsoleService console)
         {
             _console = console;
+
+            InitializeComponent();
+            Init();
+
+            FormClosing += (s, e) =>
+            {
+                if (((Form)s).DialogResult == DialogResult.OK)
+                    Save();
+            };
         }
 
         #region IEditable<ICollection<NodeRole>> members

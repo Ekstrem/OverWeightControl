@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
 
@@ -13,16 +6,17 @@ namespace OverWeightControl.Clients.ParrentUI
 {
     public partial class MainForm : Form
     {
+        private readonly IUnityContainer _container;
+
         public MainForm(IUnityContainer container)
         {
+            _container = container;
             InitializeComponent();
 
-            actListVerificationToolStripMenuItem.Click += (s, e) =>
-                container.Resolve<Form>("ActEditForm");
+            actListVerificationToolStripMenuItem.Click += (s, e) => StartForm("ActEditForm");
+            nodeRolesToolStripMenuItem.Click += (s, e) => StartForm("PackageAdmining");
+            settingsToolStripMenuItem.Click += (s, e) => StartForm("EditorSettingsStorage");
             // actVerificationWizardToolStripMenuItem.Click += (s, e) =>
-            adminingToolStripMenuItem.Click += (s, e) =>
-                container.Resolve<Form>("PackageAdmining");
-            
         }
 
         public void Initial(ICollection<NodeRole> roles, bool adminMode = false)
@@ -54,6 +48,14 @@ namespace OverWeightControl.Clients.ParrentUI
                         break;
                 }
             }            
+        }
+
+        private void StartForm(string dependencyName)
+        {
+            var form = _container.Resolve<Form>(dependencyName);
+            form.TopLevel = false;
+            form.Parent = this;
+            form.ShowDialog();
         }
     }
 }
