@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Unity;
 using Unity.Interception.Utilities;
 using OverWeightControl.Core.Console;
@@ -13,7 +14,7 @@ namespace OverWeightControl
     public class Starter
     {
         private IConsoleService _console;
-        private readonly CompositionRoot _compositionRoot;
+        private static CompositionRoot _compositionRoot;
 
         public Starter()
         {
@@ -21,13 +22,13 @@ namespace OverWeightControl
             {
                 _compositionRoot = CompositionRoot.Factory();
                 
-                ContainerRegistations();                
+                ContainerRegistations();
 
-                var mainForm = Container.Resolve<MainForm>();
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                var mainForm = CompositionRoot.Container.Resolve<MainForm>();
                 mainForm.Initial(_compositionRoot.NodeRoles, IsAdminMode);
-                mainForm.ShowDialog();
-
-                _console.Flush();
+                Application.Run(mainForm);
             }
             catch (Exception e)
             {
@@ -85,6 +86,7 @@ namespace OverWeightControl
 
         public static bool IsAdminMode { get; set; }
 
+        [STAThread]
         public static void Main(string[] args)
         {
             IsAdminMode = args.Contains("-admin");

@@ -12,6 +12,7 @@ namespace OverWeightControl.Clients.ParrentUI
         {
             _container = container;
             InitializeComponent();
+            TopLevel = true;
 
             actListVerificationToolStripMenuItem.Click += (s, e) => StartForm("ActEditForm");
             nodeRolesToolStripMenuItem.Click += (s, e) => StartForm("PackageAdmining");

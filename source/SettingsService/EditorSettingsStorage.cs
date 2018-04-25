@@ -5,23 +5,28 @@ using System.Windows.Forms;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
 using Unity;
+using Unity.Attributes;
 
 namespace OverWeightControl.Core.Settings
 {
     public partial class EditorSettingsStorage :
         Form, IEditable<IDictionary<string, string>>
     {
+        private readonly ISettingsStorage _storage;
         private readonly IConsoleService _console;
         private static IDictionary<string, string> _args;
 
+        [InjectionConstructor]
         public EditorSettingsStorage(
             ISettingsStorage storage,
-            IConsoleService console)
+            [OptionalDependency] IConsoleService console)
         {
+            _storage = storage;
             _console = console;
-            _args = storage.GetArgs();
 
             InitializeComponent();
+
+            LoadData(_args);
 
             dataGridView1.CellDoubleClick += (s, eArgs) =>
             {
@@ -51,6 +56,13 @@ namespace OverWeightControl.Core.Settings
                     }
                     return;
                 }
+            };
+
+            Closing += (s, e) =>
+            {
+                if (DialogResult == DialogResult.OK
+                    && UpdateData(_args))
+                    _storage.SaveToFile();
             };
         }
 
@@ -85,7 +97,7 @@ namespace OverWeightControl.Core.Settings
             }
             catch (Exception e)
             {
-                _console.AddException(e);
+                _console?.AddException(e);
                 return false;
             }
         }
