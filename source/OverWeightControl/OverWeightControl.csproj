@@ -89,7 +89,6 @@
       <DependentUpon>PackageAdmining.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Roles.cs" />
     <Compile Include="SenderFiles.cs" />
     <Compile Include="Starter.cs" />
   </ItemGroup>
@@ -109,6 +108,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{28756945-bf3d-47ae-bb20-c577fab5980d}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParrentUI\ParrentUI.csproj">
+      <Project>{2cedede4-51dc-4ea9-9f34-d32b641d3bae}</Project>
+      <Name>ParrentUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\SettingsService\Core.Settings.csproj">
       <Project>{c6e6b7cc-c42b-4cb8-b218-4f5e7cbff9d2}</Project>

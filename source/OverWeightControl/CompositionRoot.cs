@@ -2,10 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using OverWeightControl.Clients.ActsUI;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.ConsoleService;
@@ -175,6 +172,6 @@ namespace OverWeightControl
             File.WriteAllText(_fullName, json);
         }
 
-        internal ICollection<Roles> NodeRoles { get; set; }
+        internal ICollection<NodeRole> NodeRoles { get; set; }
     }
 }

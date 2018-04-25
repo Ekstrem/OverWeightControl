@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OverWeightControl.Core.Console;
-using OverWeightControl.Core.Unity;
 using Unity;
 using Unity.Interception.Utilities;
+using OverWeightControl.Core.Console;
+using OverWeightControl.Core.Unity;
+using OverWeightControl.Clients.ParrentUI;
+
 
 namespace OverWeightControl
 {
@@ -19,7 +21,12 @@ namespace OverWeightControl
             {
                 _compositionRoot = CompositionRoot.Factory();
                 
-                ContainerRegistations();
+                ContainerRegistations();                
+
+                var mainForm = Container.Resolve<MainForm>();
+                mainForm.Initial(_compositionRoot.NodeRoles, IsAdminMode);
+                mainForm.ShowDialog();
+
                 _console.Flush();
             }
             catch (Exception e)

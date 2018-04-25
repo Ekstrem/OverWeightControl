@@ -1,6 +1,6 @@
 ﻿namespace OverWeightControl
 {
-    internal enum Roles
+    public enum NodeRole
     {
         PPVK = 1,
         AFC = 2,

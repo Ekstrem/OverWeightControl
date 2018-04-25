@@ -17,10 +17,10 @@ namespace OverWeightControl
                 CompositionRoot.Instance.InfrastructureDependencies);
             form.dependencyListControl2.LoadData(
                 CompositionRoot.Instance.WorkFlowDependencies);
-            form.checkBox1.Checked = CompositionRoot.Instance.NodeRoles.Contains(Roles.PPVK);
-            form.checkBox2.Checked = CompositionRoot.Instance.NodeRoles.Contains(Roles.AFC);
-            form.checkBox3.Checked = CompositionRoot.Instance.NodeRoles.Contains(Roles.VerificationStation);
-            form.checkBox4.Checked = CompositionRoot.Instance.NodeRoles.Contains(Roles.ReportsStation);
+            form.checkBox1.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.PPVK);
+            form.checkBox2.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.AFC);
+            form.checkBox3.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.VerificationStation);
+            form.checkBox4.Checked = CompositionRoot.Instance.NodeRoles.Contains(NodeRole.ReportsStation);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 form.dependencyListControl1.UpdateData(
@@ -30,13 +30,13 @@ namespace OverWeightControl
 
                 CompositionRoot.Instance.NodeRoles.Clear();
                 if (form.checkBox1.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(Roles.PPVK);
+                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.PPVK);
                 if (form.checkBox2.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(Roles.AFC);
+                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.AFC);
                 if (form.checkBox3.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(Roles.VerificationStation);
+                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.VerificationStation);
                 if (form.checkBox4.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(Roles.ReportsStation);
+                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.ReportsStation);
             }
         }
     }
