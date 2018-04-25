@@ -240,6 +240,7 @@
             this.ClientSize = new System.Drawing.Size(743, 686);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "PackageAdmining";
             this.Text = "Менеджер конфигурации пакетов";
             this.tabControl1.ResumeLayout(false);
