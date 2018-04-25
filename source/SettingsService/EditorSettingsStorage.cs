@@ -23,6 +23,7 @@ namespace OverWeightControl.Core.Settings
         {
             _storage = storage;
             _console = console;
+            _args = storage.GetArgs();
 
             InitializeComponent();
 
