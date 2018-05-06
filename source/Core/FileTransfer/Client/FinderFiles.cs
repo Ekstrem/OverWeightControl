@@ -117,7 +117,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
         {
             try
             {
-                const string fileMask = "*.pdf";
+                string fileMask = _settings.Key(ArgsKeyList.ScanExt);
                 return Directory
                     .GetFiles(_path, fileMask)
                     .Select(m => new FileInfo(m))
