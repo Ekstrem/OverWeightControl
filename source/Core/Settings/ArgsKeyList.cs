@@ -8,5 +8,8 @@
         public static string ArgsFileLocation = nameof(ArgsFileLocation);
         public static string IsDebugMode = nameof(IsDebugMode);
         public static string WFProcWaitingFor = nameof(WFProcWaitingFor);
+        public static string ServerName = nameof(ServerName);
+        public static string Port = nameof(Port);
+        public static string ScanExt = nameof(ScanExt);
     }
 }

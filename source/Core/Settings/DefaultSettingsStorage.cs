@@ -43,7 +43,10 @@ namespace OverWeightControl.Core.Settings
                     },
                     {ArgsKeyList.ArgsFileLocation, _argsFilePath},
                     {ArgsKeyList.IsDebugMode, "false"},
-                    {ArgsKeyList.WFProcWaitingFor, "60"}
+                    {ArgsKeyList.WFProcWaitingFor, "60"},
+                    {ArgsKeyList.ServerName, "localshost" },
+                    {ArgsKeyList.Port, "16700"},
+                    {ArgsKeyList.ScanExt, "*.pdf" }
                 };
         }
 
@@ -97,7 +100,7 @@ namespace OverWeightControl.Core.Settings
             try
             {
                 string json = JsonConvert
-                    .SerializeObject(_args);
+                    .SerializeObject(_args, Formatting.Indented);
                 File.WriteAllText(_args[ArgsKeyList.ArgsFileLocation], json);
                 return true;
             }
