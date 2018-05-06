@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OverWeightControl.Core.FileTransfer;
 
 namespace OverWeightControl.Core.RemoteInteraction
@@ -6,21 +7,31 @@ namespace OverWeightControl.Core.RemoteInteraction
     /// <summary>
     /// Интерфейс передачи файлов.
     /// </summary>
-    interface IFileTransfer
+    public interface IRemoteInteraction
     {
-        /// <summary>
-        /// Инициирует соединение трасфера файлов.
-        /// Пересылает список файлов.
-        /// </summary>
-        /// <param name="sendList">Список информации о передаваемых файлах.</param>
-        /// <returns>Список информации о не дошедших файлах.</returns>
-        ICollection<FileTransferInfo> SendList(ICollection<FileTransferInfo> sendList);
-
         /// <summary>
         /// Отправка файла.
         /// </summary>
+        /// <param name="fileId">Имя файла.</param>
         /// <param name="stream">Данные файла.</param>
         /// <returns>Колличество полученных файлов.</returns>
-        long SendFile(byte[] stream);
+        SendResult SendFile(Guid fileId, FileTransferInfo stream);
+
+        /// <summary>
+        /// Отправка части файла.
+        /// </summary>
+        /// <param name="fileId">Имя файла.</param>
+        /// <param name="partNum"></param>
+        /// <param name="partCount">Колличество частей</param>
+        /// <param name="stream">Данные файла.</param>
+        /// <returns>Колличество полученных файлов.</returns>
+        bool SendFilePart(Guid fileId, int partNum, int partCount, byte[] stream);
+
+        /// <summary>
+        /// Проверка частично отправляемого файла
+        /// </summary>
+        /// <param name="fileId">Имя файла.</param>
+        /// <returns>Колличество полученных файлов.</returns>
+        SendResult CheckFile(Guid fileId);
     }
 }
