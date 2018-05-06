@@ -1,5 +1,5 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using Guid = System.Guid;
 
 namespace OverWeightControl.Core.RemoteInteraction
@@ -8,6 +8,7 @@ namespace OverWeightControl.Core.RemoteInteraction
     /// Результат передачи файла.
     /// </summary>
     [DataContract]
+    [JsonObject]
     public class SendResult
     {
         public SendResult() : this(Guid.Empty, 0, false) { }
@@ -34,23 +35,27 @@ namespace OverWeightControl.Core.RemoteInteraction
         /// Имя файла.
         /// </summary>
         [DataMember]
+        [JsonProperty]
         public Guid FileId { get; set; }
 
         /// <summary>
         /// Файл удачно получен
         /// </summary>
         [DataMember]
+        [JsonProperty]
         public bool Commited { get; set; }
         /// <summary>
         /// Размер полученных данных.
         /// </summary>
         [DataMember]
+        [JsonProperty]
         public long DataSize { get; set; }
 
         /// <summary>
         /// Результирующий хэш.
         /// </summary>
         [DataMember]
+        [JsonProperty]
         public string ResultHash { get; set; }
     }
 }
