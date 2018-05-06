@@ -7,9 +7,11 @@ using Newtonsoft.Json;
 using OverWeightControl.Clients.ActsUI;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.ConsoleService;
+using OverWeightControl.Core.FileTransfer;
 using OverWeightControl.Core.FileTransfer.Client;
 using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
+using OverWeightControl.Core.RemoteInteraction;
 using OverWeightControl.Core.Settings;
 using Unity;
 
@@ -111,6 +113,18 @@ namespace OverWeightControl
                     Abstractions = typeof(IConsoleService),
                     Realization = typeof(FileConsoleServiceService),
                     Register = false
+                },
+                new Dependency(5)
+                {
+                    Abstractions = typeof(Host),
+                    Realization = typeof(Host),
+                    Register = false
+                },
+                new Dependency(6)
+                {
+                    Abstractions = typeof(Proxy),
+                    Realization = typeof(Proxy),
+                    Register = false
                 }
             };
         }
@@ -151,17 +165,45 @@ namespace OverWeightControl
                     Realization = typeof(SenderFiles),
                     Name = nameof(SenderFiles)
                 },
-                /*new Dependency(6)
+                new Dependency(6)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(SenderFiles),
                     Register = false
-                },*/
+                },
                 new Dependency(7)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(BackUpFiles),
+                    Name = nameof(BackUpFiles),
+                    Register = false
+                },
+                new Dependency(8)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(DeleteFiles),
+                    Name = nameof(DeleteFiles),
+                    Register = false
+                },
+                new Dependency(10)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(RecivingFiles),
+                    Name = nameof(RecivingFiles),
+                    Register = false
+                },
+                new Dependency(10)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(UnCompresserFiles),
                     Name = nameof(UnCompresserFiles),
+                    Register = false
+                },
+                new Dependency(10)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(SaveForAfcFiles),
+                    Name = nameof(SaveForAfcFiles),
                     Register = false
                 }
             };
