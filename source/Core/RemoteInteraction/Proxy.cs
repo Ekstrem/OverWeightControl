@@ -7,10 +7,13 @@ using OverWeightControl.Core.Settings;
 
 namespace OverWeightControl.Core.RemoteInteraction
 {
-    public class Proxy
+    public class Proxy : IDisposable
     {
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
+        public IChannelFactory _factory;
+
+        #region LifeTime
 
         public Proxy(
             IConsoleService console,
@@ -20,14 +23,24 @@ namespace OverWeightControl.Core.RemoteInteraction
             _settings = settings;
         }
 
+        ~Proxy() { Dispose(); }
+
+        public void Dispose()
+        {
+            _factory.Close();
+        }
+
+        #endregion
+
         public IRemoteInteraction RemoteStorage()
         {
             try
             {
                 var binding = GetBinding();
                 var address = new EndpointAddress(GetAddress(binding).AbsoluteUri);
-                return (IRemoteInteraction) new ChannelFactory<IRemoteInteraction>(
-                    binding, address);
+                var factory = new ChannelFactory<IRemoteInteraction>(binding, address);
+                _factory = factory;
+                return (IRemoteInteraction) factory;
             }
             catch (Exception e)
             {
