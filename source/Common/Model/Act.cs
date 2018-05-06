@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
@@ -10,6 +12,7 @@ namespace OverWeightControl.Common.Model
     /// Основной класс - акт о превышении нагрузки.
     /// </summary>
     [JsonObject]
+    [Table("ActTbl")]
     public class Act : ParentBehavior<Act>
     {
         /// <summary>
@@ -67,6 +70,7 @@ namespace OverWeightControl.Common.Model
         /// DD.MM.YYYY
         /// </summary>
         [JsonProperty(Order = 2)]
+        [StringLength(20)]
         public string ActDateTime { get; set; }
         
         /// <summary>
@@ -80,6 +84,7 @@ namespace OverWeightControl.Common.Model
         /// Место проведения контроля (взвешивания).
         /// </summary>
         [JsonProperty(Order = 5)]
+        [StringLength(150)]
         public string WeightPoint { get; set; }
 
         /// <summary>
