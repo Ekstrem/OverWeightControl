@@ -42,6 +42,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Channels" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,6 +73,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clients\Roles.cs" />
+    <Compile Include="FileTransfer\BackUpFiles.cs" />
+    <Compile Include="FileTransfer\DeleteFiles.cs" />
+    <Compile Include="FileTransfer\Server\RecivingFiles.cs" />
+    <Compile Include="FileTransfer\Server\SaveForAfcFiles.cs" />
+    <Compile Include="FileTransfer\WorkFlow\IWorkflowStatistic.cs" />
+    <Compile Include="RemoteInteraction\Host.cs" />
+    <Compile Include="RemoteInteraction\Proxy.cs" />
+    <Compile Include="RemoteInteraction\SendResult.cs" />
     <Compile Include="Unity\DecoratorBuildStrategy.cs" />
     <Compile Include="Unity\DecoratorContainerExtension.cs" />
     <Compile Include="Console\DefaultConsoleService.cs" />
@@ -81,7 +91,6 @@
     <Compile Include="FileTransfer\Client\Md5HashComputerFiles.cs" />
     <Compile Include="FileTransfer\Client\SenderFiles.cs" />
     <Compile Include="FileTransfer\FileTransferInfo.cs" />
-    <Compile Include="FileTransfer\FileTransferManager.cs" />
     <Compile Include="Clients\IEditable.cs" />
     <Compile Include="FileTransfer\WorkFlow\IWorkFlowProducerConsumer.cs" />
     <Compile Include="FileTransfer\Server\UnCompresserFiles.cs" />
@@ -89,7 +98,6 @@
     <Compile Include="FileTransfer\WorkFlow\WorkFlowCancelationToken.cs" />
     <Compile Include="FileTransfer\WorkFlow\WorkFlowDecoratorBase.cs" />
     <Compile Include="RemoteInteraction\IRemoteInteraction.cs" />
-    <Compile Include="RemoteInteraction\RawBinding.cs" />
     <Compile Include="Settings\ArgsFileLocation.cs" />
     <Compile Include="Settings\ArgsKeyList.cs" />
     <Compile Include="Settings\ISettingsStorage.cs" />
