@@ -46,7 +46,9 @@ namespace OverWeightControl.Core.Settings
                     {ArgsKeyList.WFProcWaitingFor, "60"},
                     {ArgsKeyList.ServerName, "localshost" },
                     {ArgsKeyList.Port, "16700"},
-                    {ArgsKeyList.ScanExt, "*.pdf" }
+                    {ArgsKeyList.ScanExt, "*.pdf" },
+                    {ArgsKeyList.AFC,
+                        $"{AppDomain.CurrentDomain.BaseDirectory}AFC" }
                 };
         }
 
