@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 
 namespace OverWeightControl.Core.FileTransfer.WorkFlow
 {
-    public abstract class WorkFlowDecoratorBase : WorkFlowBase, IDisposable
+    public abstract class WorkFlowDecoratorBase : WorkFlowBase, IWorkflowStatistic, IDisposable
     {
         private readonly IWorkFlowProducerConsumer _consumer;
 
@@ -70,6 +71,15 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
                     {
                         list.Add(buf);
                     }
+                    else
+                    {
+                        // Если возникла ошибка, ошибочный экземляр вернётся.
+                        if (fti != null)
+                        {
+                            _consumer.TryAdd(fti);
+                            _console.AddEvent($"Maybe corrupted: {fti}", ConsoleMessageType.Trace);
+                        }
+                    }
                 }
 
                 return list;
@@ -109,5 +119,12 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
             }
         }
 
+        public IDictionary<string, int> GetStatistic()
+        {
+            var dic = new Dictionary<string, int>(
+                ((IWorkflowStatistic)_consumer).GetStatistic());
+            dic.Add(Description, Count);
+            return dic;
+        }
     }
 }

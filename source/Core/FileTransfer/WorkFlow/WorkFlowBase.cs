@@ -8,7 +8,7 @@ using OverWeightControl.Core.Settings;
 
 namespace OverWeightControl.Core.FileTransfer.WorkFlow
 {
-    public abstract class WorkFlowBase : IWorkFlowProducerConsumer
+    public abstract class WorkFlowBase : IWorkFlowProducerConsumer, IWorkflowStatistic
     {
         protected IProducerConsumerCollection<FileTransferInfo> _queue;
         protected readonly ISettingsStorage _settings;
@@ -92,12 +92,26 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
             }
         }
 
-        protected virtual bool Proccess() => LoadFiles().Select(TryAdd).All(p => p);
-        
+        protected virtual bool Proccess()
+        {
+            var loadedFiles = LoadFiles().Where(f => f != null).ToList();
+            return loadedFiles.Any() && loadedFiles.Select(TryAdd).All(p => p);
+        }
+
+
+
         public virtual WorkFlowCancelationToken CancelationToken { get; set; }
 
         public int Count => _queue.Count;
 
         public abstract string Description { get; }
+        public IDictionary<string, int> GetStatistic()
+        {
+            var dic = new Dictionary<string, int>
+            {
+                { Description, Count }
+            };
+            return dic;
+        }
     }
 }
