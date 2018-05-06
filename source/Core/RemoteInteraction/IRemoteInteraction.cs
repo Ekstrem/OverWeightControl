@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OverWeightControl.Core.FileTransfer;
 
 namespace OverWeightControl.Core.RemoteInteraction
