@@ -150,6 +150,8 @@ namespace OverWeightControl.Core.FileTransfer.Client
                     .ReadAllLines(fileName)
                     .Aggregate((a, i) => a + i);
 
+                File.Delete(fileName);
+
                 return JsonConvert
                     .DeserializeObject<List<FileTransferInfo>>(json)
                     .AsEnumerable();
