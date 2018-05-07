@@ -68,7 +68,6 @@
     <Compile Include="RawData\RawVehicleInfo.cs" />
     <Compile Include="RawData\RawWeighterInfo.cs" />
     <Compile Include="RawData\RecognizedValue.cs" />
-    <Compile Include="Serialization\ModelContext.cs" />
     <Compile Include="Serialization\IJsonSerialization.cs" />
     <Compile Include="Serialization\ParentBehavior.cs" />
   </ItemGroup>
