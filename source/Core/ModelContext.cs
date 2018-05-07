@@ -1,15 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Data.Common;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.SqlClient;
 using OverWeightControl.Common.Model;
+using OverWeightControl.Core.Settings;
+using Unity;
+using Unity.Attributes;
 
-namespace OverWeightControl.Common.Serialization
+namespace OverWeightControl
 {
     public class ModelContext : DbContext
     {
+        [InjectionConstructor]
+        public ModelContext(IUnityContainer container)
+            : base(GetConnectionString(container))
+        {
+            Database.CreateIfNotExists();
+        }
+
+        private static string GetConnectionString(IUnityContainer container)
+        {
+            return container
+                ?.Resolve<ISettingsStorage>()
+                ?.Key(ArgsKeyList.ConnectionString)
+                ?? "Data Source=EWPCATMTL\\MSSQLSERVER2K8R2;Initial Catalog=ActsDB;Integrated Security=True"; //test value
+        }
+
         public DbSet<Act> Acts { get; set; }
         public DbSet<AxisInfo> Axises { get; set; }
         public DbSet<CargoInfo> Cargos { get; set; }

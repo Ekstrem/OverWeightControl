@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
@@ -80,6 +81,8 @@ namespace OverWeightControl.Common.Model
         [JsonProperty(Order = 5)]
         [StringLength(15)]
         public string ViolationKoap { get; set; }
+
+        public Guid ActId { get; set; }
 
         /// <summary>
         ///   Определяет, равен ли заданный объект текущему объекту.

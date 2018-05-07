@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using OverWeightControl.Common.RawData;
+using OverWeightControl.Common.Serialization;
 
 namespace OverWeightControl.Common.Tests
 {
@@ -17,6 +18,7 @@ namespace OverWeightControl.Common.Tests
             Console.WriteLine(actJson);
             Console.WriteLine();
             var act = new Act().LoadFromJson(actJson);
+            TestBd(act);
             Console.WriteLine(act.Id);
             Console.WriteLine();
             //
@@ -26,6 +28,12 @@ namespace OverWeightControl.Common.Tests
             Console.WriteLine(act.Id);
             //
             Console.ReadKey();
+        }
+
+        private static void TestBd(Act act)
+        {
+            var context = new ModelContext(null);
+            context.Set<Act>()
         }
 
         private static string ActTest()
