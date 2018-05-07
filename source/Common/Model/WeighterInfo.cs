@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
+using OverWeightControl.Common.Serialization;
 
 namespace OverWeightControl.Common.Model
 {
@@ -7,7 +9,7 @@ namespace OverWeightControl.Common.Model
     /// Весовое оборудование.
     /// </summary>
     [JsonObject]
-    public class WeighterInfo
+    public class WeighterInfo : ParentBehavior<WeighterInfo>
     {
         /// <summary>
         /// Конструктор класса.
@@ -46,6 +48,7 @@ namespace OverWeightControl.Common.Model
         /// Номер весов.
         /// </summary>
         [JsonProperty(Order = 1)]
+        [StringLength(20)]
         public string WeigherNumber { get; set; }
 
         /// <summary>
@@ -53,18 +56,21 @@ namespace OverWeightControl.Common.Model
         /// DD.MM.YYYY
         /// </summary>
         [JsonProperty(Order = 2)]
+        [StringLength(10)]
         public string VerificationDate { get; set; }
 
         /// <summary>
         /// Номер свидетельства (клейма).
         /// </summary>
         [JsonProperty(Order = 3)]
+        [StringLength(20)]
         public string CertificateNumber { get; set; }
 
         /// <summary>
         /// Характер нарушения.
         /// </summary>
         [JsonProperty(Order = 4)]
+        [StringLength(35)]
         public string ViolationNature { get; set; }
 
         /// <summary>
@@ -72,6 +78,7 @@ namespace OverWeightControl.Common.Model
         /// Ст. 12.21.1 ч.1 - 11
         /// </summary>
         [JsonProperty(Order = 5)]
+        [StringLength(15)]
         public string ViolationKoap { get; set; }
 
         /// <summary>
