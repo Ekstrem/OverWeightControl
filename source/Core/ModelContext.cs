@@ -1,7 +1,4 @@
-﻿using System.Data.Common;
-using System.Data.Entity;
-using System.Data.Entity.Core.EntityClient;
-using System.Data.SqlClient;
+﻿using System.Data.Entity;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Settings;
 using Unity;
@@ -12,18 +9,21 @@ namespace OverWeightControl
     public class ModelContext : DbContext
     {
         [InjectionConstructor]
-        public ModelContext(IUnityContainer container)
-            : base(GetConnectionString(container))
+        public ModelContext(ISettingsStorage settings)
+            : base(GetConnectionString(settings))
         {
+            if (//settings == null ||
+                bool.TryParse(settings?.Key(ArgsKeyList.IsDebugMode), out bool debug) &&
+                debug)
+                Database.Delete();
             Database.CreateIfNotExists();
         }
 
-        private static string GetConnectionString(IUnityContainer container)
+        private static string GetConnectionString(ISettingsStorage settings)
         {
-            return container
-                ?.Resolve<ISettingsStorage>()
-                ?.Key(ArgsKeyList.ConnectionString)
-                ?? "Data Source=EWPCATMTL\\MSSQLSERVER2K8R2;Initial Catalog=ActsDB;Integrated Security=True"; //test value
+            return settings?.Key(ArgsKeyList.ConnectionString)
+                   ?? "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True";
+            // ?? "Data Source=EWPCATMTL\\MSSQLSERVER2K8R2;Initial Catalog=ActsDB;Integrated Security=True"; //test value
         }
 
         public DbSet<Act> Acts { get; set; }
@@ -37,8 +37,7 @@ namespace OverWeightControl
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Act>()
-                .HasKey(k => k.Id)
-                .ToTable("ActsTbl");
+                .HasKey(k => k.Id);
             modelBuilder.Entity<AxisInfo>()
                 .HasKey(k => k.Id);
             modelBuilder.Entity<CargoInfo>()

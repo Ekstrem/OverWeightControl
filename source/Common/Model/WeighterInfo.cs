@@ -83,9 +83,6 @@ namespace OverWeightControl.Common.Model
         [StringLength(15)]
         public string ViolationKoap { get; set; }
 
-        [JsonIgnore]
-        public virtual Act Act { get; set; }
-
         /// <summary>
         ///   Определяет, равен ли заданный объект текущему объекту.
         /// </summary>
