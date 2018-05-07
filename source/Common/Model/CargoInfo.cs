@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
@@ -11,7 +9,6 @@ namespace OverWeightControl.Common.Model
     /// Информация о грузе.
     /// </summary>
     [JsonObject]
-    [Table("CargoInfoTbl")]
     public class CargoInfo
     {
         /// <summary>
@@ -86,9 +83,7 @@ namespace OverWeightControl.Common.Model
         /// Характеристика груза.
         /// </summary>
         [JsonProperty(Order = 1)]
-        [StringLength(50)]
         public string CargoCharacter { get; set; }
-
         /// <summary>
         /// Вид груза.
         /// </summary>

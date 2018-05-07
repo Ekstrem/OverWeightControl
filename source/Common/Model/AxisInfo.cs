@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
 
 namespace OverWeightControl.Common.Model
@@ -9,7 +7,6 @@ namespace OverWeightControl.Common.Model
     /// Осевые нагрузки.
     /// </summary>
     [JsonObject]
-    [Table("AxisInfoTbl")]
     public class AxisInfo
     {
         /// <summary>
@@ -73,7 +70,6 @@ namespace OverWeightControl.Common.Model
         /// Номер оси.
         /// </summary>
         [JsonProperty(Order = 1)]
-        [StringLength(2)]
         public string AxisNum { get; set; }
 
         /// <summary>
@@ -86,7 +82,6 @@ namespace OverWeightControl.Common.Model
         /// Тип подвески. 
         /// </summary>
         [JsonProperty(Order = 3)]
-        [StringLength(10)]
         public string SuspentionType { get; set; }
 
         /// <summary>
@@ -135,7 +130,6 @@ namespace OverWeightControl.Common.Model
         /// Перегруз.
         /// </summary>
         [JsonProperty(Order = 11)]
-        [StringLength(4)]
         public string Overweight { get; set; }
 
         /// <summary>
