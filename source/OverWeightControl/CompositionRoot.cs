@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Windows.Forms;
 using System.IO;
 using Newtonsoft.Json;
 using OverWeightControl.Clients.ActsUI;
+using OverWeightControl.Common.Serialization;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.ConsoleService;
 using OverWeightControl.Core.FileTransfer;
@@ -124,6 +126,12 @@ namespace OverWeightControl
                 {
                     Abstractions = typeof(Proxy),
                     Realization = typeof(Proxy),
+                    Register = false
+                },
+                new Dependency(7)
+                {
+                    Abstractions = typeof(DbContext),
+                    Realization = typeof(ModelContext),
                     Register = false
                 }
             };
