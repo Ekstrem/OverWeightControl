@@ -5,6 +5,7 @@ bin/*
 source/.vs/*
 .vs/OverWeightControl/v15/.suo
 source/Common/obj/*
+source/Common.BelModel/obj/*
 source/Common.Tests/obj/*
 source/Core/obj/*
 source/ConsoleService/obj/*

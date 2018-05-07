@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Globalization;
+using System.IO;
+using OverWeightControl.Common.BelModel;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
 
@@ -15,7 +17,7 @@ namespace OverWeightControl.Common.Tests
             Console.WriteLine("Test started");
             Console.WriteLine();
             //
-            var actJson = ActTest();
+            /*var actJson = ActTest();
             Console.WriteLine(actJson);
             Console.WriteLine();
             var act = new Act().LoadFromJson(actJson);
@@ -23,12 +25,21 @@ namespace OverWeightControl.Common.Tests
             Console.WriteLine(act.Id);
             Console.WriteLine();
             //
-            /*var rawActJson = RawActTest();
+            var rawActJson = RawActTest();
             Console.WriteLine(rawActJson);
             var rawact = new RawAct().LoadFromJson(rawActJson);
             Console.WriteLine(act.Id);*/
             //
+            TestBel();
             Console.ReadKey();
+        }
+
+        private static void TestBel()
+        {
+            var json = File.ReadAllText("C:\\Users\\Евгений\\Downloads\\Telegram Desktop\\response.json");
+            var bv = new BlankValues();
+            bv.LoadFromJson(json);
+            BlankValues.load(json);
         }
 
         private static void TestBd(Act act)
