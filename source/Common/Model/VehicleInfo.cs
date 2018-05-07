@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
+using OverWeightControl.Common.Serialization;
 
 namespace OverWeightControl.Common.Model
 {
@@ -9,7 +11,7 @@ namespace OverWeightControl.Common.Model
     /// Сведения о ТС.
     /// </summary>
     [JsonObject]
-    public class VehicleInfo
+    public class VehicleInfo : ParentBehavior<VehicleDetail>
     {
         /// <summary>
         /// Конструктор класса.
@@ -70,12 +72,14 @@ namespace OverWeightControl.Common.Model
         /// осуществляющего перевозку тяжеловесного груза.
         /// </summary>
         [JsonProperty(Order = 2)]
+        [StringLength(50)]
         public string VehicleOwner { get; set; }
 
         /// <summary>
         /// Страна регистрации.
         /// </summary>
         [JsonProperty(Order = 3)]
+        [StringLength(25)]
         public string VehicleCountry { get; set; }
 
         /// <summary>
@@ -88,30 +92,35 @@ namespace OverWeightControl.Common.Model
         /// Адрес организации.
         /// </summary>
         [JsonProperty(Order = 5)]
+        [StringLength(25)]
         public string VehicleCompanyAddress { get; set; }
 
         /// <summary>
         /// Маршрут движения.
         /// </summary>
         [JsonProperty(Order = 6)]
+        [StringLength(25)]
         public string VehicleRoute { get; set; }
 
         /// <summary>
         /// Грузоотправитель
         /// </summary>
         [JsonProperty(Order = 7)]
+        [StringLength(25)]
         public string VehicleShipper { get; set; }
 
         /// <summary>
         /// Пройдено расстояние по федеральным трассам
         /// </summary>
         [JsonProperty(Order = 8)]
+        [StringLength(25)]
         public string FederalHighwaysDistance { get; set; }
 
         /// <summary>
         /// Вид перевозки.
         /// </summary>
         [JsonProperty(Order = 9)]
+        [StringLength(25)]
         public string CarriageType { get; set; }
 
         /// <summary>
