@@ -16,6 +16,7 @@ namespace OverWeightControl.Common.Model
         /// Конструктор класса.
         /// </summary>
         public WeighterInfo() { }
+        public WeighterInfo(Guid id) => Id = id;
 
         /// <summary>
         /// Конструктор класса.
@@ -82,7 +83,8 @@ namespace OverWeightControl.Common.Model
         [StringLength(15)]
         public string ViolationKoap { get; set; }
 
-        public Guid ActId { get; set; }
+        [JsonIgnore]
+        public virtual Act Act { get; set; }
 
         /// <summary>
         ///   Определяет, равен ли заданный объект текущему объекту.

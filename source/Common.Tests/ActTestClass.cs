@@ -1,6 +1,7 @@
 ﻿using OverWeightControl.Common.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Globalization;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
@@ -22,24 +23,47 @@ namespace OverWeightControl.Common.Tests
             Console.WriteLine(act.Id);
             Console.WriteLine();
             //
-            var rawActJson = RawActTest();
+            /*var rawActJson = RawActTest();
             Console.WriteLine(rawActJson);
             var rawact = new RawAct().LoadFromJson(rawActJson);
-            Console.WriteLine(act.Id);
+            Console.WriteLine(act.Id);*/
             //
             Console.ReadKey();
         }
 
         private static void TestBd(Act act)
         {
-            var context = new ModelContext(null);
-            context.Set<Act>()
+            try
+            {
+                var context = new ModelContext(null);
+                context.Acts.Add(act);
+                context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult validationError in ex.EntityValidationErrors)
+                {
+                    Console.Write("Object: " + validationError.Entry.Entity.ToString());
+                    Console.Write("");
+                    foreach (DbValidationError err in validationError.ValidationErrors)
+                    {
+                        Console.Write(err.ErrorMessage + "");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private static string ActTest()
         {
+            var id = Guid.NewGuid();
             var act = new Act
             {
+                Id = id,
                 ActNumber = 11623,
                 ActDateTime = DateTime.Now.ToString(CultureInfo.CurrentCulture),
                 PpvkNumber = 17,
@@ -47,7 +71,7 @@ namespace OverWeightControl.Common.Tests
 
                 #region Вес
 
-                Weighter = new WeighterInfo
+                Weighter = new WeighterInfo(id)
                 {
                     CertificateNumber = "234234",
                     VerificationDate = "30.03.2018",
@@ -59,7 +83,7 @@ namespace OverWeightControl.Common.Tests
 
                 #region Груз
 
-                Cargo = new CargoInfo
+                Cargo = new CargoInfo(id)
                 {
                     #region Axises collection
                     Axises = new List<AxisInfo>
@@ -122,7 +146,7 @@ namespace OverWeightControl.Common.Tests
 
                 #region Водитель
 
-                Driver = new DriverInfo
+                Driver = new DriverInfo(id)
                 {
                     DriversLicenseNumber = "50 50 357498",
                     FnMnSname = "Иванов Иван Иванович",
@@ -135,7 +159,7 @@ namespace OverWeightControl.Common.Tests
 
                 #region ТС
 
-                Vehicle = new VehicleInfo
+                Vehicle = new VehicleInfo(id)
                 {
                     #region Общая информация
 

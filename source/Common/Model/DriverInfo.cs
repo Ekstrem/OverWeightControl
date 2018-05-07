@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
@@ -15,6 +16,7 @@ namespace OverWeightControl.Common.Model
         /// Конструктор класса.
         /// </summary>
         public DriverInfo() { }
+        public DriverInfo(Guid id) => Id = id;
 
         /// <summary>
         /// Конструктор класса.

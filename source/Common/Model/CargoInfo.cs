@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
@@ -17,6 +18,8 @@ namespace OverWeightControl.Common.Model
         /// Конструктор данных.
         /// </summary>
         public CargoInfo() { }
+
+        public CargoInfo(Guid id) => Id = id;
 
         /// <summary>
         /// Конструктор данных.

@@ -38,8 +38,10 @@ namespace OverWeightControl.Clients.ActsUI
 
         private static Act ActTest()
         {
+            var id = Guid.NewGuid();
             return new Act
             {
+                Id = id,
                 ActNumber = 11623,
                 ActDateTime = DateTime.Now.ToString(CultureInfo.CurrentCulture),
                 PpvkNumber = 17,
@@ -47,7 +49,7 @@ namespace OverWeightControl.Clients.ActsUI
 
                 #region Вес
 
-                Weighter = new WeighterInfo
+                Weighter = new WeighterInfo(id)
                 {
                     WeigherNumber = "983454",
                     CertificateNumber = "234234",
@@ -60,7 +62,7 @@ namespace OverWeightControl.Clients.ActsUI
 
                 #region Груз
 
-                Cargo = new CargoInfo
+                Cargo = new CargoInfo(id)
                 {
                     #region Axises collection
                     Axises = new List<AxisInfo>
@@ -123,7 +125,7 @@ namespace OverWeightControl.Clients.ActsUI
 
                 #region Водитель
 
-                Driver = new DriverInfo
+                Driver = new DriverInfo(id)
                 {
                     DriversLicenseNumber = "50 50 357498",
                     FnMnSname = "Иванов Иван Иванович",
@@ -136,7 +138,7 @@ namespace OverWeightControl.Clients.ActsUI
 
                 #region ТС
 
-                Vehicle = new VehicleInfo
+                Vehicle = new VehicleInfo(id)
                 {
                     #region Общая информация
 

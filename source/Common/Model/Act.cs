@@ -68,7 +68,7 @@ namespace OverWeightControl.Common.Model
         /// DD.MM.YYYY
         /// </summary>
         [JsonProperty(Order = 2)]
-        [StringLength(15)]
+        [StringLength(20)]
         public string ActDateTime { get; set; }
         
         /// <summary>
@@ -76,7 +76,6 @@ namespace OverWeightControl.Common.Model
         /// value>0.
         /// </summary>
         [JsonProperty(Order = 4)]
-        [StringLength(15)]
         public int PpvkNumber { get; set; }
 
         /// <summary>

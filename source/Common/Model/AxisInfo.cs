@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
@@ -79,7 +80,6 @@ namespace OverWeightControl.Common.Model
         /// Скатность.
         /// </summary>
         [JsonProperty(Order = 2)]
-        [StringLength(2)]
         public int AxisStinginess { get; set; }
 
         /// <summary>
