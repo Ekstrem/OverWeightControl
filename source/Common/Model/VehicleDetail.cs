@@ -1,9 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
+using OverWeightControl.Common.Serialization;
 
 namespace OverWeightControl.Common.Model
 {
-    public class VehicleDetail
+    public class VehicleDetail : ParentBehavior<VehicleDetail>
     {
         /// <summary>
         /// Информация о транспортном средстве.
@@ -38,24 +41,28 @@ namespace OverWeightControl.Common.Model
         /// Тип ТС.
         /// </summary>
         [JsonProperty(Order = 1)]
+        [StringLength(25)]
         public string VehicleType { get; set; }
 
         /// <summary>
         /// Марка ТС.
         /// </summary>
         [JsonProperty(Order = 2)]
+        [StringLength(25)]
         public string VehicleBrand { get; set; }
 
         /// <summary>
         /// Модель ТС.
         /// </summary>
         [JsonProperty(Order = 3)]
+        [StringLength(25)]
         public string VehicleModel { get; set; }
 
         /// <summary>
         /// Регистрационый номер ТС.
         /// </summary>
         [JsonProperty(Order = 4)]
+        [StringLength(25)]
         public string StateNumber { get; set; }
 
         public override bool Equals(object obj)

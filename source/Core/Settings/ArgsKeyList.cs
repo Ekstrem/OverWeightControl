@@ -12,5 +12,6 @@
         public static string Port = nameof(Port);
         public static string ScanExt = nameof(ScanExt);
         public static string AFC = nameof(AFC);
+        public static string ConnectionString = nameof(ConnectionString);
     }
 }

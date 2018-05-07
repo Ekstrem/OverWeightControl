@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
+using OverWeightControl.Common.Serialization;
 
 namespace OverWeightControl.Common.Model
 {
@@ -9,12 +12,14 @@ namespace OverWeightControl.Common.Model
     /// Информация о грузе.
     /// </summary>
     [JsonObject]
-    public class CargoInfo
+    public class CargoInfo : ParentBehavior<CargoInfo>
     {
         /// <summary>
         /// Конструктор данных.
         /// </summary>
         public CargoInfo() { }
+
+        public CargoInfo(Guid id) => Id = id;
 
         /// <summary>
         /// Конструктор данных.
@@ -83,11 +88,14 @@ namespace OverWeightControl.Common.Model
         /// Характеристика груза.
         /// </summary>
         [JsonProperty(Order = 1)]
+        [StringLength(12)]
         public string CargoCharacter { get; set; }
+
         /// <summary>
         /// Вид груза.
         /// </summary>
         [JsonProperty(Order = 2)]
+        [StringLength(12)]
         public string CargoType { get; set; }
 
         /// <summary>
@@ -124,6 +132,7 @@ namespace OverWeightControl.Common.Model
         /// Участок дороги.
         /// </summary>
         [JsonProperty(Order = 8)]
+        [StringLength(50)]
         public string RoadSection { get; set; }
 
         /// <summary>
@@ -150,18 +159,21 @@ namespace OverWeightControl.Common.Model
         /// в зонах ограничения движения по г. Москва.
         /// </summary>
         [JsonProperty(Order = 12)]
+        [StringLength(15)]
         public string Pass { get; set; }
 
         /// <summary>
         /// Другие нарушения.
         /// </summary>
         [JsonProperty(Order = 13)]
+        [StringLength(50)]
         public string OtherViolation { get; set; }
 
         /// <summary>
         /// Объяснение водителя.
         /// </summary>
         [JsonProperty(Order = 14)]
+        [StringLength(50)]
         public string DriverExplanation { get; set; }
 
         /// <summary>
