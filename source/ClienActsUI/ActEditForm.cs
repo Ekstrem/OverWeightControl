@@ -24,7 +24,7 @@ namespace OverWeightControl.Clients.ActsUI
             InitializeComponent();
         }
 
-        public static void ShowModal(
+        public static Act ShowModal(
             IUnityContainer container,
             Act act = null)
         {
@@ -33,7 +33,10 @@ namespace OverWeightControl.Clients.ActsUI
             var bufAct = act ?? ActTest();
             aef.actControl1.LoadData(bufAct);
             aef.Text = $@"Акт №{bufAct.ActNumber}";
-            aef.ShowDialog();
+            if (aef.ShowDialog() == DialogResult.OK
+                && aef.actControl1.UpdateData(act))
+                return act;
+            return null;
         }
 
         private static Act ActTest()

@@ -80,6 +80,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{13a5cd30-2449-463b-817e-2c23fa8b9ae1}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{28756945-bf3d-47ae-bb20-c577fab5980d}</Project>
       <Name>Core</Name>
