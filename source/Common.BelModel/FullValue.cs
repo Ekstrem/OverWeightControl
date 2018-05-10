@@ -21,18 +21,67 @@ namespace OverWeightControl.Common.BelModel
         {
             var linq = JObject.Parse(json)["blankValues"];
             var act = new Act();
-            act.ActDateTime = (string) linq["date"]["recognizedValue"]
-                              + " " + (string) linq["time"]["recognizedValue"];
+            act.ActDateTime =
+                (string) linq["date"]["recognizedValue"]
+                + " " + (string) linq["time"]["recognizedValue"];
             if (int.TryParse((string) linq["ppvkNumber"]["recognizedValue"], out int ppvkNum))
                 act.PpvkNumber = ppvkNum;
 
-            // act.ActNumber = (int)linq[""]["recognizedValue"];
-            act.WeightPoint = (string) linq["controlsPlace"]["recognizedValue"];
+            int actId;
+            act.ActNumber =
+                int.TryParse((string)linq["blankId"]["recognizedValue"], out actId)
+                    ? actId
+                    : 0;
+            act.WeightPoint = 
+                (string) linq["controlsPlace"]["recognizedValue"];
 
-            act.Weighter = new WeighterInfo();
-            act.Weighter.CertificateNumber = (string) linq["certificateNumber"]["recognizedValue"];
-            act.Weighter.WeigherNumber= (string)linq["weighingMachineNumber"]["recognizedValue"];
+            act.Weighter = new WeighterInfo(act.Id);
+            act.Weighter.CertificateNumber = 
+                (string) linq["certificateNumber"]["recognizedValue"];
+            act.Weighter.WeigherNumber=
+                (string)linq["weighingMachineNumber"]["recognizedValue"];
+            act.Weighter.VerificationDate =
+                (string)linq["controlDate"]["recognizedValue"];
+            // act.Weighter.ViolationKoap = (string)linq[""]["recognizedValue"]; ;
+            act.Weighter.ViolationNature =
+                (string)linq["violationType"]["recognizedValue"]; ;
 
+            act.Cargo = new CargoInfo(act.Id);
+            act.Cargo.CargoCharacter =
+                (string)linq["goodsCharacteristics"]["recognizedValue"];
+            float special;
+            act.Cargo.CargoSpecialAllow =
+                float.TryParse((string)linq["special"]["recognizedValue"], out special)
+                    ? special
+                    : 0;
+            act.Cargo.CargoType =
+                (string)linq["typeGoods"]["recognizedValue"];
+            act.Cargo.DriverExplanation = 
+                (string)linq["reason"]["recognizedValue"];
+            float factWeight;
+            act.Cargo.FactWeight =
+                float.TryParse((string)linq["weightOfCargo"]["recognizedValue"], out factWeight)
+                    ? factWeight
+                    : 0;
+            // act.Cargo.LegLength = (string)linq[""]["recognizedValue"];
+            // act.Cargo.LegalWeight = (string)linq[""]["recognizedValue"];
+            // act.Cargo.OtherViolation = (string)linq[""]["recognizedValue"];
+            act.Cargo.Pass =
+                (string)linq["informationAbout"]["recognizedValue"];
+            // act.Cargo.PercentWeightOverflow = (string)linq[""]["recognizedValue"];
+
+            act.Driver = new DriverInfo(act.Id);
+            act.Driver.DriversLicenseNumber = 
+                (string)linq["driverCardNumber"]["recognizedValue"];
+            act.Driver.FnMnSname = 
+                (string)linq["driverFullName"]["recognizedValue"];
+            // act.Driver.GetingMark = (string)linq[""]["recognizedValue"];
+            act.Driver.GibddName =
+                (string)linq["employeeFullName"]["recognizedValue"];
+            act.Driver.OperatorName =
+                (string)linq["operatorFullName"]["recognizedValue"];
+
+            act.Vehicle = new VehicleInfo(act.Id);
 
             return act;
         }
