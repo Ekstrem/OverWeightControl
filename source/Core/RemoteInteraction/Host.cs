@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.Settings;
@@ -45,12 +46,26 @@ namespace OverWeightControl.Core.RemoteInteraction
                     binding,
                     uri);
 
+                AddServiceMetadata();
+                
                 return true;
             }
             catch (Exception e)
             {
                 _console?.AddException(e);
                 return false;
+            }
+        }
+
+        private void AddServiceMetadata()
+        {
+            if (bool.TryParse(_settings.Key(ArgsKeyList.IsDebugMode), out bool isDebug)
+                && isDebug)
+            {
+                ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+                smb.HttpGetEnabled = true;
+                smb.HttpGetUrl = new Uri($"http://localhost:{_settings.Key(ArgsKeyList.Port)}/mex");
+                _host.Description.Behaviors.Add(smb);
             }
         }
 
