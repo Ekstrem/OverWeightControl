@@ -7,6 +7,7 @@ using Unity.Interception.Utilities;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Unity;
 using OverWeightControl.Clients.ParrentUI;
+using OverWeightControl.Core.FileTransfer.WorkFlow;
 
 
 namespace OverWeightControl
@@ -51,8 +52,9 @@ namespace OverWeightControl
 
             _console = Container.Resolve<IConsoleService>();
 
-            Container.AddExtension(new DecoratorContainerExtension());
             // Регистрация рабочего процесса.
+            Container.AddExtension(new DecoratorContainerExtension(
+                typeof(IWorkFlowProducerConsumer)));
             RegisterDependencies(
                 Container, _compositionRoot.WorkFlowDependencies);
 
