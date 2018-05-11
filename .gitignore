@@ -15,3 +15,4 @@ source/FileTransferManager.Server/obj/*
 source/OverWeightControl/obj/*
 source/ClienActsUI/obj/*
 source/ParrentUI/obj/*
+source/Core.RemoteInteraction/obj/*

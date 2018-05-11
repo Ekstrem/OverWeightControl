@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
@@ -13,6 +14,8 @@ namespace OverWeightControl.Core.RemoteInteraction
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
         private ServiceHost _host;
+
+        #region LifeTime
 
         public Host(
             IConsoleService console,
@@ -33,6 +36,8 @@ namespace OverWeightControl.Core.RemoteInteraction
             _host.Close();
             _host = null;
         }
+
+        #endregion
 
         public bool HostStorageCommitment()
         {
@@ -112,6 +117,30 @@ namespace OverWeightControl.Core.RemoteInteraction
             {
                 _console?.AddException(e);
                 return null;
+            }
+        }
+
+        private Binding GetCustomBinding()
+        {
+            var tcpBinding = GetBinding();
+            try
+            {
+                var binding = (CustomBinding)Activator.CreateInstance(
+                    typeof(CustomBinding), tcpBinding);
+                var rbe = new ReliableSessionBindingElement();
+                binding.Elements.Add(rbe);
+                var bme = Activator.CreateInstance<BinaryMessageEncodingBindingElement>();
+                bme.CompressionFormat = CompressionFormat.GZip;
+                binding.Elements.Add(bme);
+                var tf = Activator.CreateInstance<TransactionFlowBindingElement>();
+                binding.Elements.Add(tf);
+
+                return binding;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return tcpBinding;
             }
         }
     }

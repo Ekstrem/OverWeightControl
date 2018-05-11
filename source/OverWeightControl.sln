@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrentUI", "ParrentUI\Parr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.BelModel", "Common.BelModel\Common.BelModel.csproj", "{B0553610-1D34-4A94-9AC1-FE0B3B6A4FDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.RemoteInteraction", "Core.RemoteInteraction\Core.RemoteInteraction.csproj", "{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{B0553610-1D34-4A94-9AC1-FE0B3B6A4FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0553610-1D34-4A94-9AC1-FE0B3B6A4FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0553610-1D34-4A94-9AC1-FE0B3B6A4FDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{95F37AE0-0599-4354-985A-4209886070C6} = {2C4D089B-CEF6-4977-B302-47EED7F3EA62}
 		{2CEDEDE4-51DC-4EA9-9F34-D32B641D3BAE} = {2C4D089B-CEF6-4977-B302-47EED7F3EA62}
 		{B0553610-1D34-4A94-9AC1-FE0B3B6A4FDB} = {013FF735-75BC-46C5-BE5D-EBD5E6387831}
+		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320} = {A555001B-2978-4AA5-8926-2214BE5BAA62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B45642E3-DB30-46A5-8DF5-33415D748002}
