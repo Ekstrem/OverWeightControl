@@ -11,10 +11,20 @@ namespace OverWeightControl.Common.BelModel
 {
     public class FullValue
     {
+        [JsonProperty("index")]
         public int? index { get; set; }
+        [JsonProperty("fieldId")]
         public int fieldId { get; set; }
+        [JsonProperty("description")]
         public string description { get; set; }
+        [JsonProperty("recognizedValue")]
         public string recognizedValue { get; set; }
+        [JsonProperty("value")]
+        public IList<FullValue> value { get; set; }
+
+        /// <summary>Возвращает строку, представляющую текущий объект.</summary>
+        /// <returns>Строка, представляющая текущий объект.</returns>
+        public override string ToString() => recognizedValue;
 
 
         public static Act Load(string json)

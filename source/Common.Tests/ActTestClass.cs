@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Globalization;
 using System.IO;
+using Newtonsoft.Json;
 using OverWeightControl.Common.BelModel;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
@@ -37,6 +38,8 @@ namespace OverWeightControl.Common.Tests
         private static void TestBel()
         {
             var json = File.ReadAllText("C:\\Users\\Евгений\\Downloads\\Telegram Desktop\\response.json");
+            var res = JsonConvert.DeserializeObject(json, typeof(BlankList));
+
             /*var bv = new BlankValues();
             bv.LoadFromJson(json);
             BlankValues.load(json);*/
