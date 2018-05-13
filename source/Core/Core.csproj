@@ -93,6 +93,7 @@
     <Compile Include="RemoteInteraction\SendResult.cs" />
     <Compile Include="RemoteInteraction\UnityInstanceProvider.cs" />
     <Compile Include="RemoteInteraction\UnityServiceBehavior.cs" />
+    <Compile Include="RemoteInteraction\UnityServiceHost.cs" />
     <Compile Include="RemoteInteraction\UnityServiceHostFactory.cs" />
     <Compile Include="Unity\DecoratorBuildStrategy.cs" />
     <Compile Include="Unity\DecoratorContainerExtension.cs" />

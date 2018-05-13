@@ -61,7 +61,7 @@ namespace OverWeightControl.Core.RemoteInteraction
                     binding,
                     uri);
 
-                AddServiceMetadata();
+                // AddServiceMetadata();
 
                 _host.Description.Behaviors.Add(_container.Resolve<UnityServiceBehavior>());
 
@@ -86,13 +86,23 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         private void AddServiceMetadata()
         {
-            if (bool.TryParse(_settings.Key(ArgsKeyList.IsDebugMode), out bool isDebug)
-                && isDebug)
+            try
             {
-                ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-                smb.HttpGetEnabled = true;
-                smb.HttpGetUrl = new Uri($"http://localhost:{_settings.Key(ArgsKeyList.Port)}/mex");
-                _host.Description.Behaviors.Add(smb);
+                if (bool.TryParse(_settings.Key(ArgsKeyList.IsDebugMode), out bool isDebug)
+                    && isDebug)
+                {
+                    ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+                    smb.HttpGetEnabled = true;
+                    smb.HttpGetUrl =
+                        new Uri(
+                            $"http://{_settings.Key(ArgsKeyList.ServerName)}:{_settings.Key(ArgsKeyList.Port)}/mex");
+                    _host.Description.Behaviors.Add(smb);
+                }
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                _console.AddEvent("MEX does not activated.", ConsoleMessageType.Information);
             }
         }
 

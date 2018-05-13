@@ -111,7 +111,7 @@ namespace OverWeightControl.Core.RemoteInteraction
             {
                 endpoint.DispatchRuntime.InstanceProvider =
                     new UnityInstanceProvider(_container, serviceDescription.ServiceType);
-                endpoint.DispatchRuntime.ConcurrencyMode = ConcurrencyMode.Single;
+                endpoint.DispatchRuntime.ConcurrencyMode = ConcurrencyMode.Multiple;
             });
         }
     }
