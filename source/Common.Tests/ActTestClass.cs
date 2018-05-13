@@ -39,10 +39,6 @@ namespace OverWeightControl.Common.Tests
         {
             var json = File.ReadAllText("C:\\Users\\Евгений\\Downloads\\Telegram Desktop\\response.json");
             var res = JsonConvert.DeserializeObject(json, typeof(BlankList));
-
-            /*var bv = new BlankValues();
-            bv.LoadFromJson(json);
-            BlankValues.load(json);*/
         }
 
         private static void TestBd(Act act)

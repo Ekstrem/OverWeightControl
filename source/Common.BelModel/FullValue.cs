@@ -22,6 +22,16 @@ namespace OverWeightControl.Common.BelModel
         [JsonProperty("value")]
         public IList<FullValue> value { get; set; }
 
+        public int AsInt()
+        {
+            return int.TryParse(recognizedValue, out int res) ? res : default(int);
+        }
+
+        public float AsFloat()
+        {
+            return float.TryParse(recognizedValue, out float res) ? res : default(float);
+        }
+
         /// <summary>Возвращает строку, представляющую текущий объект.</summary>
         /// <returns>Строка, представляющая текущий объект.</returns>
         public override string ToString() => recognizedValue;
