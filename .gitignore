@@ -1,7 +1,14 @@
 *.lock
 *.pdb
 *.cashe
-bin/*
+bin/*.xml
+bin/*.txt
+bin/*.cfg
+bin/*.pdb
+bin/*.config
+bin/*.Test.exe
+bin/*.Tests.exe
+bin/*.xml
 source/.vs/*
 .vs/OverWeightControl/v15/.suo
 source/Common/obj/*
@@ -16,3 +23,4 @@ source/OverWeightControl/obj/*
 source/ClienActsUI/obj/*
 source/ParrentUI/obj/*
 source/Core.RemoteInteraction/obj/*
+source/Core.RemoteInteraction.Tests/obj/*
