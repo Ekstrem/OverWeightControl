@@ -1,7 +1,9 @@
 ﻿using System;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer;
+using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.Settings;
+using Unity;
 
 namespace OverWeightControl.Core.RemoteInteraction.Test
 {
@@ -11,15 +13,20 @@ namespace OverWeightControl.Core.RemoteInteraction.Test
         {
             IConsoleService console = new DefaultConsoleService();
             ISettingsStorage settings = new DefaultSettingsStorage(console);
+            IUnityContainer container = new UnityContainer();
+            container
+                .RegisterType<IConsoleService, DefaultConsoleService>()
+                .RegisterType<ISettingsStorage, DefaultSettingsStorage>()
+                .RegisterType<IRemoteInteraction, RecivingFiles>();
 
-            var h = new Host(console, settings);
-            var p = new Proxy(console,settings);
+            var h = container.Resolve<Host>();
+            var p = container.Resolve<Proxy>();
             var proxy = p.RemoteStorage();
 
-            //proxy.SendFile(Guid.Empty, new FileTransferInfo());
             var res = proxy.Ping();
             System.Console.WriteLine(res);
             
+            proxy.SendFile(Guid.Empty, new FileTransferInfo());
 
             System.Console.ReadKey();
             h.Dispose();
