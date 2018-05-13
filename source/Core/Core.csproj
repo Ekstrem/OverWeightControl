@@ -50,6 +50,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.Channels" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -90,6 +91,9 @@
     <Compile Include="RemoteInteraction\Host.cs" />
     <Compile Include="RemoteInteraction\Proxy.cs" />
     <Compile Include="RemoteInteraction\SendResult.cs" />
+    <Compile Include="RemoteInteraction\UnityInstanceProvider.cs" />
+    <Compile Include="RemoteInteraction\UnityServiceBehavior.cs" />
+    <Compile Include="RemoteInteraction\UnityServiceHostFactory.cs" />
     <Compile Include="Unity\DecoratorBuildStrategy.cs" />
     <Compile Include="Unity\DecoratorContainerExtension.cs" />
     <Compile Include="Console\DefaultConsoleService.cs" />

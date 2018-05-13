@@ -11,7 +11,7 @@ namespace OverWeightControl.Core.RemoteInteraction
     {
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
-        public IChannelFactory _factory;
+        private ChannelFactory<IRemoteInteraction> _factory;
 
         #region LifeTime
 
@@ -32,15 +32,16 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         #endregion
 
+        public CommunicationState State => _factory.State;
+
         public IRemoteInteraction RemoteStorage()
         {
             try
             {
                 var binding = GetBinding();
                 var address = new EndpointAddress(GetAddress(binding).AbsoluteUri);
-                var factory = new ChannelFactory<IRemoteInteraction>(binding, address);
-                _factory = factory;
-                return (IRemoteInteraction) factory;
+                _factory = new ChannelFactory<IRemoteInteraction>(binding, address);
+                return  _factory.CreateChannel();
             }
             catch (Exception e)
             {
@@ -66,7 +67,7 @@ namespace OverWeightControl.Core.RemoteInteraction
                     host: _settings.Key(ArgsKeyList.ServerName),
                     port: int.Parse(_settings.Key(ArgsKeyList.Port)),
                     pathValue: $"{typeof(IRemoteInteraction).Name}.svc");
-                return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}/{uriBuilder.Path}");
+                return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}/{uriBuilder.Path}");
             }
             catch (Exception e)
             {

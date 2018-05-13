@@ -6,6 +6,7 @@ using System.ServiceModel.Description;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.Settings;
+using Unity;
 
 namespace OverWeightControl.Core.RemoteInteraction
 {
@@ -13,16 +14,19 @@ namespace OverWeightControl.Core.RemoteInteraction
     {
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
+        private readonly IUnityContainer _container;
         private ServiceHost _host;
 
         #region LifeTime
 
         public Host(
             IConsoleService console,
-            ISettingsStorage settings)
+            ISettingsStorage settings,
+            IUnityContainer container)
         {
             _console = console;
             _settings = settings;
+            _container = container;
             HostStorageCommitment();
         }
 
@@ -33,11 +37,16 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         public void Dispose()
         {
-            _host.Close();
-            _host = null;
+            if (_host != null)
+            {
+                _host.Close();
+                _host = null;
+            }
         }
 
         #endregion
+
+        public CommunicationState State => _host.State;
 
         public bool HostStorageCommitment()
         {
@@ -46,13 +55,18 @@ namespace OverWeightControl.Core.RemoteInteraction
                 var binding = GetBinding();
                 var uri = GetAddress(binding);
                 _host = new ServiceHost(typeof(RecivingFiles), uri);
+                _host.Opening += _host_Opening;
                 _host.AddServiceEndpoint(
                     typeof(IRemoteInteraction),
                     binding,
                     uri);
 
                 AddServiceMetadata();
-                
+
+                _host.Description.Behaviors.Add(_container.Resolve<UnityServiceBehavior>());
+
+                _host.Open();
+
                 return true;
             }
             catch (Exception e)
@@ -60,6 +74,14 @@ namespace OverWeightControl.Core.RemoteInteraction
                 _console?.AddException(e);
                 return false;
             }
+        }
+
+        private void _host_Opening(object sender, EventArgs e)
+        {
+            return;
+            /* Description.Behaviors.Add(_container.RestrictedResolve<UnityServiceBehavior>());
+
+            base.OnOpening(); */
         }
 
         private void AddServiceMetadata()
@@ -91,7 +113,7 @@ namespace OverWeightControl.Core.RemoteInteraction
                     host: _settings.Key(ArgsKeyList.ServerName),
                     port: int.Parse(_settings.Key(ArgsKeyList.Port)),
                     pathValue: $"{typeof(IRemoteInteraction).Name}.svc");
-                return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}/{uriBuilder.Path}");
+                return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}/{uriBuilder.Path}");
             }
             catch (Exception e)
             {
@@ -125,7 +147,7 @@ namespace OverWeightControl.Core.RemoteInteraction
             var tcpBinding = GetBinding();
             try
             {
-                var binding = (CustomBinding)Activator.CreateInstance(
+                var binding = (CustomBinding) Activator.CreateInstance(
                     typeof(CustomBinding), tcpBinding);
                 var rbe = new ReliableSessionBindingElement();
                 binding.Elements.Add(rbe);

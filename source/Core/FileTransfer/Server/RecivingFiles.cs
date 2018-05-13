@@ -97,6 +97,11 @@ namespace OverWeightControl.Core.FileTransfer.Server
             throw new NotImplementedException();
         }
 
+        public string Ping()
+        {
+            return "Pong";
+        }
+
         #endregion
 
     }
