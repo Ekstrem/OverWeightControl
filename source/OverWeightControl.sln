@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParrentUI", "ParrentUI\Parr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.BelModel", "Common.BelModel\Common.BelModel.csproj", "{B0553610-1D34-4A94-9AC1-FE0B3B6A4FDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.RemoteInteraction", "Core.RemoteInteraction\Core.RemoteInteraction.csproj", "{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.RemoteInteraction.Test", "Core.RemoteInteraction\Core.RemoteInteraction.Test.csproj", "{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
