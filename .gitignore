@@ -8,7 +8,7 @@ bin/*.pdb
 bin/*.config
 bin/*.Test.exe
 bin/*.Tests.exe
-bin/*.xml
+bin/xunit.*.dll
 source/.vs/*
 .vs/OverWeightControl/v15/.suo
 source/Common/obj/*
