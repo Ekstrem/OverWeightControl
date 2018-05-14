@@ -59,6 +59,8 @@ namespace OverWeightControl
         {
             try
             {
+                if (CompositionRoot.Instance.NodeRoles == null)
+                    CompositionRoot.Instance.NodeRoles = new List<NodeRole>();
                 CompositionRoot.Instance.NodeRoles.Clear();
                 if (checkBox1.Checked)
                     CompositionRoot.Instance.NodeRoles.Add(NodeRole.PPVK);

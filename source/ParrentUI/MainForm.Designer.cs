@@ -46,6 +46,8 @@
             this.openHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.progressListControl1 = new OverWeightControl.Clients.ParrentUI.ProgressListControl();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -186,11 +188,30 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.aboutToolStripMenuItem.Text = "О программе";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(128, 59);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(291, 19);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Прогресс очереди синхронизации:";
+            // 
+            // progressListControl1
+            // 
+            this.progressListControl1.Location = new System.Drawing.Point(31, 93);
+            this.progressListControl1.Name = "progressListControl1";
+            this.progressListControl1.Size = new System.Drawing.Size(520, 274);
+            this.progressListControl1.TabIndex = 2;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 774);
+            this.Controls.Add(this.progressListControl1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
@@ -222,5 +243,7 @@
         private System.Windows.Forms.ToolStripMenuItem openHelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private ProgressListControl progressListControl1;
     }
 }

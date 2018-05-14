@@ -239,6 +239,7 @@ namespace OverWeightControl
             File.WriteAllText(_fullName, json);
         }
 
+        [JsonProperty]
         internal ICollection<NodeRole> NodeRoles { get; set; }
     }
 }

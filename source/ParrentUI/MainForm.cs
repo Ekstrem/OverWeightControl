@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using OverWeightControl.Core.FileTransfer.WorkFlow;
 using Unity;
 using Unity.Attributes;
+using Unity.Injection;
 
 namespace OverWeightControl.Clients.ParrentUI
 {
     public partial class MainForm : Form
     {
         private readonly IUnityContainer _container;
+        private Timer _timer = new Timer {Interval = 60000};
 
         [InjectionConstructor]
         public MainForm(IUnityContainer container)
@@ -31,6 +34,8 @@ namespace OverWeightControl.Clients.ParrentUI
             storageCommitmentToolStripMenuItem.Visible = false;
             verificationStationToolStripMenuItem.Visible = false;
             reportsStationToolStripMenuItem.Visible = false;
+            label1.Visible = false;
+            progressListControl1.Visible = false;
             adminingToolStripMenuItem.Visible = adminMode;
 
             if (roles == null)
@@ -42,12 +47,33 @@ namespace OverWeightControl.Clients.ParrentUI
                 {
                     case NodeRole.PPVK:
                         syncToolStripMenuItem.Visible = true;
+                        label1.Visible = true;
+                        progressListControl1.Visible = true;
+                        _timer.Tick += (s, e) =>
+                            progressListControl1.LoadData(
+                                _container.Resolve<IWorkFlowProducerConsumer>()
+                                    .GetStatistic());
+                        _timer.Start();
                         break;
                     case NodeRole.AFC:
                         storageCommitmentToolStripMenuItem.Visible = true;
+                        label1.Visible = true;
+                        progressListControl1.Visible = true;
+                        _timer.Tick += (s, e) =>
+                            progressListControl1.LoadData(
+                                _container.Resolve<IWorkFlowProducerConsumer>()
+                                    .GetStatistic());
+                        _timer.Start();
                         break;
                     case NodeRole.VerificationStation:
                         verificationStationToolStripMenuItem.Visible = true;
+                        label1.Visible = true;
+                        progressListControl1.Visible = true;
+                        _timer.Tick += (s, e) =>
+                            progressListControl1.LoadData(
+                                _container.Resolve<IWorkFlowProducerConsumer>()
+                                    .GetStatistic());
+                        _timer.Start();
                         break;
                     case NodeRole.ReportsStation:
                         reportsStationToolStripMenuItem.Visible = true;
