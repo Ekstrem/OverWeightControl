@@ -8,7 +8,7 @@ using OverWeightControl.Core.Settings;
 
 namespace OverWeightControl.Core.FileTransfer.WorkFlow
 {
-    public abstract class WorkFlowBase : IWorkFlowProducerConsumer, IWorkflowStatistic
+    public abstract class WorkFlowBase : IWorkFlowProducerConsumer
     {
         protected IProducerConsumerCollection<FileTransferInfo> _queue;
         protected readonly ISettingsStorage _settings;
