@@ -1,0 +1,2 @@
+OverWeightControl.exe -admin
+close
