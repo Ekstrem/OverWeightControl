@@ -105,7 +105,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
         public int Count => _queue.Count;
 
         public abstract string Description { get; }
-        public IDictionary<string, int> GetStatistic()
+        public virtual IDictionary<string, int> GetStatistic()
         {
             var dic = new Dictionary<string, int>
             {

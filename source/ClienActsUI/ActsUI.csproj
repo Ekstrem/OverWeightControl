@@ -112,6 +112,12 @@
     <Compile Include="ValidatioinControl.Designer.cs">
       <DependentUpon>ValidatioinControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="ValidationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ValidationForm.Designer.cs">
+      <DependentUpon>ValidationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="VehicleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -149,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ValidatioinControl.resx">
       <DependentUpon>ValidatioinControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValidationForm.resx">
+      <DependentUpon>ValidationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VehicleControl.resx">
       <DependentUpon>VehicleControl.cs</DependentUpon>

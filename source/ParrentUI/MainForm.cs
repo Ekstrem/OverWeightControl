@@ -17,7 +17,7 @@ namespace OverWeightControl.Clients.ParrentUI
             TopLevel = true;
 
             // Станция верфикации
-            actListVerificationToolStripMenuItem.Click += (s, e) => StartForm("ActEditForm");
+            actListVerificationToolStripMenuItem.Click += (s, e) => StartForm("ValidationForm");
             // actVerificationWizardToolStripMenuItem.Click += (s, e) =>
 
             // Администрирование

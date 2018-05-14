@@ -85,6 +85,13 @@ namespace OverWeightControl
                     Realization = typeof(PackageAdmining),
                     Name = nameof(PackageAdmining),
                     Register = true
+                },
+                new Dependency(3)
+                {
+                    Abstractions = typeof(Form),
+                    Realization = typeof(ValidationForm),
+                    Name = nameof(ValidationForm),
+                    Register = true
                 }
             };
         }

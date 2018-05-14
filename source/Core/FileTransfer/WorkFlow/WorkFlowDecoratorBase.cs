@@ -119,11 +119,10 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
             }
         }
 
-        public IDictionary<string, int> GetStatistic()
+        public override IDictionary<string, int> GetStatistic()
         {
             var dic = new Dictionary<string, int>(
-                ((IWorkflowStatistic)_consumer).GetStatistic());
-            dic.Add(Description, Count);
+                ((IWorkflowStatistic)_consumer).GetStatistic()) {{Description, Count}};
             return dic;
         }
     }
