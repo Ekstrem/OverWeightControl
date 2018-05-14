@@ -44,8 +44,8 @@
             this.nodeRolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openHelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,13 +146,13 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.settingsToolStripMenuItem.Text = "Настройки";
             // 
             // nodeRolesToolStripMenuItem
             // 
             this.nodeRolesToolStripMenuItem.Name = "nodeRolesToolStripMenuItem";
-            this.nodeRolesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nodeRolesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
             this.nodeRolesToolStripMenuItem.Text = "Роли узла ИС";
             // 
             // helpToolStripMenuItem
@@ -172,19 +172,19 @@
             this.openHelpToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.openHelpToolStripMenuItem.Text = "Помощь";
             // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Enabled = false;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.aboutToolStripMenuItem.Text = "О программе";
-            // 
             // checkForUpdatesToolStripMenuItem
             // 
             this.checkForUpdatesToolStripMenuItem.Enabled = false;
             this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
             this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.checkForUpdatesToolStripMenuItem.Text = "Проверить обновления";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Enabled = false;
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.aboutToolStripMenuItem.Text = "О программе";
             // 
             // MainForm
             // 
@@ -194,7 +194,7 @@
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
-            this.Text = "Информационная система";
+            this.Text = "Информационная система оцифровки данных о перевесе на станциях ППВК";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
