@@ -45,5 +45,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
         WorkFlowCancelationToken CancelationToken { get; set; }
 
         int Count { get; }
+
+        IDictionary<string, int> GetStatistic();
     }
 }
