@@ -59,6 +59,17 @@ namespace OverWeightControl.Common.BelModel
                 try
                 {
                     act.Vehicle = new VehicleInfo(act.Id);
+                    act.Vehicle.CarriageType = blankValues.typeGoods.recognizedValue;
+                    act.Vehicle.FederalHighwaysDistance = String.Empty;
+                    act.Vehicle.VehicleCompanyAddress = blankValues.addressOrganization.recognizedValue;
+                    act.Vehicle.VehicleCountry = blankValues.country.recognizedValue;
+                    act.Vehicle.VehicleOwner = blankValues.fullNameOwner.recognizedValue;
+                    act.Vehicle.VehicleRoute = String.Empty;
+                    act.Vehicle.VehicleShipper = blankValues.from.recognizedValue;
+                    act.Vehicle.VehicleSubjectCode = 
+                        int.TryParse(blankValues.code.recognizedValue, out int code)
+                            ? code : default(int);
+                    // act.Vehicle.Detail
                 }
                 catch (Exception e)
                 {
@@ -67,6 +78,23 @@ namespace OverWeightControl.Common.BelModel
                 try
                 {
                     act.Cargo = new CargoInfo(act.Id);
+                    act.Cargo.CargoCharacter = blankValues.goodsCharacteristics.recognizedValue;
+                    act.Cargo.CargoSpecialAllow = 
+                        float.TryParse(blankValues.special.recognizedValue, out float spetial)
+                            ? spetial : default(float);
+                    act.Cargo.CargoType = blankValues.typeGoods.recognizedValue;
+                    act.Cargo.DriverExplanation = blankValues.reason.recognizedValue;
+                    /*act.Cargo.FactWeight = blankValues.weighingMachineNumber.value
+                    act.Cargo.LegLength = ;
+                    act.Cargo.FactWeight = ;
+                    act.Cargo.LegalWeight = ;
+                    act.Cargo.OtherViolation = ;
+                    act.Cargo.PercentWeightOverflow = ;
+                    act.Cargo.Pass = ;
+                    act.Cargo.ValetWeight = ;
+                    act.Cargo.Tariffs = ;
+                    act.Cargo.RoadSection = ;*/
+                    //act.Cargo.Axises = ;
                 }
                 catch (Exception e)
                 {
