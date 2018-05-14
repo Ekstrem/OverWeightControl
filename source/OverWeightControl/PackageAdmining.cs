@@ -33,6 +33,10 @@ namespace OverWeightControl
                 if (((Form)s).DialogResult == DialogResult.OK)
                     Save();
             };
+
+            tabPage1.Leave += (s, e) => UpdateData(CompositionRoot.Instance.NodeRoles);
+            tabPage1.Leave += (s, e) =>
+                dependencyListControl2.LoadData(CompositionRoot.Instance.WorkFlowDependencies);
         }
 
         #region IEditable<ICollection<NodeRole>> members
@@ -59,17 +63,17 @@ namespace OverWeightControl
         {
             try
             {
-                if (CompositionRoot.Instance.NodeRoles == null)
-                    CompositionRoot.Instance.NodeRoles = new List<NodeRole>();
-                CompositionRoot.Instance.NodeRoles.Clear();
+                if (data == null)
+                    data = new List<NodeRole>();
+                data.Clear();
                 if (checkBox1.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.PPVK);
+                    data.Add(NodeRole.PPVK);
                 if (checkBox2.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.AFC);
+                    data.Add(NodeRole.AFC);
                 if (checkBox3.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.VerificationStation);
+                    data.Add(NodeRole.VerificationStation);
                 if (checkBox4.Checked)
-                    CompositionRoot.Instance.NodeRoles.Add(NodeRole.ReportsStation);
+                    data.Add(NodeRole.ReportsStation);
 
                 return true;
             }

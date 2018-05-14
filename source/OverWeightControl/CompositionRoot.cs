@@ -25,7 +25,10 @@ namespace OverWeightControl
         private static string _fileName = "starts.cfg";
         private static string _fullName => $"{AppDomain.CurrentDomain.BaseDirectory}{_fileName}";
 
-        private CompositionRoot() { }
+        private CompositionRoot()
+        {
+            NodeRoles= new List<NodeRole>();
+        }
 
         internal static CompositionRoot Factory()
         {
@@ -127,19 +130,22 @@ namespace OverWeightControl
                 {
                     Abstractions = typeof(Host),
                     Realization = typeof(Host),
-                    Register = false
+                    Register = false,
+                    AllowRoles = new List<NodeRole> {NodeRole.AFC}
                 },
                 new Dependency(6)
                 {
                     Abstractions = typeof(Proxy),
                     Realization = typeof(Proxy),
-                    Register = false
+                    Register = false,
+                    AllowRoles = new List<NodeRole> {NodeRole.PPVK}
                 },
                 new Dependency(7)
                 {
                     Abstractions = typeof(DbContext),
                     Realization = typeof(ModelContext),
-                    Register = false
+                    Register = false,
+                    AllowRoles = new List<NodeRole> {NodeRole.VerificationStation, NodeRole.ReportsStation}
                 }
             };
         }
@@ -154,72 +160,108 @@ namespace OverWeightControl
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(FinderFiles),
-                    Name = nameof(FinderFiles)
+                    Name = nameof(FinderFiles),
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(2)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(BufferedFiles),
-                    Name = nameof(BufferedFiles)
+                    Name = nameof(BufferedFiles),
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(3)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(Md5HashComputerFiles),
-                    Name = nameof(Md5HashComputerFiles)
+                    Name = nameof(Md5HashComputerFiles),
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(4)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(CompresserFiles),
-                    Name = nameof(CompresserFiles)
+                    Name = nameof(CompresserFiles),
+                    Register = false,
+                    AllowRoles = new List<NodeRole>()
                 },
                 new Dependency(5)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(SenderFiles),
-                    Name = nameof(SenderFiles)
+                    Name = nameof(SenderFiles),
+                    AllowRoles = new List<NodeRole> {NodeRole.PPVK}
                 },
                 new Dependency(6)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(SenderFiles),
-                    Register = false
+                    Realization = typeof(BackUpFiles),
+                    Name = nameof(BackUpFiles),
+                    Register = false,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.AFC,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(7)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(BackUpFiles),
-                    Name = nameof(BackUpFiles),
-                    Register = false
+                    Realization = typeof(DeleteFiles),
+                    Name = nameof(DeleteFiles),
+                    Register = true,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.VerificationStation
+                    }
                 },
                 new Dependency(8)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(DeleteFiles),
-                    Name = nameof(DeleteFiles),
-                    Register = false
-                },
-                new Dependency(10)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(RecivingFiles),
                     Name = nameof(RecivingFiles),
-                    Register = false
+                    Register = false,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.AFC
+                    }
                 },
-                new Dependency(10)
+                new Dependency(9)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(UnCompresserFiles),
                     Name = nameof(UnCompresserFiles),
-                    Register = false
+                    Register = false,
+                    AllowRoles = new List<NodeRole>()
                 },
                 new Dependency(10)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(SaveForAfcFiles),
                     Name = nameof(SaveForAfcFiles),
-                    Register = false
+                    Register = false,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.AFC
+                    }
                 }
             };
         }

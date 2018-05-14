@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Unity.Lifetime;
 
@@ -13,18 +14,27 @@ namespace OverWeightControl
             Name = string.Empty;
             Lifetime = new ContainerControlledLifetimeManager();
             Register = true;
+            AllowRoles = new List<NodeRole>();
         }
 
         [JsonProperty]
         public int Order { get; set; }
+
         [JsonProperty]
         public Type Abstractions { get; set; }
+
         [JsonProperty]
         public Type Realization { get; set; }
+
         [JsonProperty]
         public string Name { get; set; }
+
         [JsonProperty]
         public bool Register { get; set; }
+
+        [JsonProperty]
+        public ICollection<NodeRole> AllowRoles { get; set; }
+
         [JsonIgnore]
         public LifetimeManager Lifetime { get; set; }
 

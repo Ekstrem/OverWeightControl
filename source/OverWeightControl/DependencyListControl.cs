@@ -74,6 +74,9 @@ namespace OverWeightControl
                 dataGrid.Rows.Clear();
                 foreach (var dep in data)
                 {
+                    dep.Register = dep.AllowRoles
+                        .Any(p => CompositionRoot.Instance.NodeRoles.Contains(p));
+
                     int rowNum = dataGrid.Rows.Add(
                         dep.Order,
                         dep.Abstractions.Name,
@@ -82,6 +85,8 @@ namespace OverWeightControl
                         dep.Register);
                     dataGrid.Rows[rowNum].Tag = dep;
                 }
+
+                dataGrid.Update();
 
                 return true;
             }
