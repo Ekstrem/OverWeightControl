@@ -42,7 +42,7 @@ namespace OverWeightControl.Core.Settings
                         $"{AppDomain.CurrentDomain.BaseDirectory}BackUp"
                     },
                     {ArgsKeyList.ArgsFileLocation, _argsFilePath},
-                    {ArgsKeyList.IsDebugMode, "true"},
+                    {ArgsKeyList.IsDebugMode, "false"},
                     {ArgsKeyList.WFProcWaitingFor, "60"},
                     {ArgsKeyList.ServerName, "127.0.0.1" },
                     {ArgsKeyList.Port, "16700"},
