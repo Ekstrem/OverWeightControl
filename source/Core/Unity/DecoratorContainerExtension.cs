@@ -15,6 +15,9 @@ namespace OverWeightControl.Core.Unity
         public DecoratorContainerExtension(params Type[] decorators)
             : base()
         {
+            _typeStacks = new Dictionary<Type, List<Type>>();
+            _allowedDecorators = new HashSet<Type>();
+
             foreach (var decorator in decorators)
             {
                 _allowedDecorators.Add(decorator);
@@ -23,14 +26,12 @@ namespace OverWeightControl.Core.Unity
 
         protected override void Initialize()
         {
-            _typeStacks = new Dictionary<Type, List<Type>>();
             Context.Registering += AddRegistration;
 
             Context.Strategies.Add(
                 new DecoratorBuildStrategy(_typeStacks),
                 UnityBuildStage.PreCreation
             );
-            _allowedDecorators = new HashSet<Type>();
         }
 
         private void AddRegistration(
