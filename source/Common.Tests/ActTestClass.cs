@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using OverWeightControl.Common.BelModel;
 using OverWeightControl.Common.RawData;
@@ -38,7 +39,10 @@ namespace OverWeightControl.Common.Tests
         private static void TestBel()
         {
             var json = File.ReadAllText("C:\\Users\\Евгений\\Downloads\\Telegram Desktop\\response.json");
-            var res = JsonConvert.DeserializeObject(json, typeof(BlankList));
+            var res = JsonConvert.DeserializeObject<BlankList>(json).blankValues;
+            var a = res.weightOfCargo.value[0].value[0].recognizedValue;
+            var b = res.distanceBetween.value
+                .Select(m => new KeyValuePair<int?, string>(m.index, m.recognizedValue));
         }
 
         private static void TestBd(Act act)

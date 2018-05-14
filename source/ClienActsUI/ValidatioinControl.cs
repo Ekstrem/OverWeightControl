@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OverWeightControl.Clients.ActsUI;
+using OverWeightControl.Common.BelModel;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer;
@@ -83,18 +84,20 @@ namespace OverWeightControl.Clients.ParrentUI
         public void Work()
         {
             var form = (ActEditForm)_container.Resolve<Form>("ActEditForm");
-            var act = new Act().LoadFromJson(LoadJsonFile());
-            if (ActEditForm.ShowModal(_container, act) != null)
-            {
-                _context.Acts.Add(act);
-                _context.SaveChanges();
+            var act = _settings.GetArgs().ContainsKey(ArgsKeyList.Mode)
+                      && _settings.Key(ArgsKeyList.Mode).Equals("Act")
+                ? new Act().LoadFromJson(LoadJsonFile())
+                : BlankList.GetList(LoadJsonFile()).ToModelFormat();
+            if (ActEditForm.ShowModal(_container, act) == null) return;
 
-                var item = listBox1.Items[listBox1.SelectedIndex].ToString();
-                var storeFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{_items[item].Id}";
-                File.Delete(storeFileName);
-                _items.Remove(item);
-                listBox1.Items.RemoveAt(listBox1.SelectedIndex);
-            }
+            _context.Acts.Add(act);
+            _context.SaveChanges();
+
+            var item = listBox1.Items[listBox1.SelectedIndex].ToString();
+            var storeFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{_items[item].Id}";
+            File.Delete(storeFileName);
+            _items.Remove(item);
+            listBox1.Items.RemoveAt(listBox1.SelectedIndex);
         }
     }
 }

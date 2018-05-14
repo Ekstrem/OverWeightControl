@@ -44,11 +44,14 @@ namespace OverWeightControl.Core.Settings
                     {ArgsKeyList.ArgsFileLocation, _argsFilePath},
                     {ArgsKeyList.IsDebugMode, "false"},
                     {ArgsKeyList.WFProcWaitingFor, "60"},
-                    {ArgsKeyList.ServerName, "127.0.0.1" },
+                    {ArgsKeyList.ServerName, "127.0.0.1"},
                     {ArgsKeyList.Port, "16700"},
-                    {ArgsKeyList.ScanExt, "*.pdf" },
-                    {ArgsKeyList.AFC,
-                        $"{AppDomain.CurrentDomain.BaseDirectory}AFC" }
+                    {ArgsKeyList.ScanExt, "*.pdf"},
+                    {
+                        ArgsKeyList.AFC,
+                        $"{AppDomain.CurrentDomain.BaseDirectory}AFC"
+                    },
+                    {ArgsKeyList.Mode, "BelModel"}
                 };
         }
 

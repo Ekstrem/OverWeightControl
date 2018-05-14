@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Newtonsoft.Json;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Common.RawData;
@@ -69,7 +71,7 @@ namespace OverWeightControl.Common.BelModel
                     act.Vehicle.VehicleSubjectCode = 
                         int.TryParse(blankValues.code.recognizedValue, out int code)
                             ? code : default(int);
-                    // act.Vehicle.Detail
+                    //act.Vehicle.Detail
                 }
                 catch (Exception e)
                 {
@@ -79,29 +81,72 @@ namespace OverWeightControl.Common.BelModel
                 {
                     act.Cargo = new CargoInfo(act.Id);
                     act.Cargo.CargoCharacter = blankValues.goodsCharacteristics.recognizedValue;
-                    act.Cargo.CargoSpecialAllow = 
-                        float.TryParse(blankValues.special.recognizedValue, out float spetial)
-                            ? spetial : default(float);
                     act.Cargo.CargoType = blankValues.typeGoods.recognizedValue;
                     act.Cargo.DriverExplanation = blankValues.reason.recognizedValue;
-                    /*act.Cargo.FactWeight = blankValues.weighingMachineNumber.value
-                    act.Cargo.LegLength = ;
-                    act.Cargo.FactWeight = ;
-                    act.Cargo.LegalWeight = ;
-                    act.Cargo.OtherViolation = ;
-                    act.Cargo.PercentWeightOverflow = ;
-                    act.Cargo.Pass = ;
-                    act.Cargo.ValetWeight = ;
-                    act.Cargo.Tariffs = ;
-                    act.Cargo.RoadSection = ;*/
-                    //act.Cargo.Axises = ;
+                    act.Cargo.FactWeight =
+                        float.TryParse(blankValues.weightOfCargo.value[0].value[0].recognizedValue,
+                            out float factweight)
+                            ? factweight
+                            : default(float);
+                    act.Cargo.LegalWeight =
+                        float.TryParse(blankValues.weightOfCargo.value[3].value[0].recognizedValue,
+                            out float legalWeight)
+                            ? legalWeight
+                            : default(float);
+                    act.Cargo.PercentWeightOverflow =
+                        float.TryParse(blankValues.weightOfCargo.value[1].value[0].recognizedValue,
+                            out float pOwerWeight)
+                            ? pOwerWeight
+                            : default(float);
+                    act.Cargo.ValetWeight =
+                        float.TryParse(blankValues.weightOfCargo.value[2].value[0].recognizedValue,
+                            out float valetWeight)
+                            ? valetWeight
+                            : default(float);
+                    act.Cargo.CargoSpecialAllow =
+                        float.TryParse(blankValues.weightOfCargo.value[2].value[0].recognizedValue,
+                            out float specialAllowWeight)
+                            ? specialAllowWeight
+                            : default(float);
+                    act.Cargo.Pass = String.Empty;
+                    act.Cargo.OtherViolation = String.Empty;
+                    act.Cargo.LegLength = default(float);
+                    act.Cargo.Tariffs = default(int);
+                    act.Cargo.RoadSection = String.Empty;
+
+                    act.Cargo.Axises = new List<AxisInfo>(
+                        blankValues.distanceBetween.value
+                            .Select(m => new AxisInfo
+                            {
+                                AxisNum = m.index.GetValueOrDefault(0).ToString(),
+                                Distance2NextAxis =
+                                    int.TryParse(m.recognizedValue, out int dist)
+                                        ? dist
+                                        : default(int)
+                            }));
+                    var axelLoads = blankValues.axleLoads.value[0].value
+                        .Select(m => new KeyValuePair<int, string>(
+                            m.index.GetValueOrDefault(0), m.recognizedValue));
+                    foreach (var axelLoad in axelLoads)
+                    {
+                        var axel = act.Cargo.Axises.First(f => f.AxisNum == axelLoad.Key.ToString());
+                        if (axel != null)
+                        {
+                            axel.UsedAxisAllow =
+                                float.TryParse(axelLoad.Value, out float axelUsedLoad)
+                                    ? axelUsedLoad
+                                    : default(float);
+                        }
+                    }
+                    
+                    var ai = new AxisInfo();
+                    
+                    //act.Cargo.Axises
                 }
                 catch (Exception e)
                 {
                 }
-
-
-
+                
                 return act;
             }
             catch (Exception e)
