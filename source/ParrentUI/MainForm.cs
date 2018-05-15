@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Timers;
 using System.Windows.Forms;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using Unity;
@@ -10,7 +11,6 @@ namespace OverWeightControl.Clients.ParrentUI
     public partial class MainForm : Form
     {
         private readonly IUnityContainer _container;
-        private Timer _timer = new Timer {Interval = 60000};
 
         [InjectionConstructor]
         public MainForm(IUnityContainer container)
@@ -49,31 +49,16 @@ namespace OverWeightControl.Clients.ParrentUI
                         syncToolStripMenuItem.Visible = true;
                         label1.Visible = true;
                         progressListControl1.Visible = true;
-                        _timer.Tick += (s, e) =>
-                            progressListControl1.LoadData(
-                                _container.Resolve<IWorkFlowProducerConsumer>()
-                                    .GetStatistic());
-                        _timer.Start();
                         break;
                     case NodeRole.AFC:
                         storageCommitmentToolStripMenuItem.Visible = true;
                         label1.Visible = true;
                         progressListControl1.Visible = true;
-                        _timer.Tick += (s, e) =>
-                            progressListControl1.LoadData(
-                                _container.Resolve<IWorkFlowProducerConsumer>()
-                                    .GetStatistic());
-                        _timer.Start();
                         break;
                     case NodeRole.VerificationStation:
                         verificationStationToolStripMenuItem.Visible = true;
                         label1.Visible = true;
                         progressListControl1.Visible = true;
-                        _timer.Tick += (s, e) =>
-                            progressListControl1.LoadData(
-                                _container.Resolve<IWorkFlowProducerConsumer>()
-                                    .GetStatistic());
-                        _timer.Start();
                         break;
                     case NodeRole.ReportsStation:
                         reportsStationToolStripMenuItem.Visible = true;

@@ -7,13 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OverWeightControl.Core.FileTransfer.WorkFlow;
+using Unity;
+using Unity.Attributes;
 
 namespace OverWeightControl.Clients.ParrentUI
 {
     public partial class ProgressListControl : UserControl
     {
-        public ProgressListControl()
+        private readonly IUnityContainer _container;
+        private readonly IWorkFlowProducerConsumer _worker;
+
+        [InjectionConstructor]
+        public ProgressListControl(
+            IUnityContainer container,
+            IWorkFlowProducerConsumer worker)
         {
+            _container = container;
+            _worker = worker;
             InitializeComponent();
         }
 

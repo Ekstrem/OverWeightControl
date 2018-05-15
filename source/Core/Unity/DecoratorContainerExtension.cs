@@ -9,13 +9,13 @@ namespace OverWeightControl.Core.Unity
     public class DecoratorContainerExtension
         : UnityContainerExtension
     {
-        private Dictionary<Type, List<Type>> _typeStacks;
+        private Dictionary<Type, Queue<Type>> _typeStacks;
         private static HashSet<Type> _allowedDecorators;
 
         public DecoratorContainerExtension(params Type[] decorators)
             : base()
         {
-            _typeStacks = new Dictionary<Type, List<Type>>();
+            _typeStacks = new Dictionary<Type, Queue<Type>>();
             _allowedDecorators = new HashSet<Type>();
 
             foreach (var decorator in decorators)
@@ -45,10 +45,10 @@ namespace OverWeightControl.Core.Unity
                 return;
             }
 
-            List<Type> stack = null;
+            Queue<Type> stack = null;
             if (!_typeStacks.ContainsKey(type))
             {
-                stack = new List<Type>();
+                stack = new Queue<Type>();
                 _typeStacks.Add(type, stack);
             }
             else
@@ -56,7 +56,7 @@ namespace OverWeightControl.Core.Unity
                 stack = _typeStacks[type];
             }
 
-            stack.Add(type);
+            stack.Enqueue(type);
         }
 
         public static void AllowType<T>() => _allowedDecorators.Add(typeof(T));

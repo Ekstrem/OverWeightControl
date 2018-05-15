@@ -1,4 +1,6 @@
-﻿namespace OverWeightControl.Clients.ParrentUI
+﻿using Unity;
+
+namespace OverWeightControl.Clients.ParrentUI
 {
     partial class MainForm
     {
@@ -47,7 +49,7 @@
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
-            this.progressListControl1 = new OverWeightControl.Clients.ParrentUI.ProgressListControl();
+            this.progressListControl1 = _container.Resolve<ProgressListControl>();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
