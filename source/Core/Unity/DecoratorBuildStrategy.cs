@@ -8,17 +8,17 @@ namespace OverWeightControl.Core.Unity
 {
     public class DecoratorBuildStrategy : BuilderStrategy
     {
-        private readonly Dictionary<Type, List<Type>> _typeStacks;
+        private readonly Dictionary<Type, Queue<Type>> _typeStacks;
 
         public DecoratorBuildStrategy(
-            Dictionary<Type, List<Type>> typeStacks)
+            Dictionary<Type, Queue<Type>> typeStacks)
         {
             _typeStacks = typeStacks;
         }
 
         public override void PreBuildUp(IBuilderContext context)
         {
-            var key = context.OriginalBuildKey;
+             var key = context.OriginalBuildKey;
 
             if (!(key.Type.IsInterface
                 && _typeStacks.ContainsKey(key.Type))
@@ -28,7 +28,7 @@ namespace OverWeightControl.Core.Unity
             }
 
             
-            var stack = new Queue<Type>(_typeStacks[key.Type]);
+            var stack = _typeStacks[key.Type];
 
             object value = null;
             while (stack.Count != 0)
