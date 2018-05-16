@@ -108,23 +108,51 @@ namespace OverWeightControl
                 new Dependency(1)
                 {
                     Abstractions = typeof(IConsoleService),
-                    Realization = typeof(DefaultConsoleService)
+                    Realization = typeof(DefaultConsoleService),
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.AFC,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(2)
                 {
                     Abstractions = typeof(ISettingsStorage),
-                    Realization = typeof(DefaultSettingsStorage)
+                    Realization = typeof(DefaultSettingsStorage),
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.AFC,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(3)
                 {
                     Abstractions = typeof(ArgsFileLocation),
-                    Realization = typeof(ArgsFileLocation)
+                    Realization = typeof(ArgsFileLocation),
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.AFC,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(4)
                 {
                     Abstractions = typeof(IConsoleService),
                     Realization = typeof(FileConsoleServiceService),
-                    Register = false
+                    Register = false,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.AFC,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(5)
                 {
