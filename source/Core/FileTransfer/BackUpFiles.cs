@@ -54,7 +54,7 @@ namespace OverWeightControl.Core.FileTransfer
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
             var storeFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
-            var buFileName = $"{_settings.Key(ArgsKeyList.BackUpPath)}\\{fileTransferInfo.Id}";
+            var buFileName = $"{_settings.Key(ArgsKeyList.BackUpPath)}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
             File.Copy(storeFileName, buFileName);
             return fileTransferInfo;
         }
