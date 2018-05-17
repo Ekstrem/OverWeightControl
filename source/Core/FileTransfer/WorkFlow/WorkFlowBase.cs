@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
+using Unity.Attributes;
+using Unity.Injection;
 
 namespace OverWeightControl.Core.FileTransfer.WorkFlow
 {
@@ -16,6 +18,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
 
         protected WorkFlowBase() { }
 
+        [InjectionConstructor]
         protected WorkFlowBase(
             ISettingsStorage settings,
             IConsoleService console)

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Builder;
 using Unity.Events;
 using Unity.Extension;
+using Unity.Interception.Utilities;
 
 namespace OverWeightControl.Core.Unity
 {
@@ -39,8 +41,9 @@ namespace OverWeightControl.Core.Unity
             RegisterEventArgs e)
         {
             var type = e.TypeFrom;
-            if (!_allowedDecorators.Contains(type)
-                || !type.IsInterface)
+            var b = e.TypeTo.GetInterfaces()
+                .Any(f => _allowedDecorators.Contains(f));
+            if (!b)
             {
                 return;
             }
@@ -56,7 +59,7 @@ namespace OverWeightControl.Core.Unity
                 stack = _typeStacks[type];
             }
 
-            stack.Enqueue(type);
+            stack.Enqueue(e.TypeTo);
         }
 
         public static void AllowType<T>() => _allowedDecorators.Add(typeof(T));

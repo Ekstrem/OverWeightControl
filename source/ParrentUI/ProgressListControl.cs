@@ -25,6 +25,7 @@ namespace OverWeightControl.Clients.ParrentUI
         {
             _container = container;
             _worker = worker;
+            worker.WorkFlow();
             InitializeComponent();
         }
 

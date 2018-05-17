@@ -32,7 +32,10 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
             CancelationToken = WorkFlowCancelationToken.Ready;
         }
 
-        public virtual void Dispose() { }
+        public virtual void Dispose()
+        {
+            CancelationToken = WorkFlowCancelationToken.Stoped;
+        }
 
         #endregion
 
@@ -64,7 +67,8 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
             FileTransferInfo fti = null;
             try
             {
-                while (_consumer.TryTake(out fti))
+                while (_consumer.TryTake(out fti)
+                    && CancelationToken == WorkFlowCancelationToken.Started)
                 {
                     var buf = DetailedProc(fti);
                     if (buf != null)
@@ -114,8 +118,14 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
             get => base.CancelationToken;
             set
             {
-                _consumer.CancelationToken = value;
                 base.CancelationToken = value;
+                while (CancelationToken == WorkFlowCancelationToken.Stoped
+                    && TryTake(out var fti))
+                {
+                    _consumer.TryAdd(fti);
+                }
+                
+                _consumer.CancelationToken = value;
             }
         }
 
