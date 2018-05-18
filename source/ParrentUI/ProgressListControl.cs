@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using Unity;
 using Unity.Attributes;
+using Timer = System.Timers.Timer;
 
 namespace OverWeightControl.Clients.ParrentUI
 {
@@ -17,6 +18,7 @@ namespace OverWeightControl.Clients.ParrentUI
     {
         private readonly IUnityContainer _container;
         private readonly IWorkFlowProducerConsumer _worker;
+        private readonly Timer _timer = new Timer(5000);
 
         [InjectionConstructor]
         public ProgressListControl(
@@ -25,15 +27,24 @@ namespace OverWeightControl.Clients.ParrentUI
         {
             _container = container;
             _worker = worker;
-            worker.WorkFlow();
+            worker?.WorkFlow();
             InitializeComponent();
+
+            _timer.Elapsed += (s, e) => LoadData(
+                _worker.GetStatistic());
+            _timer.Start();
         }
 
         public void LoadData(IDictionary<string, int> queue)
         {
+            var result = queue.Select(i => $"{i.Key}: {i.Value}").ToArray();
+            
+        }
+
+        private void View(string[] result)
+        {
             listBox1.Items.Clear();
-            foreach (var i in queue)
-                listBox1.Items.Add($"{i.Key}: {i.Value}");
+            listBox1.Items.AddRange(result);
         }
     }
 }

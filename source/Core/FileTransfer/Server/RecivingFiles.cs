@@ -58,6 +58,8 @@ namespace OverWeightControl.Core.FileTransfer.Server
             return false;
         }
 
+        public override void WorkFlow() { }
+
         public override string Description => "Получено файлов:";
 
         #region IRemoteInteraction
