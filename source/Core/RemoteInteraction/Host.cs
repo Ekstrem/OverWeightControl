@@ -141,7 +141,6 @@ namespace OverWeightControl.Core.RemoteInteraction
                 binding.TransferMode = TransferMode.StreamedRequest;
                 binding.MaxBufferSize = int.MaxValue;
                 binding.MaxReceivedMessageSize = int.MaxValue;
-                binding.TransferMode = TransferMode.StreamedRequest;
 
                 return binding;
             }

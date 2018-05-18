@@ -32,13 +32,13 @@ namespace OverWeightControl.Clients.ParrentUI
 
             _timer.Elapsed += (s, e) => LoadData(
                 _worker.GetStatistic());
+            
             _timer.Start();
         }
 
         public void LoadData(IDictionary<string, int> queue)
         {
             var result = queue.Select(i => $"{i.Key}: {i.Value}").ToArray();
-            
         }
 
         private void View(string[] result)
