@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
@@ -16,9 +17,10 @@ namespace OverWeightControl.Clients.ParrentUI
 {
     public partial class ProgressListControl : UserControl
     {
+        private const int _timerDelay = 15000;
         private readonly IUnityContainer _container;
         private readonly IWorkFlowProducerConsumer _worker;
-        private readonly Timer _timer = new Timer(5000);
+        private Task<List<string>> _statistics;
 
         [InjectionConstructor]
         public ProgressListControl(
@@ -30,21 +32,22 @@ namespace OverWeightControl.Clients.ParrentUI
             worker?.WorkFlow();
             InitializeComponent();
 
-            _timer.Elapsed += (s, e) => LoadData(
-                _worker.GetStatistic());
+            Paint += (s, e) =>
+                View(LoadData(_worker.GetStatistic()).Result);
             
-            _timer.Start();
         }
 
-        public void LoadData(IDictionary<string, int> queue)
+        private Task<List<string>> LoadData(IDictionary<string, int> queue)
         {
-            var result = queue.Select(i => $"{i.Key}: {i.Value}").ToArray();
+            //Thread.Sleep(1000);
+            return Task<List<string>>.Factory.StartNew(() =>
+                queue.Select(i => $"{i.Key}: {i.Value}").ToList());
         }
 
-        private void View(string[] result)
+        private void View(List<string> result)
         {
             listBox1.Items.Clear();
-            listBox1.Items.AddRange(result);
+            listBox1.Items.AddRange(items: result.ToArray());
         }
     }
 }
