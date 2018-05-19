@@ -15,11 +15,12 @@ using Timer = System.Timers.Timer;
 
 namespace OverWeightControl.Clients.ParrentUI
 {
-    public partial class ProgressListControl : UserControl
+    public partial class ProgressListControl : UserControl, IDisposable
     {
-        private const int _timerDelay = 15000;
+        private const double _timerDelay = 5000;
         private readonly IUnityContainer _container;
         private readonly IWorkFlowProducerConsumer _worker;
+        private readonly Timer _timer;
         private Task<List<string>> _statistics;
 
         [InjectionConstructor]
@@ -34,12 +35,19 @@ namespace OverWeightControl.Clients.ParrentUI
 
             Paint += (s, e) =>
                 View(LoadData(_worker.GetStatistic()).Result);
-            
+
+            _timer = new Timer(_timerDelay);
+            Action action = Refresh;
+            _timer.Elapsed += (s, e) =>
+            {
+                this.Invoke(action);
+            };
+
+            _timer.Start();
         }
 
         private Task<List<string>> LoadData(IDictionary<string, int> queue)
         {
-            //Thread.Sleep(1000);
             return Task<List<string>>.Factory.StartNew(() =>
                 queue.Select(i => $"{i.Key}: {i.Value}").ToList());
         }
@@ -47,7 +55,7 @@ namespace OverWeightControl.Clients.ParrentUI
         private void View(List<string> result)
         {
             listBox1.Items.Clear();
-            listBox1.Items.AddRange(items: result.ToArray());
+            result.ForEach(e => listBox1.Items.Add(e));
         }
     }
 }
