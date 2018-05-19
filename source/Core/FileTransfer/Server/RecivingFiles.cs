@@ -18,7 +18,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
         IDisposable,
         IRemoteInteraction
     {
-        private readonly Host _host;
+        private static Host _host;
 
         #region Lifetime
 
@@ -37,7 +37,8 @@ namespace OverWeightControl.Core.FileTransfer.Server
 
         public void Dispose()
         {
-            _host.Dispose();
+            if (CancelationToken == WorkFlowCancelationToken.Stoped)
+                _host.Dispose();
         }
 
         #endregion
