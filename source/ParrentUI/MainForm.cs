@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Timers;
 using System.Windows.Forms;
-using OverWeightControl.Core.FileTransfer.WorkFlow;
 using Unity;
 using Unity.Attributes;
-using Unity.Injection;
 
 namespace OverWeightControl.Clients.ParrentUI
 {

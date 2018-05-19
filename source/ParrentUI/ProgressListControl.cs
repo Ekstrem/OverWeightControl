@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
@@ -15,7 +10,7 @@ using Timer = System.Timers.Timer;
 
 namespace OverWeightControl.Clients.ParrentUI
 {
-    public partial class ProgressListControl : UserControl, IDisposable
+    public partial class ProgressListControl : UserControl
     {
         private const double _timerDelay = 5000;
         private readonly IUnityContainer _container;
