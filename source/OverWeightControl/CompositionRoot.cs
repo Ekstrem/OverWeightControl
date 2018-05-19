@@ -111,10 +111,6 @@ namespace OverWeightControl
                     Realization = typeof(DefaultConsoleService),
                     AllowRoles = new List<NodeRole>
                     {
-                        NodeRole.PPVK,
-                        NodeRole.AFC,
-                        NodeRole.VerificationStation,
-                        NodeRole.ReportsStation
                     }
                 },
                 new Dependency(2)
