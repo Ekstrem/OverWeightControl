@@ -55,6 +55,6 @@ namespace OverWeightControl.Core.FileTransfer.Server
             return null;
         }
 
-        public override string Description => "Сохраненние файлов для AFC:";
+        public override string Description => "Сохраненние файлов для AFC";
     }
 }
