@@ -4,29 +4,32 @@ using Unity.Attributes;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Clients;
 using System;
+using OverWeightControl.Core.Settings;
 
 namespace OverWeightControl
 {
     public partial class PackageAdmining : Form, IEditable<ICollection<NodeRole>>
     {
         private readonly IConsoleService _console;
+        private readonly ISettingsStorage _settings;
 
         public PackageAdmining()
         {
             InitializeComponent();
-            Init();
 
             FormClosing += (s, e) => Save();
         }
 
         [InjectionConstructor]
         public PackageAdmining(
-            [OptionalDependency] IConsoleService console)
+            [OptionalDependency] IConsoleService console,
+            [OptionalDependency] ISettingsStorage settings)
         {
             _console = console;
+            _settings = settings;
 
             InitializeComponent();
-            Init();
+            LoadData(CompositionRoot.Instance.NodeRoles);
 
             FormClosing += (s, e) =>
             {
@@ -37,6 +40,8 @@ namespace OverWeightControl
             tabPage1.Leave += (s, e) => UpdateData(CompositionRoot.Instance.NodeRoles);
             tabPage1.Leave += (s, e) =>
                 dependencyListControl2.LoadData(CompositionRoot.Instance.WorkFlowDependencies);
+            tabPage1.Leave += (s, e) =>
+                dependencyListControl1.LoadData(CompositionRoot.Instance.InfrastructureDependencies);
         }
 
         #region IEditable<ICollection<NodeRole>> members
@@ -85,16 +90,7 @@ namespace OverWeightControl
         }
 
         #endregion
-
-        private void Init()
-        {
-            dependencyListControl1.LoadData(
-                CompositionRoot.Instance.InfrastructureDependencies);
-            dependencyListControl2.LoadData(
-                CompositionRoot.Instance.WorkFlowDependencies);
-            LoadData(CompositionRoot.Instance.NodeRoles);            
-        }
-
+        
         private void Save()
         {
             dependencyListControl1.UpdateData(
