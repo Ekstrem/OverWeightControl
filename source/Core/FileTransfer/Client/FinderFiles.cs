@@ -21,14 +21,14 @@ namespace OverWeightControl.Core.FileTransfer.Client
     public class FinderFiles : WorkFlowBase, IDisposable
     {
         private readonly string _path;
-        private IList<string> _removeList;
+        private ICollection<string> _removeList;
 
         #region Lifetime
 
         public FinderFiles()
         {
             _queue = new ConcurrentQueue<FileTransferInfo>();
-            _removeList = new List<string>();
+            _removeList = new HashSet<string>();
 
             CancelationToken = WorkFlowCancelationToken.Stoped;
         }
@@ -120,6 +120,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 string fileMask = _settings.Key(ArgsKeyList.ScanExt);
                 return Directory
                     .GetFiles(_path, fileMask)
+                    .Except(_removeList)
                     .Select(m => new FileInfo(m))
                     .Select(file =>
                     {
