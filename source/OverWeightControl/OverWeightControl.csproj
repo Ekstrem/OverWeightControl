@@ -35,6 +35,9 @@
   <PropertyGroup>
     <StartupObject>OverWeightControl.Starter</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Transport-Truck-icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.8.6\lib\net46\CommonServiceLocator.dll</HintPath>
@@ -135,6 +138,9 @@
     <EmbeddedResource Include="PackageAdmining.resx">
       <DependentUpon>PackageAdmining.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Transport-Truck-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
