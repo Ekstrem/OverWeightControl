@@ -12,7 +12,7 @@ using OverWeightControl.Core.FileTransfer.WorkFlow;
 
 namespace OverWeightControl
 {
-    public class Starter
+    public class Starter : IDisposable
     {
         private IConsoleService _console;
         private static CompositionRoot _compositionRoot;
@@ -22,7 +22,7 @@ namespace OverWeightControl
             try
             {
                 _compositionRoot = CompositionRoot.Factory();
-                
+
                 ContainerRegistations();
 
                 Application.EnableVisualStyles();
@@ -30,18 +30,20 @@ namespace OverWeightControl
                 var mainForm = CompositionRoot.Container.Resolve<MainForm>();
                 mainForm.Initial(_compositionRoot.NodeRoles, IsAdminMode);
                 Application.Run(mainForm);
+                Application.ApplicationExit += (s, e) => Dispose();
             }
             catch (Exception e)
             {
                 throw;
             }
-            finally
-            {
-                var disposes = Container.Registrations
-                    .Select(m => m.MappedToType)
-                    .Where(f => f is IDisposable);
-                    disposes.ForEach(d => ((IDisposable)d).Dispose());
-            }
+        }
+
+        public void Dispose()
+        {
+             Container.Registrations
+                 .Select(m => m.MappedToType)
+                 .Where(f => f.GetInterfaces().Contains(typeof(IDisposable)))
+                 .ForEach(d => ((IDisposable)d).Dispose());
         }
 
         private void ContainerRegistations()

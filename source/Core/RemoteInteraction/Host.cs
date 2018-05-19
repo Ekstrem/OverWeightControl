@@ -39,7 +39,8 @@ namespace OverWeightControl.Core.RemoteInteraction
         {
             if (_host != null)
             {
-                _host.Close();
+                if (_host.State != CommunicationState.Faulted)
+                    _host.Close();
                 _host = null;
             }
         }
