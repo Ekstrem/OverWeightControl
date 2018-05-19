@@ -30,6 +30,7 @@ namespace OverWeightControl.Clients.ParrentUI
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.syncToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncProgressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -200,21 +201,14 @@ namespace OverWeightControl.Clients.ParrentUI
             this.label1.TabIndex = 1;
             this.label1.Text = "Прогресс очереди синхронизации:";
             // 
-            // progressListControl1
-            // 
-            this.progressListControl1.Location = new System.Drawing.Point(31, 93);
-            this.progressListControl1.Name = "progressListControl1";
-            this.progressListControl1.Size = new System.Drawing.Size(520, 274);
-            this.progressListControl1.TabIndex = 2;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 774);
-            this.Controls.Add(this.progressListControl1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.Text = "Информационная система оцифровки данных о перевесе на станциях ППВК";
