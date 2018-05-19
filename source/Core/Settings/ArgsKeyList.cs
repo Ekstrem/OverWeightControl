@@ -11,7 +11,7 @@
         public static string ServerName = nameof(ServerName);
         public static string Port = nameof(Port);
         public static string ScanExt = nameof(ScanExt);
-        public static string AFC = nameof(AFC);
+        public static string AfcPath = nameof(AfcPath);
         public static string ConnectionString = nameof(ConnectionString);
         public static string Mode = nameof(Mode);
     }

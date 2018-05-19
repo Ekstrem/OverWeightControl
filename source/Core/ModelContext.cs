@@ -23,7 +23,6 @@ namespace OverWeightControl
         {
             return settings?.Key(ArgsKeyList.ConnectionString)
                    ?? "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True";
-            // ?? "Data Source=EWPCATMTL\\MSSQLSERVER2K8R2;Initial Catalog=ActsDB;Integrated Security=True"; //test value
         }
 
         public DbSet<Act> Acts { get; set; }

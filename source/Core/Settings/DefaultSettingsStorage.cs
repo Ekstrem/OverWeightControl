@@ -31,7 +31,7 @@ namespace OverWeightControl.Core.Settings
                 {
                     {
                         ArgsKeyList.ScanPath,
-                        $"{AppDomain.CurrentDomain.BaseDirectory}Scan"
+                        $"{AppDomain.CurrentDomain.BaseDirectory}"
                     },
                     {
                         ArgsKeyList.StorePath,
@@ -44,14 +44,21 @@ namespace OverWeightControl.Core.Settings
                     {ArgsKeyList.ArgsFileLocation, _argsFilePath},
                     {ArgsKeyList.IsDebugMode, "false"},
                     {ArgsKeyList.WFProcWaitingFor, "60"},
-                    {ArgsKeyList.ServerName, "127.0.0.1"},
-                    {ArgsKeyList.Port, "16700"},
+                    {ArgsKeyList.ServerName, "localhost"},
+                    {ArgsKeyList.Port, "8001"},
                     {ArgsKeyList.ScanExt, "*.pdf"},
                     {
-                        ArgsKeyList.AFC,
-                        $"{AppDomain.CurrentDomain.BaseDirectory}AFC"
+                        ArgsKeyList.AfcPath,
+                        $"{AppDomain.CurrentDomain.BaseDirectory}AfcPath"
                     },
-                    {ArgsKeyList.Mode, "BelModel"}
+                    {
+                        ArgsKeyList.Mode,
+                        "BelModel"
+                    },
+                    {
+                        ArgsKeyList.ConnectionString,
+                        "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True"
+                    }
                 };
         }
 
