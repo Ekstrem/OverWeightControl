@@ -43,6 +43,6 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
             return base.DetailedProc(fileTransferInfo);
         }
 
-        public override string Description => "Загружено файлов для верификации:";
+        public override string Description => "Загружено файлов для верификации";
     }
 }

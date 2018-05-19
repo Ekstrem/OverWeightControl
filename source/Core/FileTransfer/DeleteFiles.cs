@@ -57,6 +57,6 @@ namespace OverWeightControl.Core.FileTransfer
 
         protected override bool Proccess() => LoadFiles().Any();
 
-        public override string Description => "Удаление файлов: ";
+        public override string Description => "Удаление файлов";
     }
 }

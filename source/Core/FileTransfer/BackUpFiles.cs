@@ -59,6 +59,6 @@ namespace OverWeightControl.Core.FileTransfer
             return fileTransferInfo;
         }
 
-        public override string Description => "Копирование в BackUp:";
+        public override string Description => "Копирование в BackUp";
     }
 }
