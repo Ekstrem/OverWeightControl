@@ -234,20 +234,6 @@ namespace OverWeightControl
                 new Dependency(6)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(BackUpFiles),
-                    Name = nameof(BackUpFiles),
-                    Register = false,
-                    AllowRoles = new List<NodeRole>
-                    {
-                        NodeRole.PPVK,
-                        NodeRole.AFC,
-                        NodeRole.VerificationStation,
-                        NodeRole.ReportsStation
-                    }
-                },
-                new Dependency(7)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(DeleteFiles),
                     Name = nameof(DeleteFiles),
                     Register = true,
@@ -257,7 +243,7 @@ namespace OverWeightControl
                         NodeRole.VerificationStation
                     }
                 },
-                new Dependency(8)
+                new Dependency(7)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(RecivingFiles),
@@ -268,13 +254,27 @@ namespace OverWeightControl
                         NodeRole.AFC
                     }
                 },
-                new Dependency(9)
+                new Dependency(8)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(UnCompresserFiles),
                     Name = nameof(UnCompresserFiles),
                     Register = false,
                     AllowRoles = new List<NodeRole>()
+                },
+                new Dependency(9)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(BackUpFiles),
+                    Name = nameof(BackUpFiles),
+                    Register = false,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.AFC,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
+                    }
                 },
                 new Dependency(10)
                 {
