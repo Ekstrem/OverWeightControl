@@ -55,7 +55,6 @@ namespace OverWeightControl.Core.RemoteInteraction
                 var binding = GetBinding();
                 var uri = GetAddress(binding);
                 _host = new ServiceHost(typeof(RecivingFiles), uri);
-                _host.Opening += _host_Opening;
                 _host.AddServiceEndpoint(
                     typeof(IRemoteInteraction),
                     binding,
@@ -76,14 +75,6 @@ namespace OverWeightControl.Core.RemoteInteraction
             }
         }
 
-        private void _host_Opening(object sender, EventArgs e)
-        {
-            return;
-            /* Description.Behaviors.Add(_container.RestrictedResolve<UnityServiceBehavior>());
-
-            base.OnOpening(); */
-        }
-
         private void AddServiceMetadata()
         {
             try
@@ -91,11 +82,14 @@ namespace OverWeightControl.Core.RemoteInteraction
                 if (bool.TryParse(_settings.Key(ArgsKeyList.IsDebugMode), out bool isDebug)
                     && isDebug)
                 {
-                    ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-                    smb.HttpGetEnabled = true;
-                    smb.HttpGetUrl =
-                        new Uri(
-                            $"http://{_settings.Key(ArgsKeyList.ServerName)}:{_settings.Key(ArgsKeyList.Port)}/mex");
+                    var smb = new ServiceMetadataBehavior
+                    {
+                        HttpGetEnabled = true,
+                        HttpGetUrl =
+                            new Uri(
+                                $"http://{_settings.Key(ArgsKeyList.ServerName)}:{_settings.Key(ArgsKeyList.Port)}/mex")
+                    };
+
                     _host.Description.Behaviors.Add(smb);
                 }
             }
