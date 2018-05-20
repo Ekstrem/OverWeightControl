@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.RemoteInteraction;
@@ -52,23 +48,10 @@ namespace OverWeightControl.Core.FileTransfer.Client
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            try
-            {
-                var ser = new DataContractSerializer(typeof(FileTransferInfo));
-                MemoryStream memoryStream = new MemoryStream();
-                ser.WriteObject(memoryStream, fileTransferInfo);
-                var des = Encoding.UTF8.GetString(memoryStream.GetBuffer());
-                var s = _proxy.Ping();
-                var result = _proxy.SendFile(fileTransferInfo.Id, fileTransferInfo);
-                var resLog = JsonConvert.SerializeObject(result, Formatting.Indented);
-                _console.AddEvent(resLog, ConsoleMessageType.Information);
-                return result.Commited ? null : fileTransferInfo;
-            }
-            catch (Exception e)
-            {
-                _console.AddException(e);
-                throw;
-            }
+            var result = _proxy.SendFile(fileTransferInfo.Id, fileTransferInfo);
+            var resLog = JsonConvert.SerializeObject(result, Formatting.Indented);
+            _console.AddEvent(resLog, ConsoleMessageType.Information);
+            return result.Commited ? null : fileTransferInfo;
         }
 
         public override string Description => $"Отправка файлов на сервер";
