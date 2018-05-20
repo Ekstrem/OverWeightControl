@@ -83,8 +83,9 @@ namespace OverWeightControl.Core.RemoteInteraction
                 var binding = Activator.CreateInstance<NetTcpBinding>();
                 binding.Security.Mode = SecurityMode.None;
                 binding.TransferMode = TransferMode.StreamedRequest;
-                binding.MaxBufferSize = int.MaxValue;
-                binding.MaxReceivedMessageSize = int.MaxValue;
+                binding.MaxBufferSize = Int32.MaxValue;
+                binding.MaxReceivedMessageSize = Int32.MaxValue;
+                binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
 
                 return binding;
             }

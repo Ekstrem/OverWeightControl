@@ -3,6 +3,7 @@ using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.RemoteInteraction;
 using OverWeightControl.Core.Settings;
+using System;
 using Unity.Attributes;
 
 namespace OverWeightControl.Core.FileTransfer.Client
@@ -48,10 +49,18 @@ namespace OverWeightControl.Core.FileTransfer.Client
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            var result = _proxy.SendFile(fileTransferInfo.Id, fileTransferInfo);
-            var resLog = JsonConvert.SerializeObject(result, Formatting.Indented);
-            _console.AddEvent(resLog, ConsoleMessageType.Information);
-            return result.Commited ? null : fileTransferInfo;
+            try
+            {
+                var result = _proxy.SendFile(fileTransferInfo.Id, fileTransferInfo);
+                var resLog = JsonConvert.SerializeObject(result, Formatting.Indented);
+                _console.AddEvent(resLog, ConsoleMessageType.Information);
+                return result.Commited ? null : fileTransferInfo;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         public override string Description => $"Отправка файлов на сервер";
