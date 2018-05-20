@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace OverWeightControl.Core.FileTransfer
 {
@@ -10,22 +11,30 @@ namespace OverWeightControl.Core.FileTransfer
     /// Для удалённого использования.
     /// </summary>
     [DataContract]
+    [JsonObject]
     public class FileTransferInfo : ICloneable
     {
         public FileTransferInfo() => IsCompresed = false;
 
         [DataMember]
+        [JsonProperty]
         public Guid Id { get; set; }
         [DataMember]
+        [JsonProperty]
         public long Size { get; set; }
         [DataMember]
+        [JsonProperty]
         public string Hash { get; set; }
         [DataMember]
+        [JsonProperty]
         public string Ext { get; set; }
 
         [DataMember]
+        [JsonProperty]
         public byte[] Data { get; set; }
 
+        [DataMember]
+        [JsonProperty]
         public bool IsCompresed { get; set; }
 
         /// <summary>
