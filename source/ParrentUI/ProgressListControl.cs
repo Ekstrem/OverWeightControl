@@ -35,7 +35,13 @@ namespace OverWeightControl.Clients.ParrentUI
             Action action = Refresh;
             _timer.Elapsed += (s, e) =>
             {
+                try
+                {
                 this.Invoke(action);
+                }
+                catch (Exception exception)
+                {
+                }
             };
 
             _timer.Start();

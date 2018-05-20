@@ -105,7 +105,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
 
         public virtual WorkFlowCancelationToken CancelationToken { get; set; }
 
-        public int Count => _queue.Count;
+        public virtual int Count => _queue?.Count ?? -1;
 
         public abstract string Description { get; }
         public virtual IDictionary<string, int> GetStatistic()

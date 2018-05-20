@@ -53,10 +53,19 @@ namespace OverWeightControl.Core.FileTransfer
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            var storeFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
-            var buFileName = $"{_settings.Key(ArgsKeyList.BackUpPath)}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
-            File.Copy(storeFileName, buFileName);
-            return fileTransferInfo;
+            try
+            {
+                var storeFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
+                var buFileName =
+                    $"{_settings.Key(ArgsKeyList.BackUpPath)}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
+                File.Copy(storeFileName, buFileName);
+                return fileTransferInfo;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         public override string Description => "Копирование в BackUp";

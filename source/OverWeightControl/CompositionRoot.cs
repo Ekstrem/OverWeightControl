@@ -16,6 +16,7 @@ using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.RemoteInteraction;
 using OverWeightControl.Core.Settings;
 using Unity;
+using Unity.Lifetime;
 
 namespace OverWeightControl
 {
@@ -249,6 +250,7 @@ namespace OverWeightControl
                     Realization = typeof(RecivingFiles),
                     Name = nameof(RecivingFiles),
                     Register = false,
+                    Lifetime = new PerResolveLifetimeManager(),
                     AllowRoles = new List<NodeRole>
                     {
                         NodeRole.AFC

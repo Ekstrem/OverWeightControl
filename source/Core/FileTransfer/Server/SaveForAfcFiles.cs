@@ -50,9 +50,17 @@ namespace OverWeightControl.Core.FileTransfer.Server
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            var fileName = $"{_settings.Key(ArgsKeyList.AfcPath)}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
-            File.WriteAllBytes(fileName, fileTransferInfo.Data);
-            return null;
+            try
+            {
+                var fileName = $"{_settings.Key(ArgsKeyList.AfcPath)}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
+                File.WriteAllBytes(fileName, fileTransferInfo.Data);
+                return fileTransferInfo;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         public override string Description => "Сохраненние файлов для AFC";

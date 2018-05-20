@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.RemoteInteraction;
@@ -19,6 +20,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
         IRemoteInteraction
     {
         private static Host _host;
+        private static IProducerConsumerCollection<FileTransferInfo> s_ownBlackJackQueue;
 
         #region Lifetime
 
@@ -30,7 +32,9 @@ namespace OverWeightControl.Core.FileTransfer.Server
         : base(settings, console)
         {
             _host = host;
-            _queue = new ConcurrentQueue<FileTransferInfo>();
+            if (s_ownBlackJackQueue == null)
+                s_ownBlackJackQueue = new ConcurrentQueue<FileTransferInfo>();
+            _queue = new ConcurrentQueue<FileTransferInfo>(s_ownBlackJackQueue.AsEnumerable());
         }
 
         ~RecivingFiles() { Dispose(); }
@@ -43,6 +47,14 @@ namespace OverWeightControl.Core.FileTransfer.Server
 
         #endregion
 
+        public override bool TryAdd(FileTransferInfo item)
+        {
+            return _queue.TryAdd(item) && s_ownBlackJackQueue.TryAdd(item);
+        }
+
+        public override bool TryTake(out FileTransferInfo item) => s_ownBlackJackQueue.TryTake(out item);
+
+        public override int Count => s_ownBlackJackQueue.Count;
 
         /// <summary>
         /// Производит поиск и копирование новых файлов
