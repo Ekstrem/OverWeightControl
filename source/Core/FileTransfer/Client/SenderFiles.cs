@@ -51,10 +51,12 @@ namespace OverWeightControl.Core.FileTransfer.Client
         {
             try
             {
+                if (fileTransferInfo.Data == null)
+                    return null;
                 var result = _proxy.SendFile(fileTransferInfo.Id, fileTransferInfo);
                 var resLog = JsonConvert.SerializeObject(result, Formatting.Indented);
                 _console.AddEvent(resLog, ConsoleMessageType.Information);
-                return result.Commited ? null : fileTransferInfo;
+                return result.Commited ? fileTransferInfo: null ;
             }
             catch (Exception e)
             {

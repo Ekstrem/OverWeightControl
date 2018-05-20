@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
@@ -48,14 +49,17 @@ namespace OverWeightControl.Core.FileTransfer.Client
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            var fileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
-
-            /* var file = (FileTransferInfo) fileTransferInfo.Clone();
-            file.Data = File.ReadAllBytes(fileName);
-            return file; */
-            
-            fileTransferInfo.Data = File.ReadAllBytes(fileName);
-            return fileTransferInfo;
+            try
+            {
+                var fileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
+                fileTransferInfo.Data = File.ReadAllBytes(fileName);
+                return fileTransferInfo;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         public override string Description => $"Загрузка файлов в память";
