@@ -62,9 +62,9 @@ namespace OverWeightControl.Core.FileTransfer.Client
                     fileTransferInfo.Data = stream.ToArray();
                 }
 
-                float copressedForce = 100 * fileTransferInfo.Data.Length / fileTransferInfo.Size;
+                float copressedForce = 100 - 100 * fileTransferInfo.Data.Length / fileTransferInfo.Size;
                 _console.AddEvent(
-                    message: $"{fileTransferInfo.Id} compressed at {Math.Round(copressedForce)}",
+                    message: $"{fileTransferInfo.Id} compressed at {Math.Round(copressedForce)}%",
                     type: ConsoleMessageType.Information);
 
                 fileTransferInfo.IsCompresed = true;
