@@ -28,6 +28,8 @@ namespace OverWeightControl.Clients.ParrentUI
             worker?.WorkFlow();
             InitializeComponent();
 
+            Disposed += (s, e) => _worker.CancelationToken = WorkFlowCancelationToken.Stoped;
+
             Paint += (s, e) =>
                 View(LoadData(_worker.GetStatistic()).Result);
 

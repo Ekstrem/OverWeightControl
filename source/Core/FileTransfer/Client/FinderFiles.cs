@@ -21,14 +21,14 @@ namespace OverWeightControl.Core.FileTransfer.Client
     public class FinderFiles : WorkFlowBase, IDisposable
     {
         private readonly string _path;
-        private ICollection<string> _removeList;
+        private readonly IDictionary<string, Guid> _removeList;
 
         #region Lifetime
 
         public FinderFiles()
         {
             _queue = new ConcurrentQueue<FileTransferInfo>();
-            _removeList = new HashSet<string>();
+            _removeList = new Dictionary<string, Guid>();
 
             CancelationToken = WorkFlowCancelationToken.Stoped;
         }
@@ -48,7 +48,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 ? new ConcurrentQueue<FileTransferInfo>()
                 : new ConcurrentQueue<FileTransferInfo>(LoadFromFile(fileName));
             
-            _removeList = new List<string>();
+            _removeList = new Dictionary<string, Guid>();
 
             CancelationToken = WorkFlowCancelationToken.Ready;
 
@@ -64,18 +64,21 @@ namespace OverWeightControl.Core.FileTransfer.Client
         {
             try
             {
-                CancelationToken = WorkFlowCancelationToken.Stoped;
-
-                // save copied fileList info in file
-                string json = JsonConvert
-                    .SerializeObject(_queue.ToList());
-                var fileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\list.json";
-                File.WriteAllText(fileName, json);
-
-                // deleting copied files
-                if (!bool.Parse(_settings.Key(ArgsKeyList.IsDebugMode)))
+                if (CancelationToken != WorkFlowCancelationToken.Stoped)
                 {
-                    _removeList.ForEach(File.Delete);
+
+                    // save copied fileList info in file
+                    string json = JsonConvert
+                        .SerializeObject(_queue.ToList());
+                    var fileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\list.json";
+                    File.WriteAllText(fileName, json);
+                }
+                else
+                {
+                    var files = _queue.Select(m => m.Id);
+                    _removeList
+                        .Where(f => files.Contains(f.Value))
+                        .ForEach(e => File.Delete(e.Key));
                 }
 
                 _console.AddEvent($"{nameof(FinderFiles)} stoped.");
@@ -120,7 +123,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 string fileMask = _settings.Key(ArgsKeyList.ScanExt);
                 var files = Directory.GetFiles(_path, fileMask);
                 var filesInfo = files
-                    .Except(_removeList)
+                    .Except(_removeList.Keys)
                     .Select(m => new FileInfo(m))
                     .AsEnumerable();
                 var fties = new List<FileTransferInfo>();
@@ -133,7 +136,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 {
                     Guid id = Guid.NewGuid();
                     File.Copy(file.FullName, $"{newDirectory}\\{id}");
-                    _removeList.Add(file.FullName);
+                    _removeList.Add(file.FullName, id);
                     var fti = new FileTransferInfo
                     {
                         Id = id,
