@@ -125,7 +125,6 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
                 }
                 
                 _consumer.CancelationToken = value;
-                ((IDisposable)_consumer).Dispose();
             }
         }
 
