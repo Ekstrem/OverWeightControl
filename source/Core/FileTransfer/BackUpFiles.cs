@@ -54,10 +54,17 @@ namespace OverWeightControl.Core.FileTransfer
                 string directory = _settings.Key(ArgsKeyList.BackUpPath);
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
-                File.Copy(
-                    sourceFileName: $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}",
-                    destFileName: $"{directory}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}");
-                    
+                var oldFile = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
+                var newFile = $"{directory}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
+                if (File.Exists(oldFile))
+                {
+                    File.Copy(oldFile, newFile);
+                }
+                else
+                {
+                    File.WriteAllBytes(newFile, fileTransferInfo.Data);
+                }
+
                 return fileTransferInfo;
             }
             catch (Exception e)
