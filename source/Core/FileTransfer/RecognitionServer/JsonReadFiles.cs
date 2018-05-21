@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using OverWeightControl.Common.BelModel;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
@@ -35,6 +37,8 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
 
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
+            var json = Encoding.UTF8.GetString(fileTransferInfo.Data);
+            var act = BlankList.GetList(json).ToModelFormat();
             return base.DetailedProc(fileTransferInfo);
         }
 
