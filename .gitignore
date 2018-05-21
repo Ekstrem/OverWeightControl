@@ -1,6 +1,7 @@
 *.lock
 *.pdb
 *.cashe
+*.log
 bin/*.xml
 bin/*.txt
 bin/*.cfg
