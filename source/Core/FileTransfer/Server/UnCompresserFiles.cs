@@ -57,9 +57,10 @@ namespace OverWeightControl.Core.FileTransfer.Server
 
                 using (Stream stream = new MemoryStream(fileTransferInfo.Data))
                 using (Stream zip = new GZipStream(stream, CompressionMode.Decompress))
-                using (BinaryReader reader = new BinaryReader(zip))
+                using (MemoryStream result = new MemoryStream())
                 {
-                    fileTransferInfo.Data = reader.ReadBytes((int)zip.Length);
+                    zip.CopyTo(result);
+                    fileTransferInfo.Data = result.ToArray();
                 }
 
                 return fileTransferInfo;
