@@ -52,6 +52,9 @@ namespace OverWeightControl.Core.FileTransfer.Server
         {
             try
             {
+                if (!fileTransferInfo.IsCompresed)
+                    return fileTransferInfo;
+
                 using (Stream stream = new MemoryStream(fileTransferInfo.Data))
                 using (Stream zip = new GZipStream(stream, CompressionMode.Decompress))
                 using (BinaryReader reader = new BinaryReader(zip))

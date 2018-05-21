@@ -262,7 +262,10 @@ namespace OverWeightControl
                     Realization = typeof(UnCompresserFiles),
                     Name = nameof(UnCompresserFiles),
                     Register = false,
-                    AllowRoles = new List<NodeRole>()
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.AFC
+                    }
                 },
                 new Dependency(9)
                 {
