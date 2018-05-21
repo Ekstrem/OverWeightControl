@@ -118,23 +118,28 @@ namespace OverWeightControl.Core.FileTransfer.Client
             try
             {
                 string fileMask = _settings.Key(ArgsKeyList.ScanExt);
-                return Directory
-                    .GetFiles(_path, fileMask)
+                var files = Directory.GetFiles(_path, fileMask);
+                var filesInfo = files
                     .Except(_removeList)
                     .Select(m => new FileInfo(m))
-                    .Select(file =>
+                    .AsEnumerable();
+                var fties = new List<FileTransferInfo>();
+                foreach (var file in filesInfo)
+                {
+                    Guid id = Guid.NewGuid();
+                    var newFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{id}";
+                    File.Copy(file.FullName, newFileName);
+                    _removeList.Add(file.FullName);
+                    var fti = new FileTransferInfo
                     {
-                        Guid id = Guid.NewGuid();
-                        var newFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{id}";
-                        File.Copy(file.FullName, newFileName);
-                        _removeList.Add(file.FullName);
-                        return new FileTransferInfo
-                        {
-                            Id = id,
-                            Size = file.Length,
-                            Ext = file.Extension
-                        };
-                    });
+                        Id = id,
+                        Size = file.Length,
+                        Ext = file.Extension
+                    };
+                    fties.Add(fti);
+                }
+
+                return fties;
             }
             catch (Exception e)
             {
