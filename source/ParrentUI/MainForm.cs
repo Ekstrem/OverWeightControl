@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using OverWeightControl.Core.Settings;
 using Unity;
 using Unity.Attributes;
 
@@ -8,11 +10,16 @@ namespace OverWeightControl.Clients.ParrentUI
     public partial class MainForm : Form
     {
         private readonly IUnityContainer _container;
+        private readonly ISettingsStorage _settings;
+        private bool _adminMode;
 
         [InjectionConstructor]
-        public MainForm(IUnityContainer container)
+        public MainForm(
+            IUnityContainer container,
+            ISettingsStorage settings)
         {
             _container = container;
+            _settings = settings;
             InitializeComponent();
             TopLevel = true;
 
@@ -35,7 +42,8 @@ namespace OverWeightControl.Clients.ParrentUI
             progressListControl1.Visible = false;
             adminingToolStripMenuItem.Visible = adminMode;
 
-            if (roles == null)
+            bool debug = Boolean.TryParse(_settings.Key(ArgsKeyList.IsDebugMode), out debug) && debug;
+            if (roles == null || (adminMode && !debug))
                 return;
 
             foreach (var role in roles)
