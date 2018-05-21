@@ -34,5 +34,7 @@ namespace OverWeightControl.Core.Console
         public string Message { get; set; }
         public ConsoleMessageType Type { get; set; }
         public DateTime Time { get; set; }
+
+        public override string ToString() => $"{Message} at {Time}";
     }
 }
