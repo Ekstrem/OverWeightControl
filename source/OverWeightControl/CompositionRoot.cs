@@ -11,6 +11,7 @@ using OverWeightControl.Core.Console;
 using OverWeightControl.Core.ConsoleService;
 using OverWeightControl.Core.FileTransfer;
 using OverWeightControl.Core.FileTransfer.Client;
+using OverWeightControl.Core.FileTransfer.RecognitionServer;
 using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.RemoteInteraction;
@@ -290,6 +291,31 @@ namespace OverWeightControl
                     AllowRoles = new List<NodeRole>
                     {
                         NodeRole.AFC
+                    }
+                },
+                new Dependency(11)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(JsonReadFiles),
+                    Name = nameof(JsonReadFiles),
+                    Register = false,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.VerificationStation
+                    }
+                },
+                new Dependency(15)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(FinalizeFiles),
+                    Name = nameof(FinalizeFiles),
+                    Register = true,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
+                        NodeRole.AFC,
+                        NodeRole.VerificationStation,
+                        NodeRole.ReportsStation
                     }
                 }
             };

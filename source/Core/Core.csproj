@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="Clients\Roles.cs" />
     <Compile Include="FileTransfer\BackUpFiles.cs" />
+    <Compile Include="FileTransfer\FinalizeFiles.cs" />
     <Compile Include="FileTransfer\DeleteFiles.cs" />
     <Compile Include="FileTransfer\RecognitionServer\JsonReadFiles.cs" />
     <Compile Include="FileTransfer\Server\RecivingFiles.cs" />
