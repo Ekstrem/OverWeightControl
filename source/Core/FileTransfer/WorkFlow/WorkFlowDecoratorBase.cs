@@ -9,7 +9,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
 {
     public abstract class WorkFlowDecoratorBase : WorkFlowBase, IDisposable
     {
-        private readonly IWorkFlowProducerConsumer _consumer;
+        protected readonly IWorkFlowProducerConsumer _consumer;
 
         #region Lifetime
 

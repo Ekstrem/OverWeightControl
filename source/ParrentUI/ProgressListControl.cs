@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
+using OverWeightControl.Core.Settings;
 using Unity;
 using Unity.Attributes;
 using Timer = System.Timers.Timer;
@@ -12,7 +13,6 @@ namespace OverWeightControl.Clients.ParrentUI
 {
     public partial class ProgressListControl : UserControl
     {
-        private const double _timerDelay = 5000;
         private readonly IUnityContainer _container;
         private readonly IWorkFlowProducerConsumer _worker;
         private readonly Timer _timer;
@@ -20,6 +20,7 @@ namespace OverWeightControl.Clients.ParrentUI
 
         [InjectionConstructor]
         public ProgressListControl(
+            ISettingsStorage settings,
             IUnityContainer container,
             IWorkFlowProducerConsumer worker)
         {
@@ -33,7 +34,9 @@ namespace OverWeightControl.Clients.ParrentUI
             Paint += (s, e) =>
                 View(LoadData(_worker.GetStatistic()).Result);
 
-            _timer = new Timer(_timerDelay);
+            var timerInterval = double
+                .TryParse(settings.Key(ArgsKeyList.WFProcWaitingFor), out var ti) ? ti : 3000;
+            _timer = new Timer(timerInterval);
             Action action = Refresh;
             _timer.Elapsed += (s, e) =>
             {

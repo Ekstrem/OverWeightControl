@@ -66,7 +66,6 @@ namespace OverWeightControl.Core.FileTransfer.Client
             {
                 if (CancelationToken != WorkFlowCancelationToken.Stoped)
                 {
-
                     // save copied fileList info in file
                     string json = JsonConvert
                         .SerializeObject(_queue.ToList());
@@ -76,9 +75,10 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 else
                 {
                     var files = _queue.Select(m => m.Id);
-                    _removeList
-                        .Where(f => files.Contains(f.Value))
-                        .ForEach(e => File.Delete(e.Key));
+                    var filesToRemove = files.Any()
+                        ? _removeList.Where(f => files.Contains(f.Value)).Select(m => m.Key)
+                        : _removeList.Keys;
+                    filesToRemove.ForEach(File.Delete);
                 }
 
                 _console.AddEvent($"{nameof(FinderFiles)} stoped.");
