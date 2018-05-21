@@ -38,56 +38,17 @@ namespace OverWeightControl.Core.RemoteInteraction
         {
             try
             {
-                var binding = GetBinding();
-                var address = new EndpointAddress(GetAddress(binding).AbsoluteUri);
+                var binding = WcfSettings.GetBinding(
+                    settings: _settings,
+                    console: _console);
+                var address = new EndpointAddress(
+                    WcfSettings.GetAddress(
+                        binding: binding,
+                        settings: _settings,
+                        console: _console)
+                        .AbsoluteUri);
                 _factory = new ChannelFactory<IRemoteInteraction>(binding, address);
                 return  _factory.CreateChannel();
-            }
-            catch (Exception e)
-            {
-                _console?.AddException(e);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Получить адрес.
-        /// </summary>
-        /// <returns>Адрес сервиса.</returns>
-        /// <exception cref="KeyNotFoundException">
-        /// В DI-контейнере не были найдены настройки соединения.
-        /// <c>MachineUrl</c> или <c>TcpPort</c>
-        /// </exception>
-        private Uri GetAddress(Binding binding)
-        {
-            try
-            {
-                var uriBuilder = new UriBuilder(
-                    scheme: binding.Scheme,
-                    host: _settings.Key(ArgsKeyList.ServerName),
-                    port: int.Parse(_settings.Key(ArgsKeyList.Port)),
-                    pathValue: $"{typeof(IRemoteInteraction).Name}.svc");
-                return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}/{uriBuilder.Path}");
-            }
-            catch (Exception e)
-            {
-                _console?.AddException(e);
-                return null;
-            }
-        }
-
-        private Binding GetBinding()
-        {
-            try
-            {
-                var binding = Activator.CreateInstance<NetTcpBinding>();
-                binding.Security.Mode = SecurityMode.None;
-                binding.TransferMode = TransferMode.StreamedRequest;
-                binding.MaxBufferSize = Int32.MaxValue;
-                binding.MaxReceivedMessageSize = Int32.MaxValue;
-                binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-
-                return binding;
             }
             catch (Exception e)
             {

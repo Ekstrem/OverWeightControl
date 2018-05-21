@@ -94,6 +94,7 @@
     <Compile Include="RemoteInteraction\UnityServiceBehavior.cs" />
     <Compile Include="RemoteInteraction\UnityServiceHost.cs" />
     <Compile Include="RemoteInteraction\UnityServiceHostFactory.cs" />
+    <Compile Include="RemoteInteraction\WcfSettings.cs" />
     <Compile Include="Unity\DecoratorBuildStrategy.cs" />
     <Compile Include="Unity\DecoratorContainerExtension.cs" />
     <Compile Include="Console\DefaultConsoleService.cs" />

@@ -81,7 +81,9 @@ namespace OverWeightControl.Core.Settings
 
         public string Key(string keyName)
         {
-            return _args[keyName];
+            return _args.ContainsKey(keyName)
+                ? _args[keyName]
+                : String.Empty;
         }
 
         public Dict GetArgs()

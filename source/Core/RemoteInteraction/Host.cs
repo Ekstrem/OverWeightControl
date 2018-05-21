@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.ServiceModel.Description;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.Settings;
@@ -53,8 +50,13 @@ namespace OverWeightControl.Core.RemoteInteraction
         {
             try
             {
-                var binding = GetBinding();
-                var uri = GetAddress(binding);
+                var binding = WcfSettings.GetBinding(
+                    settings: _settings,
+                    console: _console);
+                var uri = WcfSettings.GetAddress(
+                    binding: binding,
+                    settings: _settings,
+                    console: _console);
                 _host = new ServiceHost(typeof(RecivingFiles), uri);
                 _host.AddServiceEndpoint(
                     typeof(IRemoteInteraction),
@@ -73,101 +75,6 @@ namespace OverWeightControl.Core.RemoteInteraction
             {
                 _console?.AddException(e);
                 return false;
-            }
-        }
-
-        private void AddServiceMetadata()
-        {
-            try
-            {
-                if (bool.TryParse(_settings.Key(ArgsKeyList.IsDebugMode), out bool isDebug)
-                    && isDebug)
-                {
-                    var smb = new ServiceMetadataBehavior
-                    {
-                        HttpGetEnabled = true,
-                        HttpGetUrl =
-                            new Uri(
-                                $"http://{_settings.Key(ArgsKeyList.ServerName)}:{_settings.Key(ArgsKeyList.Port)}/mex")
-                    };
-
-                    _host.Description.Behaviors.Add(smb);
-                }
-            }
-            catch (Exception e)
-            {
-                _console.AddException(e);
-                _console.AddEvent("MEX does not activated.", ConsoleMessageType.Information);
-            }
-        }
-
-        /// <summary>
-        /// Получить адрес.
-        /// </summary>
-        /// <returns>Адрес сервиса.</returns>
-        /// <exception cref="KeyNotFoundException">
-        /// В DI-контейнере не были найдены настройки соединения.
-        /// <c>MachineUrl</c> или <c>TcpPort</c>
-        /// </exception>
-        private Uri GetAddress(Binding binding)
-        {
-            try
-            {
-                var uriBuilder = new UriBuilder(
-                    scheme: binding.Scheme,
-                    host: _settings.Key(ArgsKeyList.ServerName),
-                    port: int.Parse(_settings.Key(ArgsKeyList.Port)),
-                    pathValue: $"{typeof(IRemoteInteraction).Name}.svc");
-                return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}/{uriBuilder.Path}");
-            }
-            catch (Exception e)
-            {
-                _console?.AddException(e);
-                return null;
-            }
-        }
-
-        private Binding GetBinding()
-        {
-            try
-            {
-                var binding = Activator.CreateInstance<NetTcpBinding>();
-                binding.Security.Mode = SecurityMode.None;
-                binding.TransferMode = TransferMode.StreamedRequest;
-                binding.MaxBufferSize = Int32.MaxValue;
-                binding.MaxReceivedMessageSize = Int32.MaxValue;
-                binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-
-                return binding;
-            }
-            catch (Exception e)
-            {
-                _console?.AddException(e);
-                return null;
-            }
-        }
-
-        private Binding GetCustomBinding()
-        {
-            var tcpBinding = GetBinding();
-            try
-            {
-                var binding = (CustomBinding) Activator.CreateInstance(
-                    typeof(CustomBinding), tcpBinding);
-                var rbe = new ReliableSessionBindingElement();
-                binding.Elements.Add(rbe);
-                var bme = Activator.CreateInstance<BinaryMessageEncodingBindingElement>();
-                bme.CompressionFormat = CompressionFormat.GZip;
-                binding.Elements.Add(bme);
-                var tf = Activator.CreateInstance<TransactionFlowBindingElement>();
-                binding.Elements.Add(tf);
-
-                return binding;
-            }
-            catch (Exception e)
-            {
-                _console.AddException(e);
-                return tcpBinding;
             }
         }
     }

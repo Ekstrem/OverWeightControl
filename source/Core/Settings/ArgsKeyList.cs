@@ -14,5 +14,6 @@
         public static string AfcPath = nameof(AfcPath);
         public static string ConnectionString = nameof(ConnectionString);
         public static string Mode = nameof(Mode);
+        public static string Binding = nameof(Binding);
     }
 }
