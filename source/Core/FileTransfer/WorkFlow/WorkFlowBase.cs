@@ -6,7 +6,6 @@ using System.Threading;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 using Unity.Attributes;
-using Unity.Injection;
 
 namespace OverWeightControl.Core.FileTransfer.WorkFlow
 {

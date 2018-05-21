@@ -1,7 +1,6 @@
 ﻿using System.Data.Entity;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Settings;
-using Unity;
 using Unity.Attributes;
 
 namespace OverWeightControl
