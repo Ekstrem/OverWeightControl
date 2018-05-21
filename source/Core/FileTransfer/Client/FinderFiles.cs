@@ -124,11 +124,15 @@ namespace OverWeightControl.Core.FileTransfer.Client
                     .Select(m => new FileInfo(m))
                     .AsEnumerable();
                 var fties = new List<FileTransferInfo>();
+
+                var newDirectory = _settings.Key(ArgsKeyList.StorePath);
+                if (!Directory.Exists(newDirectory))
+                    Directory.CreateDirectory(newDirectory);
+
                 foreach (var file in filesInfo)
                 {
                     Guid id = Guid.NewGuid();
-                    var newFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{id}";
-                    File.Copy(file.FullName, newFileName);
+                    File.Copy(file.FullName, $"{newDirectory}\\{id}");
                     _removeList.Add(file.FullName);
                     var fti = new FileTransferInfo
                     {

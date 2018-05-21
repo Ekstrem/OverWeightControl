@@ -1,4 +1,5 @@
-﻿using OverWeightControl.Core.Console;
+﻿using System;
+using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
 using Unity.Attributes;
@@ -47,8 +48,19 @@ namespace OverWeightControl.Core.FileTransfer.Client
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            fileTransferInfo.Hash = FileTransferInfo.GetHash(fileTransferInfo.Data);
-            return fileTransferInfo;
+            try
+            {
+                if (fileTransferInfo.Hash == null)
+                    fileTransferInfo.Hash = FileTransferInfo.GetHash(fileTransferInfo.Data);
+                return fileTransferInfo.Hash.Equals(FileTransferInfo.GetHash(fileTransferInfo.Data))
+                    ? fileTransferInfo
+                    : null;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         public override string Description => $"Подсчёт хэша файлов";

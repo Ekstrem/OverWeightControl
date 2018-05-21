@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
 using OverWeightControl.Core.Console;
@@ -50,9 +50,20 @@ namespace OverWeightControl.Core.FileTransfer
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            var storeFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
-            File.Delete(storeFileName);
-            return fileTransferInfo;
+            try
+            {
+                string directory = _settings.Key(ArgsKeyList.StorePath);
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+                File.Delete($"{directory}\\{fileTransferInfo.Id}");
+                fileTransferInfo.Size = -1;
+                return fileTransferInfo;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         protected override bool Proccess() => LoadFiles().Any();

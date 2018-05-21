@@ -34,7 +34,8 @@ namespace OverWeightControl.Core.FileTransfer.Server
             _host = host;
             if (s_ownBlackJackQueue == null)
                 s_ownBlackJackQueue = new ConcurrentQueue<FileTransferInfo>();
-            _queue = new ConcurrentQueue<FileTransferInfo>(s_ownBlackJackQueue.AsEnumerable());
+            #warning: may be needed.
+            // _queue = new ConcurrentQueue<FileTransferInfo>(s_ownBlackJackQueue.AsEnumerable());
         }
 
         ~RecivingFiles() { Dispose(); }
@@ -47,10 +48,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
 
         #endregion
 
-        public override bool TryAdd(FileTransferInfo item)
-        {
-            return _queue.TryAdd(item) && s_ownBlackJackQueue.TryAdd(item);
-        }
+        public override bool TryAdd(FileTransferInfo item) => s_ownBlackJackQueue.TryAdd(item);
 
         public override bool TryTake(out FileTransferInfo item) => s_ownBlackJackQueue.TryTake(out item);
 

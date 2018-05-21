@@ -1,8 +1,6 @@
 ﻿﻿using System;
- using System.Collections.Generic;
  using System.ServiceModel;
-using System.ServiceModel.Channels;
-using OverWeightControl.Core.Console;
+ using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 
 namespace OverWeightControl.Core.RemoteInteraction

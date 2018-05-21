@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
@@ -52,7 +48,10 @@ namespace OverWeightControl.Core.FileTransfer.Server
         {
             try
             {
-                var fileName = $"{_settings.Key(ArgsKeyList.AfcPath)}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
+                string directory = _settings.Key(ArgsKeyList.AfcPath);
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+                var fileName = $"{directory}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
                 File.WriteAllBytes(fileName, fileTransferInfo.Data);
                 return fileTransferInfo;
             }

@@ -4,7 +4,6 @@ using System.Linq;
 using Unity.Builder;
 using Unity.Events;
 using Unity.Extension;
-using Unity.Interception.Utilities;
 
 namespace OverWeightControl.Core.Unity
 {

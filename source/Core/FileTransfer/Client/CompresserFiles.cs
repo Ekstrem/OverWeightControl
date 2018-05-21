@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
@@ -49,18 +50,26 @@ namespace OverWeightControl.Core.FileTransfer.Client
         /// <returns>Обработанный класс.</returns>
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            using (MemoryStream stream = new MemoryStream())
+            try
             {
-                using (GZipStream zip = new GZipStream(stream, CompressionMode.Compress))
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    zip.Write(fileTransferInfo.Data, 0, fileTransferInfo.Data.Length);
+                    using (GZipStream zip = new GZipStream(stream, CompressionMode.Compress))
+                    {
+                        zip.Write(fileTransferInfo.Data, 0, fileTransferInfo.Data.Length);
+                    }
+
+                    fileTransferInfo.Data = stream.ToArray();
                 }
 
-                fileTransferInfo.Data = stream.ToArray();
+                fileTransferInfo.IsCompresed = true;
+                return fileTransferInfo;
             }
-
-            fileTransferInfo.IsCompresed = true;
-            return fileTransferInfo;
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return null;
+            }
         }
 
         public override string Description => $"Сжатие файлов";
