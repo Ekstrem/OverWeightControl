@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using OverWeightControl.Common.BelModel;
 using OverWeightControl.Common.Model;
@@ -48,8 +49,14 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
             }
             catch (Exception e)
             {
-                System.Console.WriteLine(e);
-                throw;
+                _console.AddException(e);
+                var dir = $"{AppDomain.CurrentDomain.BaseDirectory}Errors";
+                if (Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+                File.WriteAllBytes(
+                    $"{dir}{fileTransferInfo.Id}.{fileTransferInfo.Ext}",
+                    fileTransferInfo.Data);
+                return null;
             }
         }
 
