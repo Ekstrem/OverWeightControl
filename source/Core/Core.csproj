@@ -124,6 +124,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common.BelModel\Common.BelModel.csproj">
+      <Project>{b0553610-1d34-4a94-9ac1-fe0b3b6a4fdb}</Project>
+      <Name>Common.BelModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{13a5cd30-2449-463b-817e-2c23fa8b9ae1}</Project>
       <Name>Common</Name>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using OverWeightControl.Common.BelModel;
+using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
@@ -39,7 +40,7 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
         {
             var json = Encoding.UTF8.GetString(fileTransferInfo.Data);
             var act = BlankList.GetList(json).ToModelFormat();
-            return base.DetailedProc(fileTransferInfo);
+            return fileTransferInfo;
         }
 
         public override string Description => "Загружено файлов для верификации";
