@@ -38,9 +38,19 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
 
         protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
         {
-            var json = Encoding.UTF8.GetString(fileTransferInfo.Data);
-            var act = BlankList.GetList(json).ToModelFormat();
-            return fileTransferInfo;
+            try
+            {
+                var json = Encoding.UTF8.GetString(fileTransferInfo.Data);
+                var bl = BlankList.GetList(json);
+                var parsedAct = bl.ToModelFormat();
+
+                return fileTransferInfo;
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e);
+                throw;
+            }
         }
 
         public override string Description => "Загружено файлов для верификации";
