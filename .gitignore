@@ -25,3 +25,4 @@ source/ClienActsUI/obj/*
 source/ParrentUI/obj/*
 source/Core.RemoteInteraction/obj/*
 source/Core.RemoteInteraction.Tests/obj/*
+*.json
