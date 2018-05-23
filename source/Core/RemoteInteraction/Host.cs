@@ -61,7 +61,7 @@ namespace OverWeightControl.Core.RemoteInteraction
                 var binding = WcfSettings.GetBinding(
                     settings: _settings,
                     console: _console);
-                var uri = WcfSettings.GetAddress(
+                var uri = WcfSettings.GetAddress<IRemoteInteraction>(
                     binding: binding,
                     settings: _settings,
                     console: _console);
