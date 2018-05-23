@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.BelModel", "Common.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.RemoteInteraction.Test", "Core.RemoteInteraction\Core.RemoteInteraction.Test.csproj", "{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverWeightControl.Runer", "OverWeightControl.Runer\OverWeightControl.Runer.csproj", "{97A88532-97BE-478D-B0E8-AA931A2DBA9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A88532-97BE-478D-B0E8-AA931A2DBA9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A88532-97BE-478D-B0E8-AA931A2DBA9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A88532-97BE-478D-B0E8-AA931A2DBA9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A88532-97BE-478D-B0E8-AA931A2DBA9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{2CEDEDE4-51DC-4EA9-9F34-D32B641D3BAE} = {2C4D089B-CEF6-4977-B302-47EED7F3EA62}
 		{B0553610-1D34-4A94-9AC1-FE0B3B6A4FDB} = {013FF735-75BC-46C5-BE5D-EBD5E6387831}
 		{5C8ADC3A-CDB4-42F2-A1DF-53A13B823320} = {A555001B-2978-4AA5-8926-2214BE5BAA62}
+		{97A88532-97BE-478D-B0E8-AA931A2DBA9E} = {A555001B-2978-4AA5-8926-2214BE5BAA62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B45642E3-DB30-46A5-8DF5-33415D748002}

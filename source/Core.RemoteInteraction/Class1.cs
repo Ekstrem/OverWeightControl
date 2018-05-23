@@ -21,7 +21,7 @@ namespace OverWeightControl.Core.RemoteInteraction.Test
 
             var h = container.Resolve<Host>();
             var p = container.Resolve<Proxy>();
-            var proxy = p.RemoteStorage<IRemoteInteraction>();
+            var proxy = p.CreateRemoteProxy<IRemoteInteraction>();
 
             var res = proxy.Ping();
             System.Console.WriteLine(res);

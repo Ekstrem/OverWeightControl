@@ -21,6 +21,7 @@ source/SettingsService/obj/*
 source/FileTransferManager.Client/obj/*
 source/FileTransferManager.Server/obj/*
 source/OverWeightControl/obj/*
+source/OverWeightControl.Runer/obj/*
 source/ClienActsUI/obj/*
 source/ParrentUI/obj/*
 source/Core.RemoteInteraction/obj/*
