@@ -9,7 +9,7 @@ namespace OverWeightControl.Core.RemoteInteraction
     {
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
-        private ChannelFactory<IRemoteInteraction> _factory;
+        private ChannelFactory _factory;
 
         #region LifeTime
 
@@ -32,7 +32,7 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         public CommunicationState State => _factory.State;
 
-        public IRemoteInteraction RemoteStorage()
+        public T RemoteStorage<T>() where T : class 
         {
             try
             {
@@ -40,13 +40,13 @@ namespace OverWeightControl.Core.RemoteInteraction
                     settings: _settings,
                     console: _console);
                 var address = new EndpointAddress(
-                    WcfSettings.GetAddress(
+                    WcfSettings.GetAddress<IRemoteInteraction>(
                         binding: binding,
                         settings: _settings,
                         console: _console)
                         .AbsoluteUri);
-                _factory = new ChannelFactory<IRemoteInteraction>(binding, address);
-                return  _factory.CreateChannel();
+                _factory = new ChannelFactory<T>(binding, address);
+                return  ((ChannelFactory<T>)_factory).CreateChannel();
             }
             catch (Exception e)
             {

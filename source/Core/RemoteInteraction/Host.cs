@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.ServiceModel;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.Settings;
 using Unity;
+using Unity.Attributes;
+using Unity.Interception.Utilities;
 
 namespace OverWeightControl.Core.RemoteInteraction
 {
@@ -16,6 +21,7 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         #region LifeTime
 
+        [InjectionConstructor]
         public Host(
             IConsoleService console,
             ISettingsStorage settings,
@@ -24,7 +30,9 @@ namespace OverWeightControl.Core.RemoteInteraction
             _console = console;
             _settings = settings;
             _container = container;
-            HostStorageCommitment();
+
+            FindAndHost()
+                .ForEach(e => HostService(e.Value, e.Key));
         }
 
         ~Host()
@@ -46,7 +54,7 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         public CommunicationState State => _host.State;
 
-        public bool HostStorageCommitment()
+        public bool HostService(Type service, Type implamentation)
         {
             try
             {
@@ -57,11 +65,11 @@ namespace OverWeightControl.Core.RemoteInteraction
                     binding: binding,
                     settings: _settings,
                     console: _console);
-                _host = new ServiceHost(typeof(RecivingFiles), uri);
+                _host = new ServiceHost(implamentation, uri);
                 _host.AddServiceEndpoint(
-                    typeof(IRemoteInteraction),
-                    binding,
-                    uri);
+                    implementedContract: service,
+                    binding: binding,
+                    address: uri);
 
                 // AddServiceMetadata();
 
@@ -75,6 +83,43 @@ namespace OverWeightControl.Core.RemoteInteraction
             {
                 _console?.AddException(e);
                 return false;
+            }
+        }
+
+        private IDictionary<Type, Type> FindAndHost()
+        {
+            // get service contracts
+            var services = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(TryGetTypes)
+                .Where(f => f.IsInterface
+                            && f.Namespace != null
+                            && f.Namespace.StartsWith("OverWeightControl.")
+                            && f.IsDefined(typeof(ServiceContractAttribute), false));
+            // get service realization
+            var result = new Dictionary<Type, Type>();
+            foreach (var service in services)
+            {
+                AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(TryGetTypes)
+                    .Where(f => f.IsClass
+                                && f.Namespace != null
+                                && f.Namespace.StartsWith("OverWeightControl.")
+                                && f.GetInterfaces().Contains(service))
+                    .ForEach(e => result.Add(e, service));
+            }
+
+            return result;
+        }
+
+        private Type[] TryGetTypes(Assembly asm)
+        {
+            try
+            {
+                return asm.GetTypes();
+            }
+            catch (Exception ex)
+            {
+                return new Type[] { };
             }
         }
     }

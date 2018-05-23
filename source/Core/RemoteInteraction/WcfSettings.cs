@@ -18,7 +18,7 @@ namespace OverWeightControl.Core.RemoteInteraction
         /// В DI-контейнере не были найдены настройки соединения.
         /// <c>MachineUrl</c> или <c>TcpPort</c>
         /// </exception>
-        internal static Uri GetAddress(
+        internal static Uri GetAddress<T>(
             Binding binding,
             ISettingsStorage settings,
             IConsoleService console)
@@ -29,7 +29,7 @@ namespace OverWeightControl.Core.RemoteInteraction
                     scheme: binding.Scheme,
                     host: settings.Key(ArgsKeyList.ServerName),
                     port: int.Parse(settings.Key(ArgsKeyList.Port)),
-                    pathValue: $"{typeof(IRemoteInteraction).Name}.svc");
+                    pathValue: $"{typeof(T).Name}.svc");
                 return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}/{uriBuilder.Path}");
             }
             catch (Exception e)
