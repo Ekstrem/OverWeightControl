@@ -7,7 +7,7 @@ using OverWeightControl.Core.Console;
 
 namespace OverWeightControl.Core.ConsoleService
 {
-    public class FileConsoleServiceService : DefaultConsoleService, IConsoleService, IDisposable
+    public class FileConsoleServiceService : DefaultConsoleService, IDisposable
     {
         private readonly Guid id;
 
@@ -30,7 +30,10 @@ namespace OverWeightControl.Core.ConsoleService
         public override IDictionary<ConsoleMessage, bool> Flush()
         {
             var jLog = JsonConvert.SerializeObject(_log);
-            File.WriteAllLines($"{id}.log", _log.Select(m => m.Key.ToString()).ToArray());
+            var path = $"{AppDomain.CurrentDomain.BaseDirectory}Logs\\";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            File.WriteAllLines($"{path}{id}.log", _log.Select(m => m.Key.ToString()).ToArray());
             return _log;
         }
     }
