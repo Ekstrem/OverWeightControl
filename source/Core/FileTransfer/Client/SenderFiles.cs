@@ -22,8 +22,8 @@ namespace OverWeightControl.Core.FileTransfer.Client
             Proxy proxy)
             : base(consumer, settings, console)
         {
-            _console.AddEvent($"{nameof(SenderFiles)} ready.");
             _proxy = proxy.CreateRemoteProxy<IRemoteInteraction>();
+            _console.AddEvent($"{nameof(SenderFiles)} ready.");
         }
 
         ~SenderFiles()

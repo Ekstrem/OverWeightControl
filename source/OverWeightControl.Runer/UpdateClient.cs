@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.RemoteInteraction;
@@ -28,10 +29,11 @@ namespace OverWeightControl.Runer
 
         void GetVersion()
         {
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates//";
             int version = _downloader.GetLastVersion();
             var files = _downloader
                 .GetFileList(version)
-                .Select(Path.GetFileName)
+                .Select(m => $"{path}{Path.GetFileName(m)}")
                 .ToDictionary(k => k, v => _downloader.DownLoadFile(version, v));
             foreach (var file in files)
                 File.WriteAllBytes(file.Key, file.Value);

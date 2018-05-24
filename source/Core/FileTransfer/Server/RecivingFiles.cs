@@ -36,9 +36,13 @@ namespace OverWeightControl.Core.FileTransfer.Server
                 s_ownBlackJackQueue = new ConcurrentQueue<FileTransferInfo>();
             #warning: may be needed.
             // _queue = new ConcurrentQueue<FileTransferInfo>(s_ownBlackJackQueue.AsEnumerable());
+            _console.AddEvent($"{nameof(RecivingFiles)} ready.");
         }
 
-        ~RecivingFiles() { Dispose(); }
+        ~RecivingFiles()
+        {
+            _console.AddEvent($"{nameof(RecivingFiles)} stoped.");
+            Dispose(); }
 
         public void Dispose()
         {
