@@ -121,7 +121,12 @@ namespace OverWeightControl.Core.FileTransfer.Client
             try
             {
                 string fileMask = _settings.Key(ArgsKeyList.ScanExt);
-                var files = Directory.GetFiles(_path, fileMask);
+                var files = fileMask
+                    .Split('|')
+                    .Select(m => m.Trim())
+                    .Select(n => Directory.GetFiles(_path, n))
+                    .SelectMany(strings => strings);
+                // var files = Directory.GetFiles(_path, fileMask);
                 var filesInfo = files
                     .Except(_removeList.Keys)
                     .Select(m => new FileInfo(m))
