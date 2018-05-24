@@ -16,6 +16,7 @@ using OverWeightControl.Core.FileTransfer.Server;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.RemoteInteraction;
 using OverWeightControl.Core.Settings;
+using OverWeightControl.Core.Upgrade;
 using Unity;
 using Unity.Lifetime;
 
@@ -172,6 +173,20 @@ namespace OverWeightControl
                     Realization = typeof(ModelContext),
                     Register = false,
                     AllowRoles = new List<NodeRole> {NodeRole.VerificationStation, NodeRole.ReportsStation}
+                },
+                new Dependency(8)
+                {
+                    Abstractions = typeof(IDownloader),
+                    Realization = typeof(Downloader),
+                    Register = true,
+                    AllowRoles = new List<NodeRole> {NodeRole.AFC}
+                },
+                new Dependency(8)
+                {
+                    Abstractions = typeof(UpdateClient),
+                    Realization = typeof(UpdateClient),
+                    Register = true,
+                    AllowRoles = new List<NodeRole> {NodeRole.PPVK}
                 }
             };
         }
