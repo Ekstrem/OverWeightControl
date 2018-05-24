@@ -10,6 +10,7 @@ bin/*.config
 bin/*.Test.exe
 bin/*.Tests.exe
 bin/xunit.*.dll
+bin/Updates/*
 source/.vs/*
 .vs/OverWeightControl/v15/.suo
 source/Common/obj/*
