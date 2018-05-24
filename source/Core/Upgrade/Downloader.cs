@@ -43,11 +43,9 @@ namespace OverWeightControl.Core.Upgrade
         {
             try
             {
-                string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\{version}";
-                var files = Directory.GetFiles(path, "*.dll")
+                string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\{version}\\";
+                return Directory.GetFiles(path, "*.dll")
                 .Union(Directory.GetFiles(path, "*.exe"));
-                // .Select(Path.GetFileName);
-                return files.Select(m => new FileInfo(m).FullName);
             }
             catch (Exception e)
             {
@@ -60,7 +58,8 @@ namespace OverWeightControl.Core.Upgrade
         {
             try
             {
-                return File.ReadAllBytes(fileName);
+                byte[] data = File.ReadAllBytes(fileName);
+                return data;
             }
             catch (Exception e)
             {
