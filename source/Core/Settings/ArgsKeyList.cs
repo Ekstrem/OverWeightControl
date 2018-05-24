@@ -15,5 +15,6 @@
         public static string ConnectionString = nameof(ConnectionString);
         public static string Mode = nameof(Mode);
         public static string Binding = nameof(Binding);
+        public static string Version = nameof(Version);
     }
 }

@@ -29,14 +29,28 @@ namespace OverWeightControl.Core.Upgrade
 
         void GetVersion()
         {
-            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates//";
-            int version = _downloader.GetLastVersion();
-            var files = _downloader
-                .GetFileList(version)
-                .Select(m => $"{path}{Path.GetFileName(m)}")
-                .ToDictionary(k => k, v => _downloader.DownLoadFile(version, v));
-            foreach (var file in files)
-                File.WriteAllBytes(file.Key, file.Value);
+            try
+            {
+                string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\";
+
+                int version = _downloader.GetLastVersion();
+                int currentVersion = int.TryParse(_settings.Key(ArgsKeyList.Version), out int buf) ? buf : -1;
+                if (currentVersion < version)
+                    return;
+
+                var files = _downloader
+                    .GetFileList(version)
+                    .Select(m => $"{path}{Path.GetFileName(m)}")
+                    .ToDictionary(k => k, v => _downloader.DownLoadFile(version, v));
+                foreach (var file in files)
+                    File.WriteAllBytes(file.Key, file.Value);
+
+                _settings.GetArgs()[ArgsKeyList.Version] = version.ToString();
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+            }
         }
     }
 }

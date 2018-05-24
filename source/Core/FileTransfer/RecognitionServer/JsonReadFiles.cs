@@ -10,7 +10,7 @@ using Unity.Attributes;
 
 namespace OverWeightControl.Core.FileTransfer.RecognitionServer
 {
-    public class JsonReadFiles : WorkFlowDecoratorBase, IDisposable
+    public class JsonReadFiles : WorkFlowDecoratorBase
     {
         #region LifeTime
 
