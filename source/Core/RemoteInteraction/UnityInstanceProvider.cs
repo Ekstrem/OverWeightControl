@@ -57,7 +57,7 @@ namespace OverWeightControl.Core.RemoteInteraction
         public void ReleaseInstance(InstanceContext instanceContext, object instance)
         {
             if (instance != null)
-                (instance as IDisposable).Dispose();
+                (instance as IDisposable)?.Dispose();
         }
     }
 }

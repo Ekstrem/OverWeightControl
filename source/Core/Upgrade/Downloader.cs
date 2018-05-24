@@ -44,10 +44,10 @@ namespace OverWeightControl.Core.Upgrade
             try
             {
                 string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\{version}";
-                string fileMask = _settings.Key(ArgsKeyList.ScanExt);
-                return Directory
-                    .GetFiles(path, fileMask)
-                    .Select(m => new FileInfo(m).FullName);
+                var files = Directory.GetFiles(path, "*.dll")
+                .Union(Directory.GetFiles(path, "*.exe"));
+                // .Select(Path.GetFileName);
+                return files.Select(m => new FileInfo(m).FullName);
             }
             catch (Exception e)
             {
