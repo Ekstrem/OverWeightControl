@@ -24,7 +24,7 @@ namespace OverWeightControl.Core.Upgrade
         {
             try
             {
-                string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates//";
+                string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\";
                 return Directory
                     .GetDirectories(path)
                     .Select(m => int.TryParse(m, out int buf) ? buf : -1)
@@ -41,7 +41,7 @@ namespace OverWeightControl.Core.Upgrade
         {
             try
             {
-                string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates//{version}";
+                string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\{version}";
                 string fileMask = _settings.Key(ArgsKeyList.ScanExt);
                 return Directory
                     .GetFiles(path, fileMask)
