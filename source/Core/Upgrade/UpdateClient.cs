@@ -39,13 +39,12 @@ namespace OverWeightControl.Core.Upgrade
                 if (currentVersion > version)
                     return;
 
-                var files = _downloader
-                    .GetFileList(version)
-                    .Select(m => $"{path}{Path.GetFileName(m)}");
+                var files = _downloader.GetFileList(version);
+                    //.Select(m => $"{path}{Path.GetFileName(m)}");
                 foreach (var file in files)
                 {
                     byte[] data = _downloader.DownLoadFile(version, file);
-                    File.WriteAllBytes(file, data);
+                    File.WriteAllBytes($"{path}{Path.GetFileName(file)}", data);
                 }
 
                 _settings.GetArgs()[ArgsKeyList.Version] = version.ToString();
