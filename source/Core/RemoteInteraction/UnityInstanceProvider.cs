@@ -56,7 +56,8 @@ namespace OverWeightControl.Core.RemoteInteraction
         /// <param name="instance">Экземпляр службы.</param>
         public void ReleaseInstance(InstanceContext instanceContext, object instance)
         {
-            (instance as IDisposable).Dispose();
+            if (instance != null)
+                (instance as IDisposable).Dispose();
         }
     }
 }

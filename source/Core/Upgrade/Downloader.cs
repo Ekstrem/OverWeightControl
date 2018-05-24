@@ -25,8 +25,10 @@ namespace OverWeightControl.Core.Upgrade
             try
             {
                 string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\";
-                return Directory
+                var dirs = Directory
                     .GetDirectories(path)
+                    .Select(m => m.Split('\\').Last());
+                return dirs
                     .Select(m => int.TryParse(m, out int buf) ? buf : -1)
                     .Max();
             }
