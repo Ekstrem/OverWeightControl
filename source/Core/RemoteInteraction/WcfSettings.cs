@@ -43,7 +43,8 @@ namespace OverWeightControl.Core.RemoteInteraction
             ISettingsStorage settings,
             IConsoleService console)
         {
-            string bindingName = settings?.Key(ArgsKeyList.Binding) ?? "Net";
+            string bindingName = 
+                settings?.Key(ArgsKeyList.Binding) ?? "Net";
             switch (bindingName)
             {
                 case "Net":
@@ -61,10 +62,13 @@ namespace OverWeightControl.Core.RemoteInteraction
             {
                 var binding = Activator.CreateInstance<NetTcpBinding>();
                 binding.Security.Mode = SecurityMode.None;
-                binding.TransferMode = TransferMode.StreamedRequest;
+                binding.TransferMode = TransferMode.Streamed;
                 binding.MaxBufferSize = Int32.MaxValue;
                 binding.MaxReceivedMessageSize = Int32.MaxValue;
                 binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
+
+                binding.SendTimeout = new TimeSpan(0,12,0);
+                binding.ReceiveTimeout = new TimeSpan(0,5,0);
 
                 return binding;
             }
