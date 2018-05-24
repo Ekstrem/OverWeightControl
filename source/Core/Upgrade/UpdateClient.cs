@@ -48,6 +48,7 @@ namespace OverWeightControl.Core.Upgrade
                 }
 
                 _settings.GetArgs()[ArgsKeyList.Version] = version.ToString();
+                _settings.SaveToFile();
             }
             catch (Exception e)
             {
