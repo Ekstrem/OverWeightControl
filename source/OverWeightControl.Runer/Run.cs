@@ -45,12 +45,12 @@ namespace OverWeightControl.Runer
 
         private static void FindOutLastVersion()
         {
-            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates//";
-            int lastVersion = GetLastVersion(path);
-            if (!Directory.Exists($"{path}{lastVersion}"))
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\";
+            if (!Directory.Exists(path))
                 return;
-            string fileMask = "*.exe | *.dll";
-            var files = Directory.GetFiles(path, fileMask);
+            var files = Directory.GetFiles(path, "*.dll")
+                .Union(Directory.GetFiles(path, "*.exe"))
+                .Select(Path.GetFileName);
             foreach (var file in files)
             {
                 if (File.Exists($"{AppDomain.CurrentDomain.BaseDirectory}{file}"))
@@ -58,6 +58,7 @@ namespace OverWeightControl.Runer
                 File.Copy(
                     sourceFileName: $"{path}{file}",
                     destFileName: $"{AppDomain.CurrentDomain.BaseDirectory}{file}");
+                File.Delete($"{path}{file}");
             }
         }
         
