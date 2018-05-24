@@ -20,7 +20,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
             IConsoleService console)
             : base(consumer, settings, console)
         {
-            _console.AddEvent($"{nameof(UnCompresserFiles)} ready.");
+            _console.AddEvent($"{nameof(SaveForAfcFiles)} ready.");
         }
 
         ~SaveForAfcFiles()
@@ -33,7 +33,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
         /// </summary>
         public override void Dispose()
         {
-            _console.AddEvent($"{nameof(UnCompresserFiles)} stoped.");
+            _console.AddEvent($"{nameof(SaveForAfcFiles)} stoped.");
             base.Dispose();
         }
 

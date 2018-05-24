@@ -32,7 +32,7 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         public CommunicationState State => _factory.State;
 
-        public T RemoteStorage<T>() where T : class 
+        public T CreateRemoteProxy<T>() where T : class 
         {
             try
             {
