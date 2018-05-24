@@ -44,7 +44,7 @@ namespace OverWeightControl.Core.Settings
                     {ArgsKeyList.ArgsFileLocation, _argsFilePath},
                     {ArgsKeyList.IsDebugMode, "false"},
                     {ArgsKeyList.WFProcWaitingFor, "60"},
-                    {ArgsKeyList.ServerName, "localhost"},
+                    {ArgsKeyList.ServerName, "0.0.0.0"},
                     {ArgsKeyList.Port, "8001"},
                     {ArgsKeyList.ScanExt, "*.pdf"},
                     {
