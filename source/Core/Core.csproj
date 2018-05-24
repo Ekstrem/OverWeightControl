@@ -118,6 +118,9 @@
     <Compile Include="Settings\ISettingsStorage.cs" />
     <Compile Include="Settings\DefaultSettingsStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Upgrade\Downloader.cs" />
+    <Compile Include="Upgrade\IDownloader.cs" />
+    <Compile Include="Upgrade\UpdateClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

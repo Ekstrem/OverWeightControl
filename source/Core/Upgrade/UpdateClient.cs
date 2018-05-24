@@ -6,7 +6,7 @@ using OverWeightControl.Core.RemoteInteraction;
 using OverWeightControl.Core.Settings;
 using Unity.Attributes;
 
-namespace OverWeightControl.Runer
+namespace OverWeightControl.Core.Upgrade
 {
     public class UpdateClient
     {

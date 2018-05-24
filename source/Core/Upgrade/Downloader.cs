@@ -5,7 +5,7 @@ using System.Linq;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 
-namespace OverWeightControl.Runer
+namespace OverWeightControl.Core.Upgrade
 {
     public class Downloader : IDownloader
     {

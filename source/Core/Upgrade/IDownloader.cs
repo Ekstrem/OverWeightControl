@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace OverWeightControl.Runer
+namespace OverWeightControl.Core.Upgrade
 {
     [ServiceContract]
     public interface IDownloader
