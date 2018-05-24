@@ -25,6 +25,7 @@ namespace OverWeightControl.Core.Upgrade
             _settings = settings;
             _proxy = proxy;
             _downloader = proxy.CreateRemoteProxy<IDownloader>();
+            GetVersion();
         }
 
         void GetVersion()
@@ -35,15 +36,17 @@ namespace OverWeightControl.Core.Upgrade
 
                 int version = _downloader.GetLastVersion();
                 int currentVersion = int.TryParse(_settings.Key(ArgsKeyList.Version), out int buf) ? buf : -1;
-                if (currentVersion < version)
+                if (currentVersion > version)
                     return;
 
                 var files = _downloader
                     .GetFileList(version)
-                    .Select(m => $"{path}{Path.GetFileName(m)}")
-                    .ToDictionary(k => k, v => _downloader.DownLoadFile(version, v));
+                    .Select(m => $"{path}{Path.GetFileName(m)}");
                 foreach (var file in files)
-                    File.WriteAllBytes(file.Key, file.Value);
+                {
+                    byte[] data = _downloader.DownLoadFile(version, file);
+                    File.WriteAllBytes(file, data);
+                }
 
                 _settings.GetArgs()[ArgsKeyList.Version] = version.ToString();
             }

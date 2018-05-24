@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OverWeightControl.Core.Settings;
+using OverWeightControl.Core.Upgrade;
 using Unity;
 using Unity.Attributes;
 
@@ -11,15 +12,18 @@ namespace OverWeightControl.Clients.ParrentUI
     {
         private readonly IUnityContainer _container;
         private readonly ISettingsStorage _settings;
+        private readonly UpdateClient _updateClient;
         private bool _adminMode;
 
         [InjectionConstructor]
         public MainForm(
             IUnityContainer container,
-            ISettingsStorage settings)
+            ISettingsStorage settings,
+            [OptionalDependency]UpdateClient updateClient)
         {
             _container = container;
             _settings = settings;
+            _updateClient = updateClient;
             InitializeComponent();
             TopLevel = true;
 
