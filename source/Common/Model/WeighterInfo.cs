@@ -72,7 +72,7 @@ namespace OverWeightControl.Common.Model
         /// Характер нарушения.
         /// </summary>
         [JsonProperty(Order = 4)]
-        [StringLength(35)]
+        [StringLength(50)]
         public string ViolationNature { get; set; }
 
         /// <summary>

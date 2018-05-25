@@ -248,7 +248,7 @@ namespace OverWeightControl
                     Name = nameof(SenderFiles),
                     AllowRoles = new List<NodeRole> {NodeRole.PPVK}
                 },
-                new Dependency(6)
+                new Dependency(14)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(DeleteFiles),
@@ -338,17 +338,31 @@ namespace OverWeightControl
 
         private static CompositionRoot LoadFromFile()
         {
-            var jss = new JsonSerializerSettings { Formatting = Formatting.Indented };
-            var json = File.ReadAllText(_fullName);
-            return JsonConvert
-                .DeserializeObject<CompositionRoot>(json, jss) as CompositionRoot;
+            try
+            {
+                var jss = new JsonSerializerSettings { Formatting = Formatting.Indented };
+                var json = File.ReadAllText(_fullName);
+                return JsonConvert
+                    .DeserializeObject<CompositionRoot>(json, jss) as CompositionRoot;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         internal void SaveConfigToFile()
         {
-            var jss = new JsonSerializerSettings { Formatting = Formatting.Indented };
-            var json = JsonConvert.SerializeObject(this, jss);
-            File.WriteAllText(_fullName, json);
+            try
+            {
+                var jss = new JsonSerializerSettings {Formatting = Formatting.Indented};
+                var json = JsonConvert.SerializeObject(this, jss);
+                File.WriteAllText(_fullName, json);
+            }
+            catch (Exception e)
+            {
+                s_container?.Resolve<IConsoleService>()?.AddException(e);
+            }
         }
 
         [JsonProperty]

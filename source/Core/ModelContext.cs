@@ -1,5 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using OverWeightControl.Common.Model;
+using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 using Unity.Attributes;
 
@@ -7,15 +9,28 @@ namespace OverWeightControl
 {
     public class ModelContext : DbContext
     {
+        private readonly IConsoleService _console;
+
         [InjectionConstructor]
-        public ModelContext(ISettingsStorage settings)
+        public ModelContext(
+            ISettingsStorage settings,
+            IConsoleService console)
             : base(GetConnectionString(settings))
         {
-            if (//settings == null ||
-                bool.TryParse(settings?.Key(ArgsKeyList.IsDebugMode), out bool debug) &&
-                debug)
-                Database.Delete();
-            Database.CreateIfNotExists();
+            _console = console;
+
+            try
+            {
+                if (Database.Exists() &&
+                    bool.TryParse(settings?.Key(ArgsKeyList.IsDebugMode), out bool debug) &&
+                    debug)
+                    Database.Delete();
+                Database.CreateIfNotExists();
+            }
+            catch (Exception e)
+            {
+                console.AddException(e);
+            }
         }
 
         private static string GetConnectionString(ISettingsStorage settings)

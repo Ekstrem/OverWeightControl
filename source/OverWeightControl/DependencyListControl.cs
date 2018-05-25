@@ -105,6 +105,7 @@ namespace OverWeightControl
                 for (int i = 0; i < dataGrid.RowCount; i++)
                 {
                     var dep = (Dependency)dataGrid.Rows[i].Tag;
+                    dep.Order = i;
                     dep.Register = (bool) dataGrid.Rows[i].Cells[4].Value;
                     data.Add(dep);
                 }

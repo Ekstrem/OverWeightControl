@@ -16,5 +16,6 @@
         public static string Mode = nameof(Mode);
         public static string Binding = nameof(Binding);
         public static string Version = nameof(Version);
+        public static string HandValidation = nameof(HandValidation);
     }
 }

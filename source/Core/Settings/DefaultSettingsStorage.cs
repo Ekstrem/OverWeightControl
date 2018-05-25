@@ -60,7 +60,8 @@ namespace OverWeightControl.Core.Settings
                         "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True"
                     },
                     { ArgsKeyList.Binding, "Net" },
-                    { ArgsKeyList.Version, "0" }
+                    { ArgsKeyList.Version, "0" },
+                    { ArgsKeyList.HandValidation, "true" }
                 };
         }
 

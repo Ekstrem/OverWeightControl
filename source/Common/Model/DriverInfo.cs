@@ -57,7 +57,7 @@ namespace OverWeightControl.Common.Model
         /// № водительского удостоверения.
         /// </summary>
         [JsonProperty(Order = 2)]
-        [StringLength(15)]
+        [StringLength(20)]
         public string DriversLicenseNumber { get; set; }
 
         /// <summary>

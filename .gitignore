@@ -11,6 +11,7 @@ bin/*.Test.exe
 bin/*.Tests.exe
 bin/xunit.*.dll
 bin/Updates/*
+bin/Store/*
 source/.vs/*
 .vs/OverWeightControl/v15/.suo
 source/Common/obj/*
