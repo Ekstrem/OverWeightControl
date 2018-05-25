@@ -82,7 +82,7 @@ namespace OverWeightControl.Common.Model
         /// Место проведения контроля (взвешивания).
         /// </summary>
         [JsonProperty(Order = 5)]
-        [StringLength(50)]
+        [StringLength(100)]
         public string WeightPoint { get; set; }
 
         /// <summary>

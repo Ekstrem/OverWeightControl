@@ -88,14 +88,14 @@ namespace OverWeightControl.Common.Model
         /// Характеристика груза.
         /// </summary>
         [JsonProperty(Order = 1)]
-        [StringLength(12)]
+        [StringLength(20)]
         public string CargoCharacter { get; set; }
 
         /// <summary>
         /// Вид груза.
         /// </summary>
         [JsonProperty(Order = 2)]
-        [StringLength(12)]
+        [StringLength(30)]
         public string CargoType { get; set; }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace OverWeightControl.Common.Model
         /// Объяснение водителя.
         /// </summary>
         [JsonProperty(Order = 14)]
-        [StringLength(50)]
+        [StringLength(250)]
         public string DriverExplanation { get; set; }
 
         /// <summary>

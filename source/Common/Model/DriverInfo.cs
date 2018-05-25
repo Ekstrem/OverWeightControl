@@ -50,7 +50,7 @@ namespace OverWeightControl.Common.Model
         /// Ф.И.О.
         /// </summary>
         [JsonProperty(Order = 1)]
-        [StringLength(50)]
+        [StringLength(150)]
         public string FnMnSname { get; set; }
 
         /// <summary>

@@ -67,7 +67,7 @@ namespace OverWeightControl.Common.BelModel
                     act.Vehicle.VehicleCountry = blankValues.country.recognizedValue;
                     act.Vehicle.VehicleOwner = blankValues.fullNameOwner.recognizedValue;
                     act.Vehicle.VehicleRoute = String.Empty;
-                    act.Vehicle.VehicleShipper = blankValues.from.recognizedValue;
+                    act.Vehicle.VehicleShipper = blankValues?.from?.recognizedValue;
                     act.Vehicle.VehicleSubjectCode = 
                         int.TryParse(blankValues.code.recognizedValue, out int code)
                             ? code : default(int);

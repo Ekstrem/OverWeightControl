@@ -94,7 +94,7 @@ namespace OverWeightControl.Common.Model
         /// Адрес организации.
         /// </summary>
         [JsonProperty(Order = 5)]
-        [StringLength(50)]
+        [StringLength(150)]
         public string VehicleCompanyAddress { get; set; }
 
         /// <summary>

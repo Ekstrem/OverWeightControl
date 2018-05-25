@@ -73,13 +73,13 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
                     .ForEach(e => _console.AddEvent(e.ErrorMessage, ConsoleMessageType.Exception));
                 ErrorFileCopy(fileTransferInfo);
 
-                return null;
+                return fileTransferInfo;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
                 ErrorFileCopy(fileTransferInfo);
-                return null;
+                return fileTransferInfo;
             }
         }
 
@@ -87,8 +87,8 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
 
         private void ErrorFileCopy(FileTransferInfo fileTransferInfo)
         {
-            var dir = $"{AppDomain.CurrentDomain.BaseDirectory}Errors";
-            if (Directory.Exists(dir))
+            var dir = $"{AppDomain.CurrentDomain.BaseDirectory}Errors\\";
+            if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             File.WriteAllBytes(
                 $"{dir}{fileTransferInfo.Id}.{fileTransferInfo.Ext}",

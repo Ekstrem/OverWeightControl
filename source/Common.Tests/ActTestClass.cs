@@ -49,7 +49,7 @@ namespace OverWeightControl.Common.Tests
         {
             try
             {
-                var context = new ModelContext(null);
+                var context = new ModelContext(null, null);
                 context.Acts.Add(act);
                 context.SaveChanges();
             }
