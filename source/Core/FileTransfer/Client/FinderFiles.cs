@@ -83,12 +83,21 @@ namespace OverWeightControl.Core.FileTransfer.Client
                             .Where(f => files.Contains(f.Value))
                             .Select(m => m.Key)
                         : _removeList.Keys;
-                    filesToRemove.ForEach(File.Delete);
-                    var newDirectory = _settings.Key(ArgsKeyList.StorePath);
-                    files.ForEach(e => File.Delete($"{newDirectory}\\{e}"));
-                }
+                    filesToRemove.ForEach(e =>
+                    {
+                        try
+                        {
+                            File.Delete(e);
+                            _console.AddEvent($"File {e} was deleted.");
+                        }
+                        catch (Exception ex)
+                        {
+                            _console.AddException(ex);
+                        }
+                    });
 
-                _console.AddEvent($"{nameof(FinderFiles)} stoped.");
+                    _console.AddEvent($"{nameof(FinderFiles)} stoped.");
+                }
             }
             catch (Exception e)
             {
