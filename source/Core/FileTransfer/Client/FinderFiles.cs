@@ -74,11 +74,18 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 }
                 else
                 {
-                    var files = _queue.Select(m => m.Id);
+                    // Если всё завершается правильно, через CancelationToken, удаляются файлы.
+                    var files = _queue
+                        .Select(m => m.Id)
+                        .ToList();
                     var filesToRemove = files.Any()
-                        ? _removeList.Where(f => files.Contains(f.Value)).Select(m => m.Key)
+                        ? _removeList
+                            .Where(f => files.Contains(f.Value))
+                            .Select(m => m.Key)
                         : _removeList.Keys;
                     filesToRemove.ForEach(File.Delete);
+                    var newDirectory = _settings.Key(ArgsKeyList.StorePath);
+                    files.ForEach(e => File.Delete($"{newDirectory}\\{e}"));
                 }
 
                 _console.AddEvent($"{nameof(FinderFiles)} stoped.");
@@ -120,24 +127,25 @@ namespace OverWeightControl.Core.FileTransfer.Client
         {
             try
             {
+                // Получение искомого расширения файлов.
                 string fileMask = _settings.Key(ArgsKeyList.ScanExt);
+                // Поиск файлов в ScanPath
                 var files = fileMask
                     .Split('|')
                     .Select(m => m.Trim())
                     .Select(n => Directory.GetFiles(_path, n))
-                    .SelectMany(strings => strings);
-                // var files = Directory.GetFiles(_path, fileMask);
-                var filesInfo = files
+                    .SelectMany(strings => strings)
                     .Except(_removeList.Keys)
                     .Select(m => new FileInfo(m))
                     .AsEnumerable();
+                
                 var fties = new List<FileTransferInfo>();
-
                 var newDirectory = _settings.Key(ArgsKeyList.StorePath);
                 if (!Directory.Exists(newDirectory))
                     Directory.CreateDirectory(newDirectory);
 
-                foreach (var file in filesInfo)
+                // Заполнение FileTrasportInfo.
+                foreach (var file in files)
                 {
                     Guid id = Guid.NewGuid();
                     File.Copy(file.FullName, $"{newDirectory}\\{id}");

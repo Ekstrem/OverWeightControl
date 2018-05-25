@@ -31,7 +31,7 @@ namespace OverWeightControl.Core.Settings
                 {
                     {
                         ArgsKeyList.ScanPath,
-                        $"{AppDomain.CurrentDomain.BaseDirectory}"
+                        $"{AppDomain.CurrentDomain.BaseDirectory}ScanPath"
                     },
                     {
                         ArgsKeyList.StorePath,
@@ -46,7 +46,7 @@ namespace OverWeightControl.Core.Settings
                     {ArgsKeyList.WFProcWaitingFor, "60"},
                     {ArgsKeyList.ServerName, "0.0.0.0"},
                     {ArgsKeyList.Port, "8001"},
-                    {ArgsKeyList.ScanExt, "*.pdf"},
+                    {ArgsKeyList.ScanExt, "*.pdf | *.tiff"},
                     {
                         ArgsKeyList.AfcPath,
                         $"{AppDomain.CurrentDomain.BaseDirectory}AfcPath"
@@ -83,9 +83,17 @@ namespace OverWeightControl.Core.Settings
 
         public string Key(string keyName)
         {
-            return _args.ContainsKey(keyName)
-                ? _args[keyName]
-                : String.Empty;
+            try
+            {
+                return _args.ContainsKey(keyName)
+                    ? _args[keyName]
+                    : String.Empty;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return string.Empty;
+            }
         }
 
         public Dict GetArgs()
