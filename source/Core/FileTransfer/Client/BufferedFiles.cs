@@ -51,7 +51,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
         {
             try
             {
-                var fileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
+                var fileName = $"{_settings.Key(ArgsKeyList.ScanPath)}\\{fileTransferInfo.Id}{fileTransferInfo.Ext}";
                 fileTransferInfo.Data = File.ReadAllBytes(fileName);
                 return fileTransferInfo;
             }

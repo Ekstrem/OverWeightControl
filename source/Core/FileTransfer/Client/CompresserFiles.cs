@@ -56,7 +56,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 {
                     using (GZipStream zip = new GZipStream(stream, CompressionMode.Compress))
                     {
-                        zip.Write(fileTransferInfo.Data, 0, fileTransferInfo.Data.Length);
+                        zip.Write(fileTransferInfo, 0, fileTransferInfo.Data.Length);
                     }
 
                     fileTransferInfo.Data = stream.ToArray();

@@ -66,5 +66,9 @@ namespace OverWeightControl.Core.FileTransfer
             var hash = md5.ComputeHash(data);
             return Encoding.UTF8.GetString(md5.ComputeHash(hash));
         }
+
+        public static implicit operator Guid(FileTransferInfo file) => file.Id;
+        public static implicit operator string(FileTransferInfo file) => file.ToString();
+        public static implicit operator byte[](FileTransferInfo file) => file.Data;
     }
 }

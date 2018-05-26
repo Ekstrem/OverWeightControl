@@ -21,14 +21,14 @@ namespace OverWeightControl.Core.FileTransfer.Client
     public class FinderFiles : WorkFlowBase, IDisposable
     {
         private readonly string _path;
-        private readonly IDictionary<string, Guid> _removeList;
+        private readonly ICollection<Guid> _addedFiles;
 
         #region Lifetime
 
         public FinderFiles()
         {
             _queue = new ConcurrentQueue<FileTransferInfo>();
-            _removeList = new Dictionary<string, Guid>();
+            _addedFiles = new HashSet<Guid>();
 
             CancelationToken = WorkFlowCancelationToken.Stoped;
         }
@@ -43,12 +43,8 @@ namespace OverWeightControl.Core.FileTransfer.Client
                 _settings?.Key(ArgsKeyList.ScanPath)
                 ?? AppDomain.CurrentDomain.BaseDirectory;
 
-            var fileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\list.json";
-            _queue = !File.Exists(fileName)
-                ? new ConcurrentQueue<FileTransferInfo>()
-                : new ConcurrentQueue<FileTransferInfo>(LoadFromFile(fileName));
-            
-            _removeList = new Dictionary<string, Guid>();
+            _queue = new ConcurrentQueue<FileTransferInfo>();
+            _addedFiles = new HashSet<Guid>();
 
             CancelationToken = WorkFlowCancelationToken.Ready;
 
@@ -62,47 +58,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
 
         public void Dispose()
         {
-            try
-            {
-                if (CancelationToken != WorkFlowCancelationToken.Stoped)
-                {
-                    // save copied fileList info in file
-                    string json = JsonConvert
-                        .SerializeObject(_queue.ToList());
-                    var fileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\list.json";
-                    File.WriteAllText(fileName, json);
-                }
-                else
-                {
-                    // Если всё завершается правильно, через CancelationToken, удаляются файлы.
-                    var files = _queue
-                        .Select(m => m.Id)
-                        .ToList();
-                    var filesToRemove = files.Any()
-                        ? _removeList
-                            .Where(f => files.Contains(f.Value))
-                            .Select(m => m.Key)
-                        : _removeList.Keys;
-                    filesToRemove.ForEach(e =>
-                    {
-                        try
-                        {
-                            File.Delete(e);
-                            _console.AddEvent($"File {e} was deleted.");
-                        }
-                        catch (Exception ex)
-                        {
-                            _console.AddException(ex);
-                        }
-                    });
-
-                    _console.AddEvent($"{nameof(FinderFiles)} stoped.");
-                }
-            }
-            catch (Exception e)
-            {
-                _console?.AddException(e);
-            }
+            _addedFiles.Clear();
         }
 
         #endregion
@@ -144,28 +100,33 @@ namespace OverWeightControl.Core.FileTransfer.Client
                     .Select(m => m.Trim())
                     .Select(n => Directory.GetFiles(_path, n))
                     .SelectMany(strings => strings)
-                    .Except(_removeList.Keys)
                     .Select(m => new FileInfo(m))
                     .AsEnumerable();
                 
                 var fties = new List<FileTransferInfo>();
-                var newDirectory = _settings.Key(ArgsKeyList.StorePath);
-                if (!Directory.Exists(newDirectory))
-                    Directory.CreateDirectory(newDirectory);
-
                 // Заполнение FileTrasportInfo.
                 foreach (var file in files)
                 {
-                    Guid id = Guid.NewGuid();
-                    File.Copy(file.FullName, $"{newDirectory}\\{id}");
-                    _removeList.Add(file.FullName, id);
+                    var fileName = Path.GetFileNameWithoutExtension(file.FullName);
+                    bool isGuidName = Guid.TryParse(fileName, out Guid result);
                     var fti = new FileTransferInfo
                     {
-                        Id = id,
+                        Id = isGuidName ? result : Guid.NewGuid(),
                         Size = file.Length,
                         Ext = file.Extension
                     };
-                    fties.Add(fti);
+
+                    if (!isGuidName)
+                    {
+                        File.Move(file.FullName, $"{_path}\\{fti.Id}{fti.Ext}");
+                        _console.AddEvent($"Файл {file.Name} добавлен в очередь с GUID {fti.Id}");
+                    }
+
+                    if (!_addedFiles.Contains(fti.Id))
+                    {
+                        fties.Add(fti);
+                        _addedFiles.Add(fti.Id);
+                    }
                 }
 
                 return fties;

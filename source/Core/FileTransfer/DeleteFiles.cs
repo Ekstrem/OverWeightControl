@@ -52,10 +52,10 @@ namespace OverWeightControl.Core.FileTransfer
         {
             try
             {
-                string directory = _settings.Key(ArgsKeyList.StorePath);
+                string directory = _settings.Key(ArgsKeyList.ScanPath);
                 if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
-                File.Delete($"{directory}\\{fileTransferInfo.Id}");
+                    return fileTransferInfo;
+                File.Delete($"{directory}\\{fileTransferInfo.Id}{fileTransferInfo.Ext}");
                 fileTransferInfo.Size = -1;
                 return fileTransferInfo;
             }
