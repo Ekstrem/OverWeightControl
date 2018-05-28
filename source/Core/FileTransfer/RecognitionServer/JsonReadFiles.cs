@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OverWeightControl.Common.BelModel;
 using OverWeightControl.Common.Model;
+using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
@@ -58,8 +59,16 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
             try
             {
                 var json = Encoding.UTF8.GetString(fileTransferInfo.Data);
-                var bl = BlankList.GetList(json);
-                var parsedAct = bl.ToModelFormat();
+                var bl = BlankList.GetList(
+                    json,
+                    ex => _console?.AddException(ex));
+                var parsedAct = bl.ToModelFormat(ex => _console?.AddException(ex));
+                if (bool.TryParse(_settings.Key(ArgsKeyList.HandValidation), out bool buf)
+                    && buf
+                    && ((IEditable<Act>)_validationForm).LoadData(parsedAct)
+                    && _validationForm.ShowDialog() == DialogResult.OK
+                    && ((IEditable<Act>)_validationForm).UpdateData(parsedAct)) { }
+
                 _context.Acts.Add(parsedAct);
                 _context.SaveChanges();
 

@@ -17,7 +17,7 @@ namespace OverWeightControl.Common.BelModel
         /// Маппит эту модель в стандартную.
         /// </summary>
         /// <returns>Стандартная модель домена.</returns>
-        public Act ToModelFormat()
+        public Act ToModelFormat(Action<Exception> exceptionAction = null)
         {
             try
             {
@@ -43,6 +43,7 @@ namespace OverWeightControl.Common.BelModel
                 }
                 catch (Exception e)
                 {
+                    exceptionAction?.Invoke(e);
                 }
 
                 try
@@ -56,6 +57,7 @@ namespace OverWeightControl.Common.BelModel
                 }
                 catch (Exception e)
                 {
+                    exceptionAction?.Invoke(e);
                 }
 
                 try
@@ -75,6 +77,7 @@ namespace OverWeightControl.Common.BelModel
                 }
                 catch (Exception e)
                 {
+                    exceptionAction?.Invoke(e);
                 }
 
                 try
@@ -83,6 +86,11 @@ namespace OverWeightControl.Common.BelModel
                     act.Cargo.CargoCharacter = blankValues.goodsCharacteristics.recognizedValue;
                     act.Cargo.CargoType = blankValues.typeGoods.recognizedValue;
                     act.Cargo.DriverExplanation = blankValues.reason.recognizedValue;
+                    act.Cargo.Pass = String.Empty;
+                    act.Cargo.OtherViolation = String.Empty;
+                    act.Cargo.LegLength = default(float);
+                    act.Cargo.Tariffs = default(int);
+                    act.Cargo.RoadSection = String.Empty;
                     act.Cargo.FactWeight =
                         float.TryParse(blankValues.weightOfCargo.value[0].value[0].recognizedValue,
                             out float factweight)
@@ -108,11 +116,6 @@ namespace OverWeightControl.Common.BelModel
                             out float specialAllowWeight)
                             ? specialAllowWeight
                             : default(float);
-                    act.Cargo.Pass = String.Empty;
-                    act.Cargo.OtherViolation = String.Empty;
-                    act.Cargo.LegLength = default(float);
-                    act.Cargo.Tariffs = default(int);
-                    act.Cargo.RoadSection = String.Empty;
 
                     act.Cargo.Axises = new List<AxisInfo>(
                         blankValues.distanceBetween.value
@@ -145,17 +148,19 @@ namespace OverWeightControl.Common.BelModel
                 }
                 catch (Exception e)
                 {
+                    exceptionAction?.Invoke(e);
                 }
                 
                 return act;
             }
             catch (Exception e)
             {
+                exceptionAction?.Invoke(e);
                 return null;
             }
         }
 
-        public static BlankList GetList(string json)
+        public static BlankList GetList(string json, Action<Exception> exceptionAction = null)
         {
             try
             {
@@ -163,6 +168,7 @@ namespace OverWeightControl.Common.BelModel
             }
             catch (Exception e)
             {
+                exceptionAction?.Invoke(e);
                 return null;
             }
         }

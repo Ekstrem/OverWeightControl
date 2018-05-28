@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Data.Entity;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using OverWeightControl.Clients.ActsUI;
 using OverWeightControl.Common.BelModel;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
@@ -19,7 +13,7 @@ using OverWeightControl.Core.Settings;
 using Unity;
 using Unity.Attributes;
 
-namespace OverWeightControl.Clients.ParrentUI
+namespace OverWeightControl.Clients.ActsUI
 {
     public partial class ValidatioinControl : UserControl
     {
@@ -87,7 +81,8 @@ namespace OverWeightControl.Clients.ParrentUI
             var act = _settings.GetArgs().ContainsKey(ArgsKeyList.Mode)
                       && _settings.Key(ArgsKeyList.Mode).Equals("Act")
                 ? new Act().LoadFromJson(LoadJsonFile())
-                : BlankList.GetList(LoadJsonFile()).ToModelFormat();
+                : BlankList.GetList(LoadJsonFile(), ex =>
+                    _console?.AddException(ex)).ToModelFormat(e => _console?.AddException(e));
             if (ActEditForm.ShowModal(_container, act) == null) return;
 
             _context.Acts.Add(act);

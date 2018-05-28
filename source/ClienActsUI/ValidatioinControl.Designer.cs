@@ -1,4 +1,4 @@
-﻿namespace OverWeightControl.Clients.ParrentUI
+﻿namespace OverWeightControl.Clients.ActsUI
 {
     partial class ValidatioinControl
     {

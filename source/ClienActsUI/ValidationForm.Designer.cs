@@ -1,5 +1,4 @@
 ﻿using Unity;
-using OverWeightControl.Clients.ParrentUI;
 
 namespace OverWeightControl.Clients.ActsUI
 {
@@ -94,7 +93,7 @@ namespace OverWeightControl.Clients.ActsUI
 
         #endregion
 
-        private ParrentUI.ValidatioinControl validatioinControl1;
+        private ValidatioinControl validatioinControl1;
         private System.Windows.Forms.Button actBtn;
         private System.Windows.Forms.Button validateBtn;
         private System.Windows.Forms.Button updateBtn;
