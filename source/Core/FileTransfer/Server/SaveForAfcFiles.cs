@@ -62,6 +62,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
             }
         }
 
-        public override string Description => "Сохраненние файлов для AFC";
+        public override string Description => // "Сохраненние файлов для AFC";
+            WorkflowChainDescription.GetDescription(this.GetType());
     }
 }

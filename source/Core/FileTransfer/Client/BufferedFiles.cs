@@ -62,6 +62,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             }
         }
 
-        public override string Description => $"Загрузка файлов в память";
+        public override string Description => // $"Загрузка файлов в память";
+            WorkflowChainDescription.GetDescription(this.GetType());
     }
 }

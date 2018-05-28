@@ -36,10 +36,15 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
         {
             _context = (ModelContext)context;
             _console.AddEvent($"{nameof(JsonReadFiles)} ready.");
-            /*if (!String.IsNullOrEmpty(settings.Key(ArgsKeyList.HandValidation)))
+            try
             {
-                _validationForm = container.Resolve<Form>("ValidationForm");
-            }*/
+                // if (Boolean.TryParse(settings[ArgsKeyList.HandValidation], out bool buf) && buf)
+                // _validationForm = container.Resolve<Form>("ValidationForm");
+            }
+            catch (Exception e)
+            {
+                console.AddException(e);
+            }
         }
 
         ~JsonReadFiles()
@@ -64,7 +69,8 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
                     json,
                     ex => _console?.AddException(ex));
                 var parsedAct = bl.ToModelFormat(ex => _console?.AddException(ex));
-                if (bool.TryParse(_settings[ArgsKeyList.HandValidation], out bool buf)
+                if (_validationForm != null
+                    && bool.TryParse(_settings[ArgsKeyList.HandValidation], out bool buf)
                     && buf
                     && ((IEditable<Act>)_validationForm).LoadData(parsedAct)
                     && _validationForm.ShowDialog() == DialogResult.OK
@@ -93,7 +99,8 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
             }
         }
 
-        public override string Description => "Загружено файлов для верификации";
+        public override string Description => // "Загружено файлов для верификации";
+            WorkflowChainDescription.GetDescription(this.GetType());
 
         private void ErrorFileCopy(FileTransferInfo fileTransferInfo)
         {

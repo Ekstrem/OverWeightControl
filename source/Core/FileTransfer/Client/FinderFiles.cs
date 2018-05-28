@@ -159,6 +159,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             }
         }
 
-        public override string Description => $"Копирование отсканированных файлов";
+        public override string Description => // $"Копирование отсканированных файлов";
+            WorkflowChainDescription.GetDescription(this.GetType());
     }
 }
