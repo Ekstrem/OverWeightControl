@@ -83,8 +83,7 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
             }
         }
 
-        public override string Description =>
-            WorkflowChainsDescriptions.GetDescription(this.GetType());
+        public override string Description => "Загружено файлов для верификации";
 
         private void ErrorFileCopy(FileTransferInfo fileTransferInfo)
         {

@@ -72,7 +72,6 @@ namespace OverWeightControl.Core.FileTransfer.Server
             }
         }
 
-        public override string Description =>
-            WorkflowChainsDescriptions.GetDescription(this.GetType());
+        public override string Description => $"Разжатие файлов";
     }
 }

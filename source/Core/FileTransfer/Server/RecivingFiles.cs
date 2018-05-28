@@ -75,8 +75,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
 
         public override void WorkFlow() { }
 
-        public override string Description =>
-            WorkflowChainsDescriptions.GetDescription(this.GetType());
+        public override string Description => "Получено файлов";
 
         #region IRemoteInteraction
 

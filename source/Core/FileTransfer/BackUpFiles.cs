@@ -74,7 +74,6 @@ namespace OverWeightControl.Core.FileTransfer
             }
         }
 
-        public override string Description =>
-            WorkflowChainsDescriptions.GetDescription(this.GetType());
+        public override string Description => "Копирование в BackUp";
     }
 }
