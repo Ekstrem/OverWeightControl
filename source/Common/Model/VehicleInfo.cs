@@ -74,7 +74,7 @@ namespace OverWeightControl.Common.Model
         /// осуществляющего перевозку тяжеловесного груза.
         /// </summary>
         [JsonProperty(Order = 2)]
-        [StringLength(50)]
+        [StringLength(100)]
         public string VehicleOwner { get; set; }
 
         /// <summary>
