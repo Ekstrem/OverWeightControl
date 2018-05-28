@@ -51,17 +51,15 @@ namespace OverWeightControl.Core.Settings
                         ArgsKeyList.AfcPath,
                         $"{AppDomain.CurrentDomain.BaseDirectory}AfcPath"
                     },
-                    {
-                        ArgsKeyList.Mode,
-                        "BelModel"
-                    },
+                    {ArgsKeyList.Mode,"BelModel"},
                     {
                         ArgsKeyList.ConnectionString,
                         "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True"
                     },
                     {ArgsKeyList.Binding, "Net"},
                     {ArgsKeyList.Version, "0"},
-                    {ArgsKeyList.HandValidation, "false"}
+                    {ArgsKeyList.HandValidation, "false"},
+                    {ArgsKeyList.QueuesSize, "30" }
                 };
         }
 

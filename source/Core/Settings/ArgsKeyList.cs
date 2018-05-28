@@ -17,5 +17,6 @@
         public static string Binding = nameof(Binding);
         public static string Version = nameof(Version);
         public static string HandValidation = nameof(HandValidation);
+        public static string QueuesSize = nameof(QueuesSize);
     }
 }

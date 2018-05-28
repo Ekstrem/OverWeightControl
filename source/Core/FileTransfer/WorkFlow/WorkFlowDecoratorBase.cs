@@ -64,10 +64,12 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
         {
             var list = new List<FileTransferInfo>();
             FileTransferInfo fti = null;
+            var queueSize = int.TryParse(_settings[ArgsKeyList.QueuesSize], out int qs) ? qs: 30;
             try
             {
-                while (_consumer.TryTake(out fti)
-                    && CancelationToken == WorkFlowCancelationToken.Started)
+                while (Count < queueSize
+                       && _consumer.TryTake(out fti)
+                       && CancelationToken == WorkFlowCancelationToken.Started)
                 {
                     var buf = DetailedProc(fti);
                     if (buf != null)
