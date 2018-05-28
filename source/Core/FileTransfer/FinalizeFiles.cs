@@ -99,6 +99,7 @@ namespace OverWeightControl.Core.FileTransfer
 
         protected override bool Proccess() => LoadFiles().Any();
 
-        public override string Description => "Очистка очереди";
+        public override string Description =>
+            WorkflowChainsDescriptions.GetDescription(this.GetType());
     }
 }

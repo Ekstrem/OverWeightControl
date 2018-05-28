@@ -2,6 +2,10 @@
 
 namespace OverWeightControl.Core.FileTransfer.WorkFlow
 {
+    /// <summary>
+    /// Интерфейс обработки файлов.
+    /// </summary>
+
     public interface IWorkFlowProducerConsumer
     {
         /// <summary>
@@ -31,7 +35,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
         bool TryTake(out FileTransferInfo item);
 
         /// <summary>
-        /// Рабочий процесс по передаче файлов.
+        /// Рабочий процесс по передаче(обработке). файлов.
         /// </summary>
         void WorkFlow();
 
@@ -42,10 +46,20 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
         /// <returns>Список информации о файлах.</returns>
         IEnumerable<FileTransferInfo> LoadFiles();
         
+        /// <summary>
+        /// Токен отмены.
+        /// </summary>
         WorkFlowCancelationToken CancelationToken { get; set; }
 
+        /// <summary>
+        /// Колличество файлов на обработке
+        /// </summary>
         int Count { get; }
 
+        /// <summary>
+        /// Получение статистики.
+        /// </summary>
+        /// <returns></returns>
         IDictionary<string, int> GetStatistic();
     }
 }

@@ -77,6 +77,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             }
         }
 
-        public override string Description => $"Сжатие файлов";
+        public override string Description =>
+            WorkflowChainsDescriptions.GetDescription(this.GetType());
     }
 }

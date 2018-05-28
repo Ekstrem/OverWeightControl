@@ -65,6 +65,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             }
         }
 
-        public override string Description => $"Отправка файлов на сервер";
+        public override string Description =>
+            WorkflowChainsDescriptions.GetDescription(this.GetType());
     }
 }
