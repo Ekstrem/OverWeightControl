@@ -34,7 +34,7 @@ namespace OverWeightControl
             }
             catch (Exception e)
             {
-                throw;
+                _console?.AddException(e);
             }
         }
 

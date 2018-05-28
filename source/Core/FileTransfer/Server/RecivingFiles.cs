@@ -34,8 +34,6 @@ namespace OverWeightControl.Core.FileTransfer.Server
             _host = host;
             if (s_ownBlackJackQueue == null)
                 s_ownBlackJackQueue = new ConcurrentQueue<FileTransferInfo>();
-            #warning: may be needed.
-            // _queue = new ConcurrentQueue<FileTransferInfo>(s_ownBlackJackQueue.AsEnumerable());
             _console.AddEvent($"{nameof(RecivingFiles)} ready.");
         }
 

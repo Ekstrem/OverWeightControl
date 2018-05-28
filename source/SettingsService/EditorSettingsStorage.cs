@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
@@ -23,7 +24,8 @@ namespace OverWeightControl.Core.Settings
         {
             _storage = storage;
             _console = console;
-            _args = storage.GetArgs();
+            _args = storage.GetKeys()
+                .ToDictionary(k => k, v => storage[v]);
 
             InitializeComponent();
 

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using OverWeightControl.Common.BelModel;
@@ -54,7 +55,7 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
 
         #endregion
 
-        protected override FileTransferInfo DetailedProc(FileTransferInfo fileTransferInfo)
+        protected override FileTransferInfo DetailedProc( FileTransferInfo fileTransferInfo)
         {
             try
             {
@@ -63,7 +64,7 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
                     json,
                     ex => _console?.AddException(ex));
                 var parsedAct = bl.ToModelFormat(ex => _console?.AddException(ex));
-                if (bool.TryParse(_settings.Key(ArgsKeyList.HandValidation), out bool buf)
+                if (bool.TryParse(_settings[ArgsKeyList.HandValidation], out bool buf)
                     && buf
                     && ((IEditable<Act>)_validationForm).LoadData(parsedAct)
                     && _validationForm.ShowDialog() == DialogResult.OK

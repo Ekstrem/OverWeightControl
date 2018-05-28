@@ -22,7 +22,7 @@ namespace OverWeightControl
             try
             {
                 if (Database.Exists() &&
-                    bool.TryParse(settings?.Key(ArgsKeyList.IsDebugMode), out bool debug) &&
+                    bool.TryParse(settings?[ArgsKeyList.IsDebugMode], out bool debug) &&
                     debug)
                     Database.Delete();
                 Database.CreateIfNotExists();
@@ -35,7 +35,7 @@ namespace OverWeightControl
 
         private static string GetConnectionString(ISettingsStorage settings)
         {
-            return settings?.Key(ArgsKeyList.ConnectionString)
+            return settings?[ArgsKeyList.ConnectionString]
                    ?? "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True";
         }
 

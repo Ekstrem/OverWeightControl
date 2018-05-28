@@ -4,8 +4,8 @@ namespace OverWeightControl.Core.Settings
 {
     public interface ISettingsStorage
     {
-        string Key(string keyName);
-        IDictionary<string, string> GetArgs();
+        string this[string key] { get; set; }
+        ICollection<string> GetKeys();
         IDictionary<string, string> LoadFromFile();
         bool SaveToFile();
     }

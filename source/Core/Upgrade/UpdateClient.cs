@@ -35,7 +35,7 @@ namespace OverWeightControl.Core.Upgrade
                 string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\";
 
                 int version = _downloader.GetLastVersion();
-                int currentVersion = int.TryParse(_settings.Key(ArgsKeyList.Version), out int buf) ? buf : -1;
+                int currentVersion = int.TryParse(_settings[ArgsKeyList.Version], out int buf) ? buf : -1;
                 if (currentVersion > version)
                     return;
 
@@ -47,7 +47,7 @@ namespace OverWeightControl.Core.Upgrade
                     File.WriteAllBytes($"{path}{Path.GetFileName(file)}", data);
                 }
 
-                _settings.GetArgs()[ArgsKeyList.Version] = version.ToString();
+                _settings[ArgsKeyList.Version] = version.ToString();
                 _settings.SaveToFile();
             }
             catch (Exception e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Attributes;
 
 namespace OverWeightControl.Core.Settings
@@ -10,27 +11,25 @@ namespace OverWeightControl.Core.Settings
 
         [InjectionConstructor]
         public FileSettingsStorage(
-            ISettingsStorage strorage)
+            ISettingsStorage storage)
         {
-            _args = strorage.GetArgs();
+            _args = storage
+                .GetKeys()
+                .ToDictionary(k => k, v => storage[v]);
         }
 
-        public string Key(string keyName)
+        public string this[string key]
         {
-            return _args[keyName];
+            get => _args[key];
+            set => _args[key] = value;
         }
 
-        public IDictionary<string, string> GetArgs()
-        {
-            return _args;
-        }
-
-        public IDictionary<string, string> LoadFromFile()
+        public ICollection<string> GetKeys()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IDictionary<string, string> newSet)
+        public IDictionary<string, string> LoadFromFile()
         {
             throw new NotImplementedException();
         }

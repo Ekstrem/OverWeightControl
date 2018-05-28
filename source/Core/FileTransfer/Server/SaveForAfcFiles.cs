@@ -48,7 +48,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
         {
             try
             {
-                string directory = _settings.Key(ArgsKeyList.AfcPath);
+                string directory = _settings[ArgsKeyList.AfcPath];
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
                 var fileName = $"{directory}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";

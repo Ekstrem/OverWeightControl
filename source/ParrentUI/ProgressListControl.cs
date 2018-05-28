@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
 using Unity;
@@ -13,6 +14,7 @@ namespace OverWeightControl.Clients.ParrentUI
 {
     public partial class ProgressListControl : UserControl
     {
+        private readonly IConsoleService _console;
         private readonly IUnityContainer _container;
         private readonly IWorkFlowProducerConsumer _worker;
         private readonly Timer _timer;
@@ -20,10 +22,12 @@ namespace OverWeightControl.Clients.ParrentUI
 
         [InjectionConstructor]
         public ProgressListControl(
+            IConsoleService console,
             ISettingsStorage settings,
             IUnityContainer container,
             IWorkFlowProducerConsumer worker)
         {
+            _console = console;
             _container = container;
             _worker = worker;
             worker?.WorkFlow();
@@ -34,8 +38,8 @@ namespace OverWeightControl.Clients.ParrentUI
             Paint += (s, e) =>
                 View(LoadData(_worker.GetStatistic()).Result);
 
-            var timerInterval = double
-                .TryParse(settings.Key(ArgsKeyList.WFProcWaitingFor), out var ti) ? ti : 3000;
+            var timerInterval = double.TryParse(
+                settings[ArgsKeyList.WFProcWaitingFor], out var ti) ? ti : 3000;
             _timer = new Timer(timerInterval);
             Action action = Refresh;
             _timer.Elapsed += (s, e) =>
@@ -44,8 +48,9 @@ namespace OverWeightControl.Clients.ParrentUI
                 {
                 this.Invoke(action);
                 }
-                catch (Exception exception)
+                catch (Exception ex)
                 {
+                    _console.AddException(ex);
                 }
             };
 

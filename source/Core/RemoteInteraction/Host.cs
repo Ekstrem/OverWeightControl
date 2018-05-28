@@ -119,6 +119,7 @@ namespace OverWeightControl.Core.RemoteInteraction
             }
             catch (Exception ex)
             {
+                _console.AddException(ex);
                 return new Type[] { };
             }
         }

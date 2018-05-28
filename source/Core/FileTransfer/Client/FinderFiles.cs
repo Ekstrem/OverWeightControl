@@ -40,7 +40,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             : base(settings, console)
         {
             _path =
-                _settings?.Key(ArgsKeyList.ScanPath)
+                _settings?[ArgsKeyList.ScanPath]
                 ?? AppDomain.CurrentDomain.BaseDirectory;
 
             _queue = new ConcurrentQueue<FileTransferInfo>();
@@ -93,7 +93,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             try
             {
                 // Получение искомого расширения файлов.
-                string fileMask = _settings.Key(ArgsKeyList.ScanExt);
+                string fileMask = _settings[ArgsKeyList.ScanExt];
                 // Поиск файлов в ScanPath
                 var files = fileMask
                     .Split('|')

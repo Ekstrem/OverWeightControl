@@ -46,7 +46,7 @@ namespace OverWeightControl.Clients.ParrentUI
             progressListControl1.Visible = false;
             adminingToolStripMenuItem.Visible = adminMode;
 
-            bool debug = Boolean.TryParse(_settings.Key(ArgsKeyList.IsDebugMode), out debug) && debug;
+            bool debug = Boolean.TryParse(_settings[ArgsKeyList.IsDebugMode], out debug) && debug;
             if (roles == null || (adminMode && !debug))
                 return;
 

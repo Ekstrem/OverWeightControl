@@ -52,7 +52,7 @@ namespace OverWeightControl.Core.FileTransfer
         {
             try
             {
-                string directory = _settings.Key(ArgsKeyList.ScanPath);
+                string directory = _settings[ArgsKeyList.ScanPath];
                 if (!Directory.Exists(directory))
                     return fileTransferInfo;
                 File.Delete($"{directory}\\{fileTransferInfo.Id}{fileTransferInfo.Ext}");

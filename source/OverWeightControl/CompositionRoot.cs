@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using OverWeightControl.Clients.ActsUI;
 using OverWeightControl.Common.Serialization;
@@ -347,6 +348,7 @@ namespace OverWeightControl
             }
             catch (Exception e)
             {
+                s_container?.Resolve<IConsoleService>()?.AddException(e);
                 return null;
             }
         }

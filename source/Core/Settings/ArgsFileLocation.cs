@@ -13,7 +13,7 @@ namespace OverWeightControl.Core.Settings
         {
             _defaultPath = settings == null
                 ? AppDomain.CurrentDomain.BaseDirectory
-                : settings.Key("ArgsFileLocation");
+                : settings["ArgsFileLocation"];
         }
 
         public ArgsFileLocation(string fileName)

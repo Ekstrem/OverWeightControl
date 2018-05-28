@@ -80,7 +80,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
                         Proccess();
                     }
 
-                    Thread.Sleep(1000 * int.Parse(_settings.Key(ArgsKeyList.WFProcWaitingFor)));
+                    Thread.Sleep(1000 * int.Parse(_settings[ArgsKeyList.WFProcWaitingFor]));
 
                     lock (this)
                     {

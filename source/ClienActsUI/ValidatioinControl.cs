@@ -78,8 +78,8 @@ namespace OverWeightControl.Clients.ActsUI
         public void Work()
         {
             var form = (ActEditForm)_container.Resolve<Form>("ActEditForm");
-            var act = _settings.GetArgs().ContainsKey(ArgsKeyList.Mode)
-                      && _settings.Key(ArgsKeyList.Mode).Equals("Act")
+            var act = _settings.GetKeys().Contains(ArgsKeyList.Mode)
+                      && _settings[ArgsKeyList.Mode].Equals("Act")
                 ? new Act().LoadFromJson(LoadJsonFile())
                 : BlankList.GetList(LoadJsonFile(), ex =>
                     _console?.AddException(ex)).ToModelFormat(e => _console?.AddException(e));
@@ -89,7 +89,7 @@ namespace OverWeightControl.Clients.ActsUI
             _context.SaveChanges();
 
             var item = listBox1.Items[listBox1.SelectedIndex].ToString();
-            var storeFileName = $"{_settings.Key(ArgsKeyList.StorePath)}\\{_items[item].Id}";
+            var storeFileName = $"{_settings[ArgsKeyList.StorePath]}\\{_items[item].Id}";
             File.Delete(storeFileName);
             _items.Remove(item);
             listBox1.Items.RemoveAt(listBox1.SelectedIndex);

@@ -59,9 +59,9 @@ namespace OverWeightControl.Core.Settings
                         ArgsKeyList.ConnectionString,
                         "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True"
                     },
-                    { ArgsKeyList.Binding, "Net" },
-                    { ArgsKeyList.Version, "0" },
-                    { ArgsKeyList.HandValidation, "true" }
+                    {ArgsKeyList.Binding, "Net"},
+                    {ArgsKeyList.Version, "0"},
+                    {ArgsKeyList.HandValidation, "false"}
                 };
         }
 
@@ -82,6 +82,20 @@ namespace OverWeightControl.Core.Settings
             _args = args;
         }
 
+        public string this[string key]
+        {
+            get => _args.ContainsKey(key) ? _args[key] : String.Empty;
+            set
+            {
+                if (!_args.ContainsKey(key))
+                {
+                    _args.Add(key, value);
+                }
+                else
+                    _args[key] = value;
+            }
+        }
+
         public string Key(string keyName)
         {
             try
@@ -97,10 +111,7 @@ namespace OverWeightControl.Core.Settings
             }
         }
 
-        public Dict GetArgs()
-        {
-            return _args;
-        }
+        public ICollection<string> GetKeys() => _args.Keys;
 
         public Dict LoadFromFile()
         {

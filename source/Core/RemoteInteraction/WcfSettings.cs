@@ -27,8 +27,8 @@ namespace OverWeightControl.Core.RemoteInteraction
             {
                 var uriBuilder = new UriBuilder(
                     scheme: binding.Scheme,
-                    host: settings.Key(ArgsKeyList.ServerName),
-                    port: int.Parse(settings.Key(ArgsKeyList.Port)),
+                    host: settings[ArgsKeyList.ServerName],
+                    port: int.Parse(settings[ArgsKeyList.Port]),
                     pathValue: $"{typeof(T).Name}.svc");
                 return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}/{uriBuilder.Path}");
             }
@@ -44,7 +44,7 @@ namespace OverWeightControl.Core.RemoteInteraction
             IConsoleService console)
         {
             string bindingName = 
-                settings?.Key(ArgsKeyList.Binding) ?? "Net";
+                settings?[ArgsKeyList.Binding] ?? "Net";
             switch (bindingName)
             {
                 case "Net":
@@ -112,7 +112,7 @@ namespace OverWeightControl.Core.RemoteInteraction
         {
             try
             {
-                if (bool.TryParse(settings.Key(ArgsKeyList.IsDebugMode), out bool isDebug)
+                if (bool.TryParse(settings[ArgsKeyList.IsDebugMode], out bool isDebug)
                     && isDebug)
                 {
                     var smb = new ServiceMetadataBehavior
@@ -120,7 +120,7 @@ namespace OverWeightControl.Core.RemoteInteraction
                         HttpGetEnabled = true,
                         HttpGetUrl =
                             new Uri(
-                                $"http://{settings.Key(ArgsKeyList.ServerName)}:{settings.Key(ArgsKeyList.Port)}/mex")
+                                $"http://{settings[ArgsKeyList.ServerName]}:{settings[ArgsKeyList.Port]}/mex")
                     };
 
                     host.Description.Behaviors.Add(smb);

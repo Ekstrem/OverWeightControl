@@ -51,10 +51,10 @@ namespace OverWeightControl.Core.FileTransfer
         {
             try
             {
-                string directory = _settings.Key(ArgsKeyList.BackUpPath);
+                string directory = _settings[ArgsKeyList.BackUpPath];
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
-                var oldFile = $"{_settings.Key(ArgsKeyList.StorePath)}\\{fileTransferInfo.Id}";
+                var oldFile = $"{_settings[ArgsKeyList.StorePath]}\\{fileTransferInfo.Id}";
                 var newFile = $"{directory}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
                 if (File.Exists(oldFile))
                 {
