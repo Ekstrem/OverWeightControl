@@ -19,13 +19,16 @@ namespace OverWeightControl.Core.Upgrade
         public UpdateClient(
             IConsoleService console,
             ISettingsStorage settings,
-            Proxy proxy)
+            [OptionalDependency]Proxy proxy)
         {
             _console = console;
             _settings = settings;
-            _proxy = proxy;
-            _downloader = proxy.CreateRemoteProxy<IDownloader>();
-            GetVersion();
+            if (proxy != null)
+            {
+                _proxy = proxy;
+                _downloader = proxy.CreateRemoteProxy<IDownloader>();
+                GetVersion();
+            }
         }
 
         void GetVersion()
