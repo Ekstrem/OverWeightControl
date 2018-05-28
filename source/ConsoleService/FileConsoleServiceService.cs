@@ -33,7 +33,8 @@ namespace OverWeightControl.Core.ConsoleService
             var path = $"{AppDomain.CurrentDomain.BaseDirectory}Logs\\";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            File.WriteAllLines($"{path}{id}.log", _log.Select(m => m.Key.ToString()).ToArray());
+            var dataLog = JsonConvert.SerializeObject(_log.Keys, Formatting.Indented);
+            File.WriteAllText($"{path}{id}.log", dataLog);
             return _log;
         }
     }

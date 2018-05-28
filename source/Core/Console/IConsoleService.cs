@@ -12,29 +12,4 @@ namespace OverWeightControl.Core.Console
         void AddException(Exception e);
         IDictionary<ConsoleMessage, bool> Flush();
     }
-
-    public enum ConsoleMessageType
-    {
-        Information = 0,
-        Trace = 1,
-        Exception = 2
-    }
-
-    public class ConsoleMessage
-    {
-        public ConsoleMessage(
-            string message,
-            ConsoleMessageType type = ConsoleMessageType.Information)
-        {
-            Message = message;
-            Type = type;
-            Time = DateTime.Now;
-        }
-
-        public string Message { get; set; }
-        public ConsoleMessageType Type { get; set; }
-        public DateTime Time { get; set; }
-
-        public override string ToString() => $"{Message} at {Time}";
-    }
 }
