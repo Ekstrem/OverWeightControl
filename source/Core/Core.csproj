@@ -88,6 +88,7 @@
     <Compile Include="FileTransfer\RecognitionServer\JsonReadFiles.cs" />
     <Compile Include="FileTransfer\Server\RecivingFiles.cs" />
     <Compile Include="FileTransfer\Server\SaveForAfcFiles.cs" />
+    <Compile Include="FileTransfer\WorkFlow\WorkflowChainsDescriptions.cs" />
     <Compile Include="ModelContext.cs" />
     <Compile Include="RemoteInteraction\Host.cs" />
     <Compile Include="RemoteInteraction\Proxy.cs" />
