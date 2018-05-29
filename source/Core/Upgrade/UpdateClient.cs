@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
+using System.Threading.Tasks;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.RemoteInteraction;
 using OverWeightControl.Core.Settings;
@@ -12,8 +14,6 @@ namespace OverWeightControl.Core.Upgrade
     {
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
-        private readonly Proxy _proxy;
-        private readonly IDownloader _downloader;
 
         [InjectionConstructor]
         public UpdateClient(
@@ -25,28 +25,28 @@ namespace OverWeightControl.Core.Upgrade
             _settings = settings;
             if (proxy != null)
             {
-                _proxy = proxy;
-                _downloader = proxy.CreateRemoteProxy<IDownloader>();
-                GetVersion();
+                var downloader = proxy.CreateRemoteProxy<IDownloader>();
+                if (proxy.State != CommunicationState.Faulted && downloader != null)
+                    Task.Factory.StartNew(() => GetVersion(downloader));
             }
         }
 
-        void GetVersion()
+        void GetVersion(IDownloader downloader)
         {
             try
             {
                 string path = $"{AppDomain.CurrentDomain.BaseDirectory}Updates\\";
 
-                int version = _downloader.GetLastVersion();
+                int version = downloader.GetLastVersion();
                 int currentVersion = int.TryParse(_settings[ArgsKeyList.Version], out int buf) ? buf : -1;
                 if (currentVersion > version)
                     return;
 
-                var files = _downloader.GetFileList(version);
-                    //.Select(m => $"{path}{Path.GetFileName(m)}");
+                var files = downloader.GetFileList(version);
+
                 foreach (var file in files)
                 {
-                    byte[] data = _downloader.DownLoadFile(version, file);
+                    byte[] data = downloader.DownLoadFile(version, file);
                     File.WriteAllBytes($"{path}{Path.GetFileName(file)}", data);
                 }
 

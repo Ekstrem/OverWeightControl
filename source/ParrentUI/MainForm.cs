@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using OverWeightControl.Core.Settings;
 using OverWeightControl.Core.Upgrade;
@@ -18,12 +19,12 @@ namespace OverWeightControl.Clients.ParrentUI
         [InjectionConstructor]
         public MainForm(
             IUnityContainer container,
-            ISettingsStorage settings,
-            [OptionalDependency]UpdateClient updateClient)
+            ISettingsStorage settings)
         {
             _container = container;
             _settings = settings;
-            _updateClient = updateClient;
+            if (container.Registrations.Any(a => a.RegisteredType == typeof(UpdateClient)))
+                _updateClient = container.Resolve<UpdateClient>();
             InitializeComponent();
             TopLevel = true;
 
