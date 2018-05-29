@@ -98,6 +98,18 @@
     <Compile Include="CargoControl.Designer.cs">
       <DependentUpon>CargoControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\ActDbView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Database\ActDbView.Designer.cs">
+      <DependentUpon>ActDbView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\ActGridControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Database\ActGridControl.Designer.cs">
+      <DependentUpon>ActGridControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataLoader.cs" />
     <Compile Include="DriverControl.cs">
       <SubType>UserControl</SubType>
@@ -149,6 +161,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CargoControl.resx">
       <DependentUpon>CargoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\ActDbView.resx">
+      <DependentUpon>ActDbView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\ActGridControl.resx">
+      <DependentUpon>ActGridControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DriverControl.resx">
       <DependentUpon>DriverControl.cs</DependentUpon>

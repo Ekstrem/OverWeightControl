@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using OverWeightControl.Clients.ActsUI;
+using OverWeightControl.Clients.ActsUI.Database;
 using OverWeightControl.Common.Serialization;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.ConsoleService;
@@ -98,6 +99,13 @@ namespace OverWeightControl
                     Abstractions = typeof(Form),
                     Realization = typeof(ValidationForm),
                     Name = nameof(ValidationForm),
+                    Register = true
+                },
+                new Dependency(4)
+                {
+                    Abstractions = typeof(Form),
+                    Realization = typeof(ActDbView),
+                    Name = nameof(ActDbView),
                     Register = true
                 }
             };
