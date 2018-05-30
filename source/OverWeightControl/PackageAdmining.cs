@@ -11,7 +11,6 @@ namespace OverWeightControl
     public partial class PackageAdmining : Form, IEditable<ICollection<NodeRole>>
     {
         private readonly IConsoleService _console;
-        private readonly ISettingsStorage _settings;
 
         public PackageAdmining()
         {
@@ -22,11 +21,9 @@ namespace OverWeightControl
 
         [InjectionConstructor]
         public PackageAdmining(
-            [OptionalDependency] IConsoleService console,
-            [OptionalDependency] ISettingsStorage settings)
+            [OptionalDependency] IConsoleService console)
         {
             _console = console;
-            _settings = settings;
 
             InitializeComponent();
             LoadData(CompositionRoot.Instance.NodeRoles);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Core.Mapping;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
@@ -21,10 +22,6 @@ namespace OverWeightControl
 
             try
             {
-                if (Database.Exists() &&
-                    bool.TryParse(settings?[ArgsKeyList.IsDebugMode], out bool debug) &&
-                    debug)
-                    Database.Delete();
                 Database.CreateIfNotExists();
             }
             catch (Exception e)

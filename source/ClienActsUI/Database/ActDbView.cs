@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 using Unity;
@@ -20,6 +21,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
         private readonly ISettingsStorage _settings;
         private readonly IConsoleService _console;
         private readonly ModelContext _context;
+        private List<Act> _acts;
 
         public ActDbView()
         {
@@ -41,20 +43,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
             LoadData();
 
-            this.button1.Click += (s, e) =>
+            this.editActButton.Click += (s, e) =>
             {
                 Guid index = actGridControl1.GetMarked();
-                var act = _context.Acts
-                    .FirstOrDefault(f => f.Id == index);
-                act.Cargo = _context.Cargos
-                    .FirstOrDefault(f => f.Id == index);
-                act.Driver = _context.Drivers
-                    .FirstOrDefault(f => f.Id == index);
-                act.Weighter = _context.Weighters
-                    .FirstOrDefault(f => f.Id == index);
-                act.Vehicle = _context.Vehicles
-                    .FirstOrDefault(f => f.Id == index);
-
+                var act = _acts.FirstOrDefault(f => f.Id == index);
                 ActEditForm.ShowModal(container, act);
             };
         }
@@ -63,8 +55,14 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                var acts = _context.Acts.Select(m => m).ToList();
-                actGridControl1.LoadData(acts);
+                _acts = _context
+                    .Set<Act>()
+                    .Include(d => d.Driver)
+                    .Include(c => c.Cargo)
+                    .Include(w => w.Weighter)
+                    .Include(v => v.Vehicle)
+                    .ToList();
+                actGridControl1.LoadData(_acts.Select(FlatAct.Expand).ToList());
             }
             catch (Exception e)
             {

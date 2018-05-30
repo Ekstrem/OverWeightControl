@@ -16,7 +16,7 @@ using Unity.Attributes;
 
 namespace OverWeightControl.Clients.ActsUI.Database
 {
-    public partial class ActGridControl : UserControl, IEditable<ICollection<Act>>
+    public partial class ActGridControl : UserControl, IEditable<ICollection<FlatAct>>
     {
         private readonly IDictionary<int, Guid> _fastAccess;
         private readonly IConsoleService _console;
@@ -42,7 +42,25 @@ namespace OverWeightControl.Clients.ActsUI.Database
             _fastAccess = new Dictionary<int, Guid>();
         }
 
-        public bool LoadData(ICollection<Act> data)
+        public bool LoadData(ICollection<FlatAct> data)
+        {
+            try
+            {
+                actGridView.Columns.Clear();
+                actGridView.DataSource =
+                    new BindingSource(data, null);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
+            }
+        }
+
+
+        public bool LoadData2(ICollection<Act> data)
         {
             try
             {
@@ -72,11 +90,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public Guid GetMarked()
         {
-            var index = actGridView?.CurrentRow?.Index ?? 0;
-            return _fastAccess[index];
+            return (Guid)actGridView?.CurrentRow?.Cells["Id"].Value;
         }
 
-        public bool UpdateData(ICollection<Act> data)
+        public bool UpdateData(ICollection<FlatAct> data)
         {
             throw new NotImplementedException();
         }
