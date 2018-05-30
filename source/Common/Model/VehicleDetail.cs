@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
@@ -40,6 +41,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Тип ТС.
         /// </summary>
+        [DisplayName("Тип ТС")]
         [JsonProperty(Order = 1)]
         [StringLength(25)]
         public string VehicleType { get; set; }
@@ -47,6 +49,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Марка ТС.
         /// </summary>
+        [DisplayName("Марка ТС")]
         [JsonProperty(Order = 2)]
         [StringLength(25)]
         public string VehicleBrand { get; set; }
@@ -54,6 +57,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Модель ТС.
         /// </summary>
+        [DisplayName("Модель ТС")]
         [JsonProperty(Order = 3)]
         [StringLength(25)]
         public string VehicleModel { get; set; }
@@ -61,6 +65,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Регистрационый номер ТС.
         /// </summary>
+        [DisplayName("Регистрационый номер ТС")]
         [JsonProperty(Order = 4)]
         [StringLength(25)]
         public string StateNumber { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
@@ -87,6 +88,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Характеристика груза.
         /// </summary>
+        [DisplayName("Характеристика груза")]
         [JsonProperty(Order = 1)]
         [StringLength(20)]
         public string CargoCharacter { get; set; }
@@ -94,6 +96,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Вид груза.
         /// </summary>
+        [DisplayName("Вид груза")]
         [JsonProperty(Order = 2)]
         [StringLength(30)]
         public string CargoType { get; set; }
@@ -101,36 +104,42 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Нормативная масса.
         /// </summary>
+        [DisplayName("Нормативная масса")]
         [JsonProperty(Order = 3)]
         public float LegalWeight { get; set; }
 
         /// <summary>
         /// Допустимая масса.
         /// </summary>
+        [DisplayName("Допустимая масса")]
         [JsonProperty(Order = 4)]
         public float ValetWeight { get; set; }
 
         /// <summary>
         /// Фактическая масса.
         /// </summary>
+        [DisplayName("Фактическая масса")]
         [JsonProperty(Order = 5)]
         public float FactWeight { get; set; }
 
         /// <summary>
         /// Процент перевеса.
         /// </summary>
+        [DisplayName("Процент перевеса")]
         [JsonProperty(Order = 7)]
         public float PercentWeightOverflow { get; set; }
 
         /// <summary>
         /// Специальное разрешение.
         /// </summary>
+        [DisplayName("Специальное разрешение")]
         [JsonProperty(Order = 6)]
         public float CargoSpecialAllow { get; set; }
 
         /// <summary>
         /// Участок дороги.
         /// </summary>
+        [DisplayName("Участок дороги")]
         [JsonProperty(Order = 8)]
         [StringLength(50)]
         public string RoadSection { get; set; }
@@ -138,12 +147,14 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Тарифы. Указаны за 100км.
         /// </summary>
+        [DisplayName("Тарифы")]
         [JsonProperty(Order = 9)]
         public int Tariffs { get; set; }
 
         /// <summary>
         /// Длина участка.
         /// </summary>
+        [DisplayName("Длина участка")]
         [JsonProperty(Order = 10)]
         public float LegLength { get; set; }
 
@@ -158,6 +169,7 @@ namespace OverWeightControl.Common.Model
         /// предоставляющих право она въезд и передвижение
         /// в зонах ограничения движения по г. Москва.
         /// </summary>
+        [DisplayName("Сведения о ГТС")]
         [JsonProperty(Order = 12)]
         [StringLength(15)]
         public string Pass { get; set; }
@@ -165,6 +177,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Другие нарушения.
         /// </summary>
+        [DisplayName("Другие нарушения")]
         [JsonProperty(Order = 13)]
         [StringLength(50)]
         public string OtherViolation { get; set; }
@@ -172,6 +185,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Объяснение водителя.
         /// </summary>
+        [DisplayName("Объяснение водителя")]
         [JsonProperty(Order = 14)]
         [StringLength(250)]
         public string DriverExplanation { get; set; }
@@ -227,5 +241,8 @@ namespace OverWeightControl.Common.Model
                 return hashCode;
             }
         }
+
+        public override string ToString() =>
+            $"{CargoCharacter} {this.PercentWeightOverflow}";
     }
 }

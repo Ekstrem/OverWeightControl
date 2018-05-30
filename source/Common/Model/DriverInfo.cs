@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
@@ -49,6 +50,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Ф.И.О.
         /// </summary>
+        [DisplayName("Ф.И.О.")]
         [JsonProperty(Order = 1)]
         [StringLength(150)]
         public string FnMnSname { get; set; }
@@ -56,6 +58,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// № водительского удостоверения.
         /// </summary>
+        [DisplayName("№ ВУ")]
         [JsonProperty(Order = 2)]
         [StringLength(20)]
         public string DriversLicenseNumber { get; set; }
@@ -63,6 +66,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Ф.И.О. оператора ППВК.
         /// </summary>
+        [DisplayName("Ф.И.О. оператора ППВК")]
         [JsonProperty(Order = 3)]
         [StringLength(50)]
         public string OperatorName { get; set; }
@@ -70,6 +74,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Ф.И.О сотрудника ГИБДД.
         /// </summary>
+        [DisplayName("Ф.И.О сотрудника ГИБДД")]
         [JsonProperty(Order = 4)]
         [StringLength(50)]
         public string GibddName { get; set; }
@@ -77,6 +82,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Отметка о получении копии акта водителем.
         /// </summary>
+        [DisplayName("Отметка о получении копии акта водителем")]
         [JsonProperty(Order = 5)]
         [StringLength(10)]
         public string GetingMark { get; set; }
@@ -103,5 +109,8 @@ namespace OverWeightControl.Common.Model
                 return hashCode;
             }
         }
+
+        public override string ToString() =>
+            $"{FnMnSname} {DriversLicenseNumber}";
     }
 }

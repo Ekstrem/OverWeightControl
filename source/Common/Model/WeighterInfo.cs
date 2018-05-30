@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
@@ -49,6 +50,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Номер весов.
         /// </summary>
+        [DisplayName("№ весов.")]
         [JsonProperty(Order = 1)]
         [StringLength(20)]
         public string WeigherNumber { get; set; }
@@ -57,6 +59,7 @@ namespace OverWeightControl.Common.Model
         /// Дата поверки.
         /// DD.MM.YYYY
         /// </summary>
+        [DisplayName("Дата поверки весов.")]
         [JsonProperty(Order = 2)]
         [StringLength(10)]
         public string VerificationDate { get; set; }
@@ -64,6 +67,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Номер свидетельства (клейма).
         /// </summary>
+        [DisplayName("№ свидетельства.")]
         [JsonProperty(Order = 3)]
         [StringLength(20)]
         public string CertificateNumber { get; set; }
@@ -71,6 +75,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Характер нарушения.
         /// </summary>
+        [DisplayName("Характер нарушения.")]
         [JsonProperty(Order = 4)]
         [StringLength(100)]
         public string ViolationNature { get; set; }
@@ -79,6 +84,7 @@ namespace OverWeightControl.Common.Model
         /// КоАП РФ.
         /// Ст. 12.21.1 ч.1 - 11
         /// </summary>
+        [DisplayName("КоАП РФ.")]
         [JsonProperty(Order = 5)]
         [StringLength(15)]
         public string ViolationKoap { get; set; }
@@ -116,5 +122,7 @@ namespace OverWeightControl.Common.Model
                 return hashCode;
             }
         }
+
+        public override string ToString() => $"{WeigherNumber} {ViolationNature}";
     }
 }

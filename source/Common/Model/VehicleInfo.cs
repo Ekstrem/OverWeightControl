@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
@@ -73,6 +74,7 @@ namespace OverWeightControl.Common.Model
         /// Наименование владельца (собственника) ТС,
         /// осуществляющего перевозку тяжеловесного груза.
         /// </summary>
+        [DisplayName("Наименование владельца (собственника) ТС")]
         [JsonProperty(Order = 2)]
         [StringLength(100)]
         public string VehicleOwner { get; set; }
@@ -80,6 +82,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Страна регистрации.
         /// </summary>
+        [DisplayName("Страна регистрации")]
         [JsonProperty(Order = 3)]
         [StringLength(25)]
         public string VehicleCountry { get; set; }
@@ -87,12 +90,14 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Код субъекта.
         /// </summary>
+        [DisplayName("Код субъекта")]
         [JsonProperty(Order = 4)]
         public int VehicleSubjectCode { get; set; }
 
         /// <summary>
         /// Адрес организации.
         /// </summary>
+        [DisplayName("Адрес организации")]
         [JsonProperty(Order = 5)]
         [StringLength(150)]
         public string VehicleCompanyAddress { get; set; }
@@ -100,6 +105,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Маршрут движения.
         /// </summary>
+        [DisplayName("Маршрут движения")]
         [JsonProperty(Order = 6)]
         [StringLength(25)]
         public string VehicleRoute { get; set; }
@@ -107,6 +113,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Грузоотправитель
         /// </summary>
+        [DisplayName("Грузоотправитель")]
         [JsonProperty(Order = 7)]
         [StringLength(25)]
         public string VehicleShipper { get; set; }
@@ -114,6 +121,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Пройдено расстояние по федеральным трассам
         /// </summary>
+        [DisplayName("Пройдено расстояние по федеральным трассам")]
         [JsonProperty(Order = 8)]
         [StringLength(25)]
         public string FederalHighwaysDistance { get; set; }
@@ -121,6 +129,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Вид перевозки.
         /// </summary>
+        [DisplayName("Вид перевозки")]
         [JsonProperty(Order = 9)]
         [StringLength(25)]
         public string CarriageType { get; set; }
@@ -166,5 +175,8 @@ namespace OverWeightControl.Common.Model
                 return hashCode;
             }
         }
+
+        public override string ToString() =>
+            $"{VehicleCountry} {VehicleSubjectCode} {this.CarriageType}";
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using Newtonsoft.Json;
@@ -60,6 +61,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Номер акта.
         /// </summary>
+        [DisplayName("Номер акта.")]
         [JsonProperty(Order = 1)]
         public int ActNumber { get; set; }
 
@@ -67,20 +69,23 @@ namespace OverWeightControl.Common.Model
         /// Дата Акта.
         /// DD.MM.YYYY
         /// </summary>
+        [DisplayName("Дата Акта.")]
         [JsonProperty(Order = 2)]
         [StringLength(20)]
         public string ActDateTime { get; set; }
-        
+
         /// <summary>
         /// Номер ППВК.
         /// value>0.
         /// </summary>
+        [DisplayName("Номер ППВК.")]
         [JsonProperty(Order = 4)]
         public int PpvkNumber { get; set; }
 
         /// <summary>
         /// Место проведения контроля (взвешивания).
         /// </summary>
+        [DisplayName("Место проведения контроля (взвешивания).")]
         [JsonProperty(Order = 5)]
         [StringLength(100)]
         public string WeightPoint { get; set; }

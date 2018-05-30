@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
@@ -72,6 +73,7 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Номер оси.
         /// </summary>
+        [DisplayName("Номер оси.")]
         [JsonProperty(Order = 1)]
         [StringLength(2)]
         public string AxisNum { get; set; }
@@ -79,12 +81,14 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Скатность.
         /// </summary>
+        [DisplayName("")]
         [JsonProperty(Order = 2)]
         public int AxisStinginess { get; set; }
 
         /// <summary>
         /// Тип подвески. 
         /// </summary>
+        [DisplayName("Тип подвески.")]
         [JsonProperty(Order = 3)]
         [StringLength(8)]
         public string SuspentionType { get; set; }
@@ -92,48 +96,56 @@ namespace OverWeightControl.Common.Model
         /// <summary>
         /// Дистанция до следующей оси, в мм.
         /// </summary>
+        [DisplayName("Дистанция до следующей оси, в мм.")]
         [JsonProperty(Order = 4)]
         public int Distance2NextAxis { get; set; }
 
         /// <summary>
         /// Измерено, т.
         /// </summary>
+        [DisplayName("Измерено, т.")]
         [JsonProperty(Order = 5)]
         public float MeasuredAsisWeight { get; set; }
 
         /// <summary>
         /// Норматив, т.
         /// </summary>
+        [DisplayName("Норматив, т.")]
         [JsonProperty(Order = 6)]
         public float LegalAxisWeight { get; set; }
 
         /// <summary>
         /// Спец. разр., т.
         /// </summary>
+        [DisplayName("Спец. разр., т.")]
         [JsonProperty(Order = 7)]
         public float SpecialAllow { get; set; }
 
         /// <summary>
         /// Применяемые, т.
         /// </summary>
+        [DisplayName("Применяемые, т.")]
         [JsonProperty(Order = 8)]
         public float UsedAxisAllow { get; set; }
 
         /// <summary>
         /// Учит.превыш., т.
         /// </summary>
+        [DisplayName("Учит.превыш., т")]
         [JsonProperty(Order = 9)]
         public float WeightRecordedExcess { get; set; }
 
         /// <summary>
         /// Учит. превыш., %.
         /// </summary>
+        [DisplayName("Учит. превыш., %")]
         [JsonProperty(Order = 10)]
         public float PercentRecordedExcess { get; set; }
 
         /// <summary>
         /// Перегруз.
         /// </summary>
+        [DisplayName("Перегруз")]
         [JsonProperty(Order = 11)]
         [StringLength(8)]
         public string Overweight { get; set; }
