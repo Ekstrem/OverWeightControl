@@ -7,13 +7,14 @@ using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
 using Unity;
 using Unity.Attributes;
+using Unity.Interception.Utilities;
 
 namespace OverWeightControl.Core.Settings
 {
     public partial class EditorSettingsStorage :
         Form, IEditable<IDictionary<string, string>>
     {
-        private readonly ISettingsStorage _storage;
+        private readonly ISettingsStorage _settings;
         private readonly IConsoleService _console;
         private static IDictionary<string, string> _args;
 
@@ -22,51 +23,14 @@ namespace OverWeightControl.Core.Settings
             ISettingsStorage storage,
             [OptionalDependency] IConsoleService console)
         {
-            _storage = storage;
+            _settings = storage;
             _console = console;
-            _args = storage.GetKeys()
-                .ToDictionary(k => k, v => storage[v]);
 
             InitializeComponent();
 
+            InitEvents();
+
             LoadData(_args);
-
-            dataGridView1.CellDoubleClick += (s, eArgs) =>
-            {
-                var rowNum = ((DataGridViewCellEventArgs) eArgs).RowIndex;
-                if (dataGridView1.Rows[rowNum].Cells[0]
-                    .Value.ToString().Contains("Path"))
-                {
-                    var folderDialog = new FolderBrowserDialog();
-                    if (folderDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        dataGridView1.Rows[rowNum].Cells[1].Value =
-                            folderDialog.SelectedPath;
-                        dataGridView1.Update();
-                    }
-                    return;
-                }
-
-                if (dataGridView1.Rows[rowNum].Cells[0]
-                    .Value.ToString().Contains("File"))
-                {
-                    var fileDialog = new OpenFileDialog {Multiselect = false};
-                    if (fileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        dataGridView1.Rows[rowNum].Cells[1].Value =
-                            fileDialog.FileName;
-                        dataGridView1.Update();
-                    }
-                    return;
-                }
-            };
-
-            Closing += (s, e) =>
-            {
-                if (DialogResult == DialogResult.OK
-                    && UpdateData(_args))
-                    _storage.SaveToFile();
-            };
         }
 
         public bool LoadData(IDictionary<string, string> data)
@@ -113,6 +77,67 @@ namespace OverWeightControl.Core.Settings
             {
                 form.UpdateData(_args);
             }
+        }
+
+        private void InitEvents()
+        {
+
+            dataGridView1.CellDoubleClick += (s, eArgs) =>
+            {
+                try
+                {
+                    var rowNum = ((DataGridViewCellEventArgs)eArgs).RowIndex;
+                    if (dataGridView1.Rows[rowNum].Cells[0]
+                        .Value.ToString().Contains("Path"))
+                    {
+                        var folderDialog = new FolderBrowserDialog();
+                        if (folderDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            dataGridView1.Rows[rowNum].Cells[1].Value =
+                                folderDialog.SelectedPath;
+                            dataGridView1.Update();
+                        }
+
+                        return;
+                    }
+
+                    if (dataGridView1.Rows[rowNum].Cells[0]
+                        .Value.ToString().Contains("File"))
+                    {
+                        var fileDialog = new OpenFileDialog { Multiselect = false };
+                        if (fileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            dataGridView1.Rows[rowNum].Cells[1].Value =
+                                fileDialog.FileName;
+                            dataGridView1.Update();
+                        }
+
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _console.AddException(ex);
+                }
+            };
+
+            Closing += (s, e) =>
+            {
+                try
+                {
+                    if (DialogResult == DialogResult.OK
+                        && UpdateData(_args))
+                    {
+                        _args.Keys
+                            .ForEach(key => _settings[key] = _args[key]);
+                        _settings.SaveToFile();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _console.AddException(ex);
+                }
+            };
         }
     }
 }
