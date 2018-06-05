@@ -108,7 +108,7 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
             File.WriteAllBytes(
-                $"{dir}{fileTransferInfo.Id}.{fileTransferInfo.Ext}",
+                $"{dir}{fileTransferInfo.Id}{fileTransferInfo.Ext}",
                 fileTransferInfo.Data);
         }
     }
