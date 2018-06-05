@@ -32,8 +32,7 @@ namespace OverWeightControl
 
         private static string GetConnectionString(ISettingsStorage settings)
         {
-            return settings?[ArgsKeyList.ConnectionString]
-                   ?? "Data Source=EHC\\SQLEXPRESS;Initial Catalog=ActsDB;Integrated Security=True";
+            return settings[ArgsKeyList.ConnectionString];
         }
 
         public DbSet<Act> Acts { get; set; }
