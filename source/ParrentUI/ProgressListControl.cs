@@ -32,11 +32,23 @@ namespace OverWeightControl.Clients.ParrentUI
             _container = container;
             _worker = worker;
             worker?.WorkFlow();
+                
+            var timerInterval = double.TryParse(
+                settings[ArgsKeyList.WFProcWaitingFor], out var ti) ? ti : 3000;
+            _timer = new Timer(timerInterval);
+
             InitializeComponent();
 
+            InitControlEvents();
+
+            _timer.Start();
+        }
+
+        private void InitControlEvents()
+        {
             Disposed += (s, e) => _worker.CancelationToken = WorkFlowCancelationToken.Stoped;
 
-            Load +=(s, e) => LoadData(_worker.GetStatistic());
+            Load += (s, e) => LoadData(_worker.GetStatistic());
 
             Paint += (s, e) =>
             {
@@ -47,24 +59,18 @@ namespace OverWeightControl.Clients.ParrentUI
                     LoadData(_worker.GetStatistic());
                 }
             };
-                
 
-            var timerInterval = double.TryParse(
-                settings[ArgsKeyList.WFProcWaitingFor], out var ti) ? ti : 3000;
-            _timer = new Timer(timerInterval);
             _timer.Elapsed += (s, e) =>
             {
                 try
                 {
-                this.Invoke((Action)Refresh);
+                    this.Invoke((Action)Refresh);
                 }
                 catch (Exception ex)
                 {
                     _console.AddException(ex);
                 }
             };
-
-            _timer.Start();
         }
 
         private Task<List<string>> LoadData(IDictionary<string, int> queue)
