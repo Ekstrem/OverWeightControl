@@ -93,7 +93,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public Guid GetMarked()
         {
-            return (Guid)actGridView?.CurrentRow?.Cells["Id"].Value;
+            return (Guid?)actGridView?.CurrentRow?.Cells["Id"]?.Value ?? Guid.Empty;
         }
 
         public bool UpdateData(ICollection<FlatAct> data)

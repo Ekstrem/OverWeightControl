@@ -90,9 +90,13 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     Guid index = actGridControl1.GetMarked();
                     var act = _acts.FirstOrDefault(f => f.Id == index);
                     string directory = _settings[ArgsKeyList.BackUpPath];
-                    //TODO: cheking Up file ext
-                    var fileName = $"{directory}\\{act.Id}.pdf";
-
+                    var fileName = Directory.GetFiles(
+                        _settings[ArgsKeyList.BackUpPath]
+                        , $"{act.Id}.*")
+                        .FirstOrDefault(f => !f.Contains(".json"));
+                    if (fileName == null)
+                        return;
+                    BroserForm.ShowModal(_console, fileName, act.ActNumber.ToString());
                 }
                 catch (Exception ex)
                 {

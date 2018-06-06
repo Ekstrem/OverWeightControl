@@ -113,6 +113,12 @@
     <Compile Include="Database\ActGridControl.Designer.cs">
       <DependentUpon>ActGridControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\BroserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Database\BroserForm.Designer.cs">
+      <DependentUpon>BroserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Database\ChosingColumnsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\ActGridControl.resx">
       <DependentUpon>ActGridControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\BroserForm.resx">
+      <DependentUpon>BroserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Database\ChosingColumnsForm.resx">
       <DependentUpon>ChosingColumnsForm.cs</DependentUpon>
