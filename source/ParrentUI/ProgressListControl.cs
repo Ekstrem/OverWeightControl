@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OverWeightControl.Core.Console;
@@ -35,8 +36,18 @@ namespace OverWeightControl.Clients.ParrentUI
 
             Disposed += (s, e) => _worker.CancelationToken = WorkFlowCancelationToken.Stoped;
 
+            LoadData(_worker.GetStatistic());
+
             Paint += (s, e) =>
-                View(LoadData(_worker.GetStatistic()).Result);
+            {
+                if (_statistics.Status != TaskStatus.Running)
+                {
+                    if (_statistics.IsCompleted)
+                        View(_statistics.Result);
+                    LoadData(_worker.GetStatistic());
+                }
+            };
+                
 
             var timerInterval = double.TryParse(
                 settings[ArgsKeyList.WFProcWaitingFor], out var ti) ? ti : 3000;
@@ -59,8 +70,9 @@ namespace OverWeightControl.Clients.ParrentUI
 
         private Task<List<string>> LoadData(IDictionary<string, int> queue)
         {
-            return Task<List<string>>.Factory.StartNew(() =>
+            _statistics =  Task<List<string>>.Factory.StartNew(() =>
                 queue.Select(i => $"{i.Key}: {i.Value}").ToList());
+            return _statistics;
         }
 
         private void View(List<string> result)
