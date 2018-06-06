@@ -16,7 +16,10 @@ using Unity.Attributes;
 
 namespace OverWeightControl.Clients.ActsUI.Database
 {
-    public partial class ActGridControl : UserControl, IEditable<ICollection<FlatAct>>
+    public partial class ActGridControl :
+        UserControl,
+        IEditable<ICollection<FlatAct>>,
+        IEditable<ICollection<ColumnList>>
     {
         private readonly IDictionary<int, Guid> _fastAccess;
         private readonly IConsoleService _console;
@@ -95,7 +98,54 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public bool UpdateData(ICollection<FlatAct> data)
         {
-            throw new NotImplementedException();
+            return false;
+        }
+
+        public bool LoadData(ICollection<ColumnList> data)
+        {
+            try
+            {
+                if (data == null)
+                    data = new List<ColumnList>();
+                data.Clear();
+
+                for (int i = 0; i < actGridView.Columns.Count; i++)
+                {
+                    data.Add(new ColumnList
+                    {
+                        Num = i,
+                        Name = actGridView.Columns[i].HeaderText,
+                        Visible = actGridView.Columns[i].Visible
+                    });
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _console?.AddException(ex);
+                return false;
+            }
+        }
+
+        public bool UpdateData(ICollection<ColumnList> data)
+        {
+            try
+            {
+                if (data == null)
+                    return false;
+
+                for (int i = 0; i < actGridView.Columns.Count; i++)
+                {
+                    actGridView.Columns[i].Visible = data.Single(f => f.Num == i).Visible;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _console?.AddException(ex);
+                return false;
+            }
         }
     }
 }

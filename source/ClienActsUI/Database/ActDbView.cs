@@ -6,11 +6,13 @@ using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
+using Newtonsoft.Json;
 using Unity;
 using Unity.Attributes;
 
@@ -18,8 +20,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
 {
     public partial class ActDbView : Form
     {
+        private const string _fileName = "columns.cfg";
         private readonly ISettingsStorage _settings;
         private readonly IConsoleService _console;
+        private readonly IUnityContainer _container;
         private readonly ModelContext _context;
         private List<Act> _acts;
 
@@ -37,17 +41,63 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             _settings = settings;
             _console = console;
+            _container = container;
             _context = (ModelContext)context;
 
             InitializeComponent();
 
-            LoadData();
+            InitialComponentsEvents();
 
-            this.editActButton.Click += (s, e) =>
+            Task.Factory.StartNew(() => this.Invoke((Action)LoadData));
+        }
+
+        private void InitialComponentsEvents()
+        {
+            editActButton.Click += (s, e) =>
+              {
+                  Guid index = actGridControl1.GetMarked();
+                  var act = _acts.FirstOrDefault(f => f.Id == index);
+                  ActEditForm.ShowModal(_container, act);
+                  int changed = _context.SaveChanges();
+                  if (changed != 0)
+                      LoadData();
+              };
+            columnsListEditButton.Click += (s, e) =>
             {
-                Guid index = actGridControl1.GetMarked();
-                var act = _acts.FirstOrDefault(f => f.Id == index);
-                ActEditForm.ShowModal(container, act);
+                try
+                {
+                    var columns = new List<ColumnList>();
+                    actGridControl1.LoadData(columns);
+                    using (var form = new ChosingColumnsForm(_console))
+                    {
+                        if (form.LoadData(columns)
+                            && form.ShowDialog() == DialogResult.OK
+                            && actGridControl1.UpdateData(columns)) { }
+                    }
+
+                    var json = JsonConvert.SerializeObject(columns, Formatting.Indented);
+                    File.WriteAllText(_fileName, json);
+                }
+                catch (Exception ex)
+                {
+                    _console?.AddException(ex);
+                }
+            };
+            openOriginalFileButton.Click += (s, e) =>
+            {
+                try
+                {
+                    Guid index = actGridControl1.GetMarked();
+                    var act = _acts.FirstOrDefault(f => f.Id == index);
+                    string directory = _settings[ArgsKeyList.BackUpPath];
+                    //TODO: cheking Up file ext
+                    var fileName = $"{directory}\\{act.Id}.pdf";
+
+                }
+                catch (Exception ex)
+                {
+                    _console?.AddException(ex);
+                }
             };
         }
 
@@ -63,6 +113,13 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     .Include(v => v.Vehicle)
                     .ToList();
                 actGridControl1.LoadData(_acts.Select(FlatAct.Expand).ToList());
+
+                if (File.Exists(_fileName))
+                {
+                    var json = File.ReadAllText(_fileName);
+                    var columns = JsonConvert.DeserializeObject<List<ColumnList>>(json);
+                    actGridControl1.UpdateData(columns);
+                }
             }
             catch (Exception e)
             {
