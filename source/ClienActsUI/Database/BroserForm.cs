@@ -29,6 +29,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                  try
                  {
                      webBrowser1.Navigate(filename);
+                     console?.AddEvent($"{filename} opend in webBrowser.");
                  }
                  catch (Exception ex)
                  {

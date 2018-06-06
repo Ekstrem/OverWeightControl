@@ -36,6 +36,7 @@
             this.columnsListEditButton = new System.Windows.Forms.Button();
             this.openOriginalFileButton = new System.Windows.Forms.Button();
             this.butonsPanel = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,21 +92,21 @@
             this.editActButton.Text = "Просмотр и редактирование";
             this.editActButton.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // columnsListEditButton
             // 
             this.columnsListEditButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.columnsListEditButton.Location = new System.Drawing.Point(18, 68);
-            this.columnsListEditButton.Name = "button1";
+            this.columnsListEditButton.Name = "columnsListEditButton";
             this.columnsListEditButton.Size = new System.Drawing.Size(132, 50);
             this.columnsListEditButton.TabIndex = 2;
             this.columnsListEditButton.Text = "Выбор полей отображения";
             this.columnsListEditButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // openOriginalFileButton
             // 
             this.openOriginalFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.openOriginalFileButton.Location = new System.Drawing.Point(18, 124);
-            this.openOriginalFileButton.Name = "button2";
+            this.openOriginalFileButton.Name = "openOriginalFileButton";
             this.openOriginalFileButton.Size = new System.Drawing.Size(132, 50);
             this.openOriginalFileButton.TabIndex = 3;
             this.openOriginalFileButton.Text = "Загрузить оригинальный документ";
@@ -113,6 +114,7 @@
             // 
             // butonsPanel
             // 
+            this.butonsPanel.Controls.Add(this.button1);
             this.butonsPanel.Controls.Add(this.editActButton);
             this.butonsPanel.Controls.Add(this.openOriginalFileButton);
             this.butonsPanel.Controls.Add(this.columnsListEditButton);
@@ -121,6 +123,16 @@
             this.butonsPanel.Name = "butonsPanel";
             this.butonsPanel.Size = new System.Drawing.Size(162, 587);
             this.butonsPanel.TabIndex = 4;
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(18, 180);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(132, 50);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Обновить данные";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // ActDbView
             // 
@@ -152,5 +164,6 @@
         private System.Windows.Forms.Button columnsListEditButton;
         private System.Windows.Forms.Button openOriginalFileButton;
         private System.Windows.Forms.Panel butonsPanel;
+        private System.Windows.Forms.Button button1;
     }
 }

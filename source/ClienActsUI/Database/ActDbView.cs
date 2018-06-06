@@ -48,7 +48,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
             InitialComponentsEvents();
 
-            Task.Factory.StartNew(() => this.Invoke((Action)LoadData));
+            _console?.AddEvent($"{nameof(ActDbView)} form created.");
         }
 
         private void InitialComponentsEvents()
@@ -59,6 +59,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                   var act = _acts.FirstOrDefault(f => f.Id == index);
                   ActEditForm.ShowModal(_container, act);
                   int changed = _context.SaveChanges();
+                  _console.AddEvent($"Внесено {changed} изменений");
                   if (changed != 0)
                       LoadData();
               };
@@ -103,6 +104,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     _console?.AddException(ex);
                 }
             };
+            button1.Click += (s, e) => Task.Factory.StartNew(
+                () => Invoke((Action)LoadData));
+            Load += (s, e) => Task.Factory.StartNew(
+                () => Invoke((Action)LoadData));
         }
 
         private void LoadData()
@@ -124,10 +129,12 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     var columns = JsonConvert.DeserializeObject<List<ColumnList>>(json);
                     actGridControl1.UpdateData(columns);
                 }
+
+                _console?.AddEvent($"Loaded acts from DB. Count: {_acts.Count}");
             }
             catch (Exception e)
             {
-                _console.AddException(e);
+                _console?.AddException(e);
                 this.Close();
             }
         }

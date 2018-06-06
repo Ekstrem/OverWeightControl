@@ -36,7 +36,7 @@ namespace OverWeightControl.Clients.ParrentUI
 
             Disposed += (s, e) => _worker.CancelationToken = WorkFlowCancelationToken.Stoped;
 
-            LoadData(_worker.GetStatistic());
+            Load +=(s, e) => LoadData(_worker.GetStatistic());
 
             Paint += (s, e) =>
             {
@@ -52,12 +52,11 @@ namespace OverWeightControl.Clients.ParrentUI
             var timerInterval = double.TryParse(
                 settings[ArgsKeyList.WFProcWaitingFor], out var ti) ? ti : 3000;
             _timer = new Timer(timerInterval);
-            Action action = Refresh;
             _timer.Elapsed += (s, e) =>
             {
                 try
                 {
-                this.Invoke(action);
+                this.Invoke((Action)Refresh);
                 }
                 catch (Exception ex)
                 {
