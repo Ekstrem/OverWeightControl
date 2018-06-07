@@ -12,7 +12,7 @@ using Unity.Interception.Utilities;
 namespace OverWeightControl.Core.Settings
 {
     public partial class EditorSettingsStorage :
-        Form, IEditable<IDictionary<string, string>>
+        Form, IEditable<ISettingsStorage>
     {
         private readonly ISettingsStorage _settings;
         private readonly IConsoleService _console;
@@ -20,46 +20,40 @@ namespace OverWeightControl.Core.Settings
 
         [InjectionConstructor]
         public EditorSettingsStorage(
-            ISettingsStorage storage,
+            ISettingsStorage settings,
             [OptionalDependency] IConsoleService console)
         {
-            _settings = storage;
+            _settings = settings;
             _console = console;
 
             InitializeComponent();
 
             InitEvents();
 
-            LoadData(_args);
+            LoadData(settings);
         }
 
-        public bool LoadData(IDictionary<string, string> data)
+        public bool LoadData(ISettingsStorage data)
         {
-            foreach (var key in _args.Keys)
-                dataGridView1.Rows.Add(key, _args[key]);
+            if (data == null)
+                data = _settings;
+            foreach (var key in data.GetKeys())
+                dataGridView1.Rows.Add(key, data[key]);
             return true;
         }
 
-        public bool UpdateData(IDictionary<string, string> data)
+        public bool UpdateData(ISettingsStorage data)
         {
             try
             {
-                if (data == null)
-                {
-                    data = new ConcurrentDictionary<string, string>();
-                }
-
-                data.Clear();
-
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     if (row.Cells[0].Value == null)
                         break;
-                    data.Add(
-                        row.Cells[0].Value.ToString(),
-                        row.Cells[1].Value.ToString());
+                    _settings[row.Cells[0].Value.ToString()] = row.Cells[1].Value.ToString();
                 }
 
+                _settings.SaveToFile();
                 return true;
             }
             catch (Exception e)
@@ -69,13 +63,13 @@ namespace OverWeightControl.Core.Settings
             }
         }
 
-        public static void ShowModal(IUnityContainer container)
+        public static void ShowModal(IUnityContainer container, ISettingsStorage settings)
         {
             var form = container.Resolve<EditorSettingsStorage>();
-            form.LoadData(_args);
+            form.LoadData(settings);
             if (form.ShowDialog() == DialogResult.OK)
             {
-                form.UpdateData(_args);
+                form.UpdateData(settings);
             }
         }
 
@@ -126,7 +120,7 @@ namespace OverWeightControl.Core.Settings
                 try
                 {
                     if (DialogResult == DialogResult.OK
-                        && UpdateData(_args))
+                        && UpdateData(_settings))
                     {
                         _args.Keys
                             .ForEach(key => _settings[key] = _args[key]);
