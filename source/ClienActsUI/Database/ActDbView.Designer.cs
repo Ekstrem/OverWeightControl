@@ -64,7 +64,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.actGridControl1);
             this.splitContainer1.Size = new System.Drawing.Size(806, 584);
-            this.splitContainer1.SplitterDistance = 95;
+            this.splitContainer1.SplitterDistance = 91;
             this.splitContainer1.TabIndex = 0;
             // 
             // filtersDockControl1
@@ -72,7 +72,7 @@
             this.filtersDockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.filtersDockControl1.Location = new System.Drawing.Point(0, 0);
             this.filtersDockControl1.Name = "filtersDockControl1";
-            this.filtersDockControl1.Size = new System.Drawing.Size(806, 95);
+            this.filtersDockControl1.Size = new System.Drawing.Size(806, 91);
             this.filtersDockControl1.TabIndex = 1;
             // 
             // label1
@@ -90,13 +90,13 @@
             this.actGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.actGridControl1.Location = new System.Drawing.Point(0, 0);
             this.actGridControl1.Name = "actGridControl1";
-            this.actGridControl1.Size = new System.Drawing.Size(806, 485);
+            this.actGridControl1.Size = new System.Drawing.Size(806, 489);
             this.actGridControl1.TabIndex = 0;
             // 
             // editActButton
             // 
             this.editActButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.editActButton.Location = new System.Drawing.Point(18, 12);
+            this.editActButton.Location = new System.Drawing.Point(18, 3);
             this.editActButton.Name = "editActButton";
             this.editActButton.Size = new System.Drawing.Size(132, 50);
             this.editActButton.TabIndex = 1;
@@ -106,7 +106,7 @@
             // columnsListEditButton
             // 
             this.columnsListEditButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.columnsListEditButton.Location = new System.Drawing.Point(18, 68);
+            this.columnsListEditButton.Location = new System.Drawing.Point(18, 59);
             this.columnsListEditButton.Name = "columnsListEditButton";
             this.columnsListEditButton.Size = new System.Drawing.Size(132, 50);
             this.columnsListEditButton.TabIndex = 2;
@@ -116,7 +116,7 @@
             // openOriginalFileButton
             // 
             this.openOriginalFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openOriginalFileButton.Location = new System.Drawing.Point(18, 124);
+            this.openOriginalFileButton.Location = new System.Drawing.Point(18, 115);
             this.openOriginalFileButton.Name = "openOriginalFileButton";
             this.openOriginalFileButton.Size = new System.Drawing.Size(132, 50);
             this.openOriginalFileButton.TabIndex = 3;
@@ -139,7 +139,7 @@
             // excelExportButton
             // 
             this.excelExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.excelExportButton.Location = new System.Drawing.Point(18, 236);
+            this.excelExportButton.Location = new System.Drawing.Point(18, 227);
             this.excelExportButton.Name = "excelExportButton";
             this.excelExportButton.Size = new System.Drawing.Size(132, 50);
             this.excelExportButton.TabIndex = 5;
@@ -149,7 +149,7 @@
             // updateDataButton
             // 
             this.updateDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.updateDataButton.Location = new System.Drawing.Point(18, 180);
+            this.updateDataButton.Location = new System.Drawing.Point(18, 171);
             this.updateDataButton.Name = "updateDataButton";
             this.updateDataButton.Size = new System.Drawing.Size(132, 50);
             this.updateDataButton.TabIndex = 4;

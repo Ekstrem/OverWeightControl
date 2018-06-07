@@ -146,14 +146,23 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         private List<Act> LoadDataFromDataBase()
         {
-            _acts = _context
-                .Set<Act>()
-                .Include(d => d.Driver)
-                .Include(c => c.Cargo)
-                .Include(w => w.Weighter)
-                .Include(v => v.Vehicle)
-                .ToList();
-            return _acts;
+            try
+            {
+
+                _acts = _context
+                    .Set<Act>()
+                    .Include(d => d.Driver)
+                    .Include(c => c.Cargo)
+                    .Include(w => w.Weighter)
+                    .Include(v => v.Vehicle)
+                    .ToList();
+                return _acts;
+            }
+            catch (Exception e)
+            {
+                _console?.AddException(e);
+                return null;
+            }
         }
 
         private void ExportToExcel()

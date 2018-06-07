@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using OverWeightControl.Core.Console;
@@ -35,22 +36,42 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             addButton.Click += (s, e) =>
             {
-                var filter = new FilterControl(_console);
-                //filter.Initial(_columns);
-                // _filters.Add(filter, String.Empty);
+                try
+                {
+                    var filter = new FilterControl(_console);
+                    filter.Initial(_filters.Keys);
+                    int count = filtersPanel.Controls.Count;
+                    filter.Location = new Point(0, count * 30);
+                    filter.Parent = filtersPanel;
+                    filter.Anchor = AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Left;
+                    filter.Size = new Size(filtersPanel.Width - 7, 29);
+                    filter.Subscribe(this);
+                    filtersPanel.Controls.Add(filter);
+                }
+                catch (Exception exception)
+                {
+                    _console?.AddException(exception);
+                }
             };
         }
 
         public void InitColumns(ICollection<ColumnList> columns)
         {
-            _filters = columns.ToDictionary(k => k, v => string.Empty);
-
-            foreach (Control control in filtersPanel.Controls)
+            try
             {
-                if (control.GetType() != typeof(FilterControl))
-                    continue;
-                ((FilterControl)control).Initial(_filters.Keys);
-                ((FilterControl) control).Subscribe(this);
+                _filters = columns.ToDictionary(k => k, v => string.Empty);
+
+                foreach (Control control in filtersPanel.Controls)
+                {
+                    if (control.GetType() != typeof(FilterControl))
+                        continue;
+                    ((FilterControl) control).Initial(_filters.Keys);
+                    ((FilterControl) control).Subscribe(this);
+                }
+            }
+            catch (Exception e)
+            {
+                _console?.AddException(e);
             }
         }
 
@@ -58,11 +79,18 @@ namespace OverWeightControl.Clients.ActsUI.Database
         /// <param name="value">Текущие сведения об уведомлениях.</param>
         public void OnNext(KeyValuePair<ColumnList, string> value)
         {
-            if (_filters.ContainsKey(value.Key))
-                _filters[value.Key] = value.Value;
-            else
-                _filters.Add(value);
-            _observers.ForEach(e => e.OnNext(_filters));
+            try
+            {
+                if (_filters.ContainsKey(value.Key))
+                    _filters[value.Key] = value.Value;
+                else
+                    _filters.Add(value);
+                _observers.ForEach(e => e.OnNext(_filters));
+            }
+            catch (Exception e)
+            {
+                OnError(e);
+            }
         }
 
         /// <summary>

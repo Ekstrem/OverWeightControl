@@ -43,13 +43,20 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             textBox.KeyUp += (s, e) =>
             {
-                if (!checkBox1.Checked)
-                    return;
+                try
+                {
+                    if (!checkBox1.Checked)
+                        return;
 
-                var pair = new KeyValuePair<ColumnList, string>(
-                    (ColumnList)comboBox.SelectedItem,
-                    textBox.Text);
-                _observers.ForEach(en => en.OnNext(pair));
+                    var pair = new KeyValuePair<ColumnList, string>(
+                        (ColumnList)comboBox.SelectedItem,
+                        textBox.Text);
+                    _observers?.ForEach(en => en.OnNext(pair));
+                }
+                catch (Exception exception)
+                {
+                    _console?.AddException(exception);
+                }
             };
 
             checkBox1.CheckedChanged += (s, e) =>
@@ -69,15 +76,22 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public void Initial(ICollection<ColumnList> columns, int chosing = -1)
         {
-            var source = columns
-                .Where(f => f.Visible)
-                .ToList();
-            comboBox.DataSource = new BindingSource(source, null);
-
-            var column = columns.SingleOrDefault(f => f.Num == chosing);
-            if (column != null)
+            try
             {
-                comboBox.SelectedItem = column;
+                var source = columns
+                    .Where(f => f.Visible)
+                    .ToList();
+                comboBox.DataSource = new BindingSource(source, null);
+
+                var column = columns.SingleOrDefault(f => f.Num == chosing);
+                if (column != null)
+                {
+                    comboBox.SelectedItem = column;
+                }
+            }
+            catch (Exception e)
+            {
+                _console?.AddException(e);
             }
         }
 
