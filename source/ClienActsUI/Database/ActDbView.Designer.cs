@@ -64,7 +64,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.actGridControl1);
             this.splitContainer1.Size = new System.Drawing.Size(806, 584);
-            this.splitContainer1.SplitterDistance = 91;
+            this.splitContainer1.SplitterDistance = 87;
             this.splitContainer1.TabIndex = 0;
             // 
             // filtersDockControl1
@@ -72,7 +72,7 @@
             this.filtersDockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.filtersDockControl1.Location = new System.Drawing.Point(0, 0);
             this.filtersDockControl1.Name = "filtersDockControl1";
-            this.filtersDockControl1.Size = new System.Drawing.Size(806, 91);
+            this.filtersDockControl1.Size = new System.Drawing.Size(806, 87);
             this.filtersDockControl1.TabIndex = 1;
             // 
             // label1
@@ -90,7 +90,7 @@
             this.actGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.actGridControl1.Location = new System.Drawing.Point(0, 0);
             this.actGridControl1.Name = "actGridControl1";
-            this.actGridControl1.Size = new System.Drawing.Size(806, 489);
+            this.actGridControl1.Size = new System.Drawing.Size(806, 493);
             this.actGridControl1.TabIndex = 0;
             // 
             // editActButton

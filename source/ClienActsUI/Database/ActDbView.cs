@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OverWeightControl.Common.Model;
@@ -144,7 +145,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        private List<Act> LoadDataFromDataBase()
+        private void LoadDataFromDataBase()
         {
             try
             {
@@ -156,12 +157,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     .Include(w => w.Weighter)
                     .Include(v => v.Vehicle)
                     .ToList();
-                return _acts;
             }
             catch (Exception e)
             {
                 _console?.AddException(e);
-                return null;
             }
         }
 
@@ -173,15 +172,19 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 Excel.Application xlexcel;
                 Excel.Workbook xlWorkBook;
                 Excel.Worksheet xlWorkSheet;
-                object misValue = System.Reflection.Missing.Value;
+                object misValue = Missing.Value;
                 xlexcel = new Excel.Application();
                 xlexcel.Visible = true;
                 xlWorkBook = xlexcel.Workbooks.Add(misValue);
                 xlWorkSheet = (Excel.Worksheet) xlWorkBook.Worksheets.get_Item(1);
                 Excel.Range CR = (Excel.Range) xlWorkSheet.Cells[1, 1];
-                CR.Select();
-                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                    true);
+                //CR.Select();
+                Excel.Range rng = (Excel.Range)xlWorkSheet.Rows[1];
+                rng.Font.Bold = true;
+                Excel.Range deleteRange = (Excel.Range) xlWorkSheet.Columns[1];
+                deleteRange.ColumnWidth =1;
+                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+                xlWorkSheet.Columns.AutoFit();
             }
             catch (Exception e)
             {
