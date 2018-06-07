@@ -59,7 +59,6 @@
             // removeButton
             // 
             this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeButton.Enabled = false;
             this.removeButton.Location = new System.Drawing.Point(515, 41);
             this.removeButton.Name = "removeButton";
             this.removeButton.Size = new System.Drawing.Size(32, 32);

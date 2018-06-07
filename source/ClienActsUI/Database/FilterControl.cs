@@ -19,6 +19,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
     {
         private readonly IConsoleService _console;
         private List<IObserver<KeyValuePair<ColumnList, string>>> _observers;
+        private ColumnList _priviousColumn;
 
         public FilterControl()
         {
@@ -41,16 +42,17 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         private void InitialComponentsEvents()
         {
-            textBox.KeyUp += (s, e) =>
+            textBox.TextChanged += (s, e) =>
             {
                 try
                 {
                     if (!checkBox1.Checked)
                         return;
 
+                    _priviousColumn = (ColumnList) comboBox.SelectedItem;
                     var pair = new KeyValuePair<ColumnList, string>(
                         (ColumnList)comboBox.SelectedItem,
-                        textBox.Text);
+                        ((TextBox)s).Text);
                     _observers?.ForEach(en => en.OnNext(pair));
                 }
                 catch (Exception exception)
@@ -58,18 +60,43 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     _console?.AddException(exception);
                 }
             };
-
+            
             checkBox1.CheckedChanged += (s, e) =>
             {
-                comboBox.Enabled = checkBox1.Checked;
-                textBox.Enabled = checkBox1.Checked;
-                if (!checkBox1.Checked)
+                try
                 {
-                    textBox.Text = string.Empty;
-                    var pair = new KeyValuePair<ColumnList, string>(
-                        (ColumnList)comboBox.SelectedItem,
-                        String.Empty);
-                    _observers.ForEach(en => en.OnNext(pair));
+                    comboBox.Enabled = checkBox1.Checked;
+                    textBox.Enabled = checkBox1.Checked;
+                    if (!checkBox1.Checked)
+                    {
+                        textBox.Text = string.Empty;
+                        var pair = new KeyValuePair<ColumnList, string>(
+                            (ColumnList)comboBox.SelectedItem,
+                            String.Empty);
+                        _observers.ForEach(en => en.OnNext(pair));
+                    }
+                }
+                catch (Exception exception)
+                {
+                    _console?.AddException(exception);
+                }
+            };
+
+            comboBox.TextChanged += (s, e) =>
+            {
+                try
+                {
+                    if (checkBox1.Checked && _priviousColumn != null)
+                    {
+                        var pair = new KeyValuePair<ColumnList, string>(
+                            _priviousColumn, String.Empty);
+                        _observers.ForEach(en => en.OnNext(pair));
+                        textBox.Text = String.Empty;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    _console?.AddException(exception);
                 }
             };
         }

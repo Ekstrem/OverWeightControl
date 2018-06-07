@@ -149,7 +149,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-
                 _acts = _context
                     .Set<Act>()
                     .Include(d => d.Driver)

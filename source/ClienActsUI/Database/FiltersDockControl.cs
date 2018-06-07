@@ -53,6 +53,20 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     _console?.AddException(exception);
                 }
             };
+            removeButton.Click += (s, e) =>
+            {
+                try
+                {
+                    for (int i = filtersPanel.Controls.Count - 1; i >= 0; i--)
+                    {
+                        filtersPanel.Controls[i].Dispose();
+                    }
+                }
+                catch (Exception exception)
+                {
+                    _console?.AddException(exception);
+                }
+            };
         }
 
         public void InitColumns(ICollection<ColumnList> columns)
