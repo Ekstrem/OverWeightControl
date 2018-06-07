@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 using Unity;
 using Unity.Attributes;
 
+using Excel = Microsoft.Office.Interop.Excel;
+
 namespace OverWeightControl.Clients.ActsUI.Database
 {
     public partial class ActDbView : Form
@@ -42,11 +44,13 @@ namespace OverWeightControl.Clients.ActsUI.Database
             _settings = settings;
             _console = console;
             _container = container;
-            _context = (ModelContext)context;
+            _context = (ModelContext) context;
 
             InitializeComponent();
 
             InitialComponentsEvents();
+
+            this.filtersDockControl1.Subscribe(this.actGridControl1);
 
             _console?.AddEvent($"{nameof(ActDbView)} form created.");
         }
@@ -61,7 +65,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                   int changed = _context.SaveChanges();
                   _console.AddEvent($"Внесено {changed} изменений");
                   if (changed != 0)
-                      LoadData();
+                      LoadDataToGrid();
               };
             columnsListEditButton.Click += (s, e) =>
             {
@@ -104,30 +108,31 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     _console?.AddException(ex);
                 }
             };
-            button1.Click += (s, e) => Task.Factory.StartNew(
-                () => Invoke((Action)LoadData));
+            updateDataButton.Click += (s, e) => Task.Factory.StartNew(
+                () => Invoke((Action)LoadDataToGrid));
+            excelExportButton.Click += (s, e) => ExportToExcel();
             Load += (s, e) => Task.Factory.StartNew(
-                () => Invoke((Action)LoadData));
+                () => Invoke((Action)LoadDataToGrid));
         }
 
-        private void LoadData()
+        private void LoadDataToGrid()
         {
             try
             {
-                _acts = _context
-                    .Set<Act>()
-                    .Include(d => d.Driver)
-                    .Include(c => c.Cargo)
-                    .Include(w => w.Weighter)
-                    .Include(v => v.Vehicle)
-                    .ToList();
+                if (_acts == null || !_acts.Any())
+                {
+                    LoadDataFromDataBase();
+                }
+
                 actGridControl1.LoadData(_acts.Select(FlatAct.Expand).ToList());
 
+                // загрузка отображаемых колонок
                 if (File.Exists(_fileName))
                 {
                     var json = File.ReadAllText(_fileName);
                     var columns = JsonConvert.DeserializeObject<List<ColumnList>>(json);
                     actGridControl1.UpdateData(columns);
+                    filtersDockControl1.InitColumns(columns);
                 }
 
                 _console?.AddEvent($"Loaded acts from DB. Count: {_acts.Count}");
@@ -136,6 +141,42 @@ namespace OverWeightControl.Clients.ActsUI.Database
             {
                 _console?.AddException(e);
                 this.Close();
+            }
+        }
+
+        private List<Act> LoadDataFromDataBase()
+        {
+            _acts = _context
+                .Set<Act>()
+                .Include(d => d.Driver)
+                .Include(c => c.Cargo)
+                .Include(w => w.Weighter)
+                .Include(v => v.Vehicle)
+                .ToList();
+            return _acts;
+        }
+
+        private void ExportToExcel()
+        {
+            try
+            {
+                actGridControl1.CopyAlltoClipboard();
+                Excel.Application xlexcel;
+                Excel.Workbook xlWorkBook;
+                Excel.Worksheet xlWorkSheet;
+                object misValue = System.Reflection.Missing.Value;
+                xlexcel = new Excel.Application();
+                xlexcel.Visible = true;
+                xlWorkBook = xlexcel.Workbooks.Add(misValue);
+                xlWorkSheet = (Excel.Worksheet) xlWorkBook.Worksheets.get_Item(1);
+                Excel.Range CR = (Excel.Range) xlWorkSheet.Cells[1, 1];
+                CR.Select();
+                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    true);
+            }
+            catch (Exception e)
+            {
+                _console?.AddException(e);
             }
         }
     }

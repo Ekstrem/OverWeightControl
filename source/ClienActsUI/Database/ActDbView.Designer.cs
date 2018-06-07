@@ -30,13 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ActDbView));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.filtersDockControl1 = new OverWeightControl.Clients.ActsUI.Database.FiltersDockControl();
             this.label1 = new System.Windows.Forms.Label();
             this.actGridControl1 = new OverWeightControl.Clients.ActsUI.Database.ActGridControl();
             this.editActButton = new System.Windows.Forms.Button();
             this.columnsListEditButton = new System.Windows.Forms.Button();
             this.openOriginalFileButton = new System.Windows.Forms.Button();
             this.butonsPanel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.excelExportButton = new System.Windows.Forms.Button();
+            this.updateDataButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -55,14 +57,23 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.filtersDockControl1);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.actGridControl1);
             this.splitContainer1.Size = new System.Drawing.Size(806, 584);
-            this.splitContainer1.SplitterDistance = 135;
+            this.splitContainer1.SplitterDistance = 95;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // filtersDockControl1
+            // 
+            this.filtersDockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filtersDockControl1.Location = new System.Drawing.Point(0, 0);
+            this.filtersDockControl1.Name = "filtersDockControl1";
+            this.filtersDockControl1.Size = new System.Drawing.Size(806, 95);
+            this.filtersDockControl1.TabIndex = 1;
             // 
             // label1
             // 
@@ -79,7 +90,7 @@
             this.actGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.actGridControl1.Location = new System.Drawing.Point(0, 0);
             this.actGridControl1.Name = "actGridControl1";
-            this.actGridControl1.Size = new System.Drawing.Size(806, 445);
+            this.actGridControl1.Size = new System.Drawing.Size(806, 485);
             this.actGridControl1.TabIndex = 0;
             // 
             // editActButton
@@ -114,7 +125,8 @@
             // 
             // butonsPanel
             // 
-            this.butonsPanel.Controls.Add(this.button1);
+            this.butonsPanel.Controls.Add(this.excelExportButton);
+            this.butonsPanel.Controls.Add(this.updateDataButton);
             this.butonsPanel.Controls.Add(this.editActButton);
             this.butonsPanel.Controls.Add(this.openOriginalFileButton);
             this.butonsPanel.Controls.Add(this.columnsListEditButton);
@@ -124,15 +136,25 @@
             this.butonsPanel.Size = new System.Drawing.Size(162, 587);
             this.butonsPanel.TabIndex = 4;
             // 
-            // button1
+            // excelExportButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(18, 180);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(132, 50);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Обновить данные";
-            this.button1.UseVisualStyleBackColor = true;
+            this.excelExportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.excelExportButton.Location = new System.Drawing.Point(18, 236);
+            this.excelExportButton.Name = "excelExportButton";
+            this.excelExportButton.Size = new System.Drawing.Size(132, 50);
+            this.excelExportButton.TabIndex = 5;
+            this.excelExportButton.Text = "Экспорт в Excel выбранных данных";
+            this.excelExportButton.UseVisualStyleBackColor = true;
+            // 
+            // updateDataButton
+            // 
+            this.updateDataButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.updateDataButton.Location = new System.Drawing.Point(18, 180);
+            this.updateDataButton.Name = "updateDataButton";
+            this.updateDataButton.Size = new System.Drawing.Size(132, 50);
+            this.updateDataButton.TabIndex = 4;
+            this.updateDataButton.Text = "Обновить данные";
+            this.updateDataButton.UseVisualStyleBackColor = true;
             // 
             // ActDbView
             // 
@@ -164,6 +186,8 @@
         private System.Windows.Forms.Button columnsListEditButton;
         private System.Windows.Forms.Button openOriginalFileButton;
         private System.Windows.Forms.Panel butonsPanel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button updateDataButton;
+        private FiltersDockControl filtersDockControl1;
+        private System.Windows.Forms.Button excelExportButton;
     }
 }

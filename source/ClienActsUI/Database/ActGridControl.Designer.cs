@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             this.actGridView = new System.Windows.Forms.DataGridView();
-            this.idColum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.actNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ppvkNumColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.weightPointColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.actGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,48 +39,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.actGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.actGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.actGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idColum,
-            this.actNumber,
-            this.DateTimeColumn,
-            this.ppvkNumColumn,
-            this.weightPointColumn});
             this.actGridView.Location = new System.Drawing.Point(3, 3);
             this.actGridView.MultiSelect = false;
             this.actGridView.Name = "actGridView";
             this.actGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.actGridView.Size = new System.Drawing.Size(507, 586);
             this.actGridView.TabIndex = 0;
-            // 
-            // idColum
-            // 
-            this.idColum.HeaderText = "ID";
-            this.idColum.Name = "idColum";
-            this.idColum.Visible = false;
-            // 
-            // actNumber
-            // 
-            this.actNumber.HeaderText = "№ акта";
-            this.actNumber.Name = "actNumber";
-            this.actNumber.Width = 64;
-            // 
-            // DateTimeColumn
-            // 
-            this.DateTimeColumn.HeaderText = "Дата/время";
-            this.DateTimeColumn.Name = "DateTimeColumn";
-            this.DateTimeColumn.Width = 95;
-            // 
-            // ppvkNumColumn
-            // 
-            this.ppvkNumColumn.HeaderText = "№ ППВК";
-            this.ppvkNumColumn.Name = "ppvkNumColumn";
-            this.ppvkNumColumn.Width = 70;
-            // 
-            // weightPointColumn
-            // 
-            this.weightPointColumn.HeaderText = "Место взвешивания";
-            this.weightPointColumn.Name = "weightPointColumn";
-            this.weightPointColumn.Width = 123;
             // 
             // ActGridControl
             // 
@@ -102,10 +61,5 @@
         #endregion
 
         private System.Windows.Forms.DataGridView actGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idColum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn actNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateTimeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ppvkNumColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weightPointColumn;
     }
 }

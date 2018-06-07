@@ -40,6 +40,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -125,6 +130,18 @@
     <Compile Include="Database\ChosingColumnsForm.Designer.cs">
       <DependentUpon>ChosingColumnsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\FilterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Database\FilterControl.Designer.cs">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\FiltersDockControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Database\FiltersDockControl.Designer.cs">
+      <DependentUpon>FiltersDockControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataLoader.cs" />
     <Compile Include="DriverControl.cs">
       <SubType>UserControl</SubType>
@@ -188,6 +205,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Database\ChosingColumnsForm.resx">
       <DependentUpon>ChosingColumnsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\FilterControl.resx">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Database\FiltersDockControl.resx">
+      <DependentUpon>FiltersDockControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DriverControl.resx">
       <DependentUpon>DriverControl.cs</DependentUpon>

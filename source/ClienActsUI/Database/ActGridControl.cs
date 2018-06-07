@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using OverWeightControl.Common.Model;
@@ -13,11 +14,14 @@ namespace OverWeightControl.Clients.ActsUI.Database
     public partial class ActGridControl :
         UserControl,
         IEditable<ICollection<FlatAct>>,
-        IEditable<ICollection<ColumnList>>
+        IEditable<ICollection<ColumnList>>,
+        IObserver<IDictionary<ColumnList, string>>
     {
         private readonly IDictionary<int, Guid> _fastAccess;
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
+        private IDictionary<ColumnList, string> _filters;
+        private ICollection<FlatAct> _data;
 
         public ActGridControl()
         {
@@ -34,53 +38,44 @@ namespace OverWeightControl.Clients.ActsUI.Database
             _settings = settings;
 
             InitializeComponent();
-            idColum.Visible = bool
-                .TryParse(_settings[ArgsKeyList.IsDebugMode], out bool result) && result;
+            // idColum.Visible = bool.TryParse(_settings[ArgsKeyList.IsDebugMode], out bool result) && result;
             _fastAccess = new Dictionary<int, Guid>();
         }
 
         public bool LoadData(ICollection<FlatAct> data)
         {
+            _data = data;
+
             try
             {
-                actGridView.Columns.Clear();
-                actGridView.DataSource =
-                    new BindingSource(data, null);
+                // actGridView.Columns.Clear();
+                var list = new List<string>();
+
+                if (_filters != null && _filters.Count != 0 && actGridView.Columns.Count > 0)
+                {
+                    foreach (var filter in _filters.Keys)
+                    {
+                        var columnName = actGridView.Columns[filter.Num].Name;
+                        //bs.Filter = $"[{columnName}] LIKE '{_filters[filter]}%'";
+                        for (int i = 0; i < actGridView.Rows.Count; i++)
+                        {
+                            var value = actGridView.Rows[i].Cells[columnName]?.Value?.ToString();
+                            if (value!= null && value.StartsWith(_filters[filter]))
+                                list.Add(actGridView.Rows[i].Cells["Id"].Value.ToString());
+                        }
+                    }
+                    actGridView.DataSource =
+                        new BindingSource(data.Where(f => list.Contains(f.Id.ToString())).ToList(), null);
+                }
+                else
+                actGridView.DataSource = new BindingSource(data, null);
+
 
                 return true;
             }
             catch (Exception e)
             {
                 _console.AddException(e);
-                return false;
-            }
-        }
-
-
-        public bool LoadData2(ICollection<Act> data)
-        {
-            try
-            {
-                _fastAccess.Clear();
-                actGridView.Rows.Clear();
-                foreach (var act in data)
-                {
-                    int index = actGridView.Rows.Add();
-                    actGridView.Rows[index].Cells[nameof(idColum)].Value = act.Id;
-                    actGridView.Rows[index].Cells[nameof(actNumber)].Value = act.ActNumber;
-                    actGridView.Rows[index].Cells[nameof(DateTimeColumn)].ValueType = typeof(string);
-                    actGridView.Rows[index].Cells[nameof(DateTimeColumn)].Value = act.ActDateTime;
-                    actGridView.Rows[index].Cells[nameof(ppvkNumColumn)].Value = act.PpvkNumber;
-                    actGridView.Rows[index].Cells[nameof(weightPointColumn)].Value = act.WeightPoint;
-                    //int rowNum = actGridView.Rows.Add(row);
-                    _fastAccess.Add(index, act.Id);
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _console.AddException(ex);
                 return false;
             }
         }
@@ -140,6 +135,53 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 _console?.AddException(ex);
                 return false;
             }
+        }
+
+        /// <summary>Предоставляет наблюдателю новые данные.</summary>
+        /// <param name="value">Текущие сведения об уведомлениях.</param>
+        public void OnNext(IDictionary<ColumnList, string> value)
+        {
+            try
+            {
+                _filters = value
+                    .Where(f => !string.IsNullOrEmpty(f.Value))
+                    .ToDictionary(k => k.Key, v => v.Value);
+                LoadData(_data);
+            }
+            catch (Exception e)
+            {
+                _console?.AddException(e);
+            }
+        }
+
+        /// <summary>
+        ///   Уведомляет наблюдателя о том, что у поставщика возникла ошибка.
+        /// </summary>
+        /// <param name="error">
+        ///   Объект, который предоставляет дополнительную информацию об ошибке.
+        /// </param>
+        public void OnError(Exception error)
+        {
+            _console?.AddException(error);
+        }
+
+        /// <summary>
+        ///   Уведомляет наблюдателя о том, что поставщик завершил отправку push-уведомлений.
+        /// </summary>
+        public void OnCompleted()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void CopyAlltoClipboard()
+        {
+            actGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            actGridView.MultiSelect = true;
+            actGridView.SelectAll();
+            DataObject dataObj = actGridView.GetClipboardContent();
+            if (dataObj != null)
+                Clipboard.SetDataObject(dataObj);
+            actGridView.MultiSelect = false;
         }
     }
 }
