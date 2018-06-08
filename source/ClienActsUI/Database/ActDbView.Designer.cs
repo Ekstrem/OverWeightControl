@@ -30,15 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ActDbView));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.filtersDockControl1 = new OverWeightControl.Clients.ActsUI.Database.FiltersDockControl();
-            this.label1 = new System.Windows.Forms.Label();
-            this.actGridControl1 = new OverWeightControl.Clients.ActsUI.Database.ActGridControl();
             this.editActButton = new System.Windows.Forms.Button();
             this.columnsListEditButton = new System.Windows.Forms.Button();
             this.openOriginalFileButton = new System.Windows.Forms.Button();
             this.butonsPanel = new System.Windows.Forms.Panel();
             this.excelExportButton = new System.Windows.Forms.Button();
             this.updateDataButton = new System.Windows.Forms.Button();
+            this.filtersDockControl1 = new OverWeightControl.Clients.ActsUI.Database.FiltersDockControl();
+            this.actGridControl1 = new OverWeightControl.Clients.ActsUI.Database.ActGridControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -58,7 +57,6 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.filtersDockControl1);
-            this.splitContainer1.Panel1.Controls.Add(this.label1);
             // 
             // splitContainer1.Panel2
             // 
@@ -66,32 +64,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(806, 584);
             this.splitContainer1.SplitterDistance = 87;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // filtersDockControl1
-            // 
-            this.filtersDockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filtersDockControl1.Location = new System.Drawing.Point(0, 0);
-            this.filtersDockControl1.Name = "filtersDockControl1";
-            this.filtersDockControl1.Size = new System.Drawing.Size(806, 87);
-            this.filtersDockControl1.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Фильтры";
-            // 
-            // actGridControl1
-            // 
-            this.actGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.actGridControl1.Location = new System.Drawing.Point(0, 0);
-            this.actGridControl1.Name = "actGridControl1";
-            this.actGridControl1.Size = new System.Drawing.Size(806, 493);
-            this.actGridControl1.TabIndex = 0;
             // 
             // editActButton
             // 
@@ -156,6 +128,22 @@
             this.updateDataButton.Text = "Обновить данные";
             this.updateDataButton.UseVisualStyleBackColor = true;
             // 
+            // filtersDockControl1
+            // 
+            this.filtersDockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filtersDockControl1.Location = new System.Drawing.Point(0, 0);
+            this.filtersDockControl1.Name = "filtersDockControl1";
+            this.filtersDockControl1.Size = new System.Drawing.Size(806, 87);
+            this.filtersDockControl1.TabIndex = 1;
+            // 
+            // actGridControl1
+            // 
+            this.actGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.actGridControl1.Location = new System.Drawing.Point(0, 0);
+            this.actGridControl1.Name = "actGridControl1";
+            this.actGridControl1.Size = new System.Drawing.Size(806, 493);
+            this.actGridControl1.TabIndex = 0;
+            // 
             // ActDbView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,7 +156,6 @@
             this.Name = "ActDbView";
             this.Text = "Просмотр сохранённых актов";
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -182,7 +169,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ActGridControl actGridControl1;
         private System.Windows.Forms.Button editActButton;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button columnsListEditButton;
         private System.Windows.Forms.Button openOriginalFileButton;
         private System.Windows.Forms.Panel butonsPanel;

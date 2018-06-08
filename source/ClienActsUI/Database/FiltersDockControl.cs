@@ -5,20 +5,25 @@ using System.Linq;
 using System.Windows.Forms;
 using OverWeightControl.Core.Console;
 using Unity.Attributes;
+using Unity.Interception.Utilities;
 
 namespace OverWeightControl.Clients.ActsUI.Database
 {
     public partial class FiltersDockControl : UserControl,
-        IObserver<KeyValuePair<ColumnList,string>>,
-        IObservable<IDictionary<ColumnList, string>>
+        IObserver<KeyValuePair<ColumnList, SearchingTerm>>,
+        IObservable<IDictionary<ColumnList, SearchingTerm>>,
+        IObservable<IList<DateFilter>>
     {
         private readonly IConsoleService _console;
-        private IDictionary<ColumnList, string> _filters;
-        private List<IObserver<IDictionary<ColumnList, string>>> _observers;
+        private IDictionary<ColumnList, SearchingTerm> _filters;
+        private List<IObserver<IDictionary<ColumnList, SearchingTerm>>> _filtersObservers;
+        private IDictionary<DateSeachMode, DateFilter> _datesFilters;
+        private List<IObserver<IList<DateFilter>>> _datesFiltersObservers;
 
         public FiltersDockControl()
         {
-            _filters = new Dictionary<ColumnList, string>();
+            _filters = new Dictionary<ColumnList, SearchingTerm>();
+            _datesFilters = new Dictionary<DateSeachMode, DateFilter>();
             InitializeComponent();
             InitialControlsEvents();
         }
@@ -27,7 +32,8 @@ namespace OverWeightControl.Clients.ActsUI.Database
         public FiltersDockControl(IConsoleService console)
         {
             _console = console;
-            _filters = new Dictionary<ColumnList, string>();
+            _filters = new Dictionary<ColumnList, SearchingTerm>();
+            _datesFilters = new Dictionary<DateSeachMode, DateFilter>();
             InitializeComponent();
             InitialControlsEvents();
         }
@@ -40,7 +46,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 {
                     var filter = new FilterControl(_console);
                     filter.Initial(_filters.Keys);
-                    int count = filtersPanel.Controls.Count;
+                    int count = filtersPanel.Controls.Count-4;
                     filter.Location = new Point(0, count * 30);
                     filter.Parent = filtersPanel;
                     filter.Anchor = AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Left;
@@ -59,13 +65,85 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 {
                     for (int i = filtersPanel.Controls.Count - 1; i >= 0; i--)
                     {
-                        filtersPanel.Controls[i].Dispose();
+                        if (filtersPanel.Controls[i] is FilterControl)
+                            filtersPanel.Controls[i].Dispose();
                     }
+
+                    _filters.Keys.ForEach(i => _filters[i] = new SearchingTerm(String.Empty));
                 }
                 catch (Exception exception)
                 {
                     _console?.AddException(exception);
                 }
+            };
+            fromCheckBox.CheckedChanged += (s, e) =>
+            {
+                bool result = fromCheckBox.Checked;
+                fromDateTimePicker.Enabled = result;
+                if (!result)
+                {
+                    if (toCheckBox.Checked)
+                    {
+                        toCheckBox.Checked = false;
+                        toDateTimePicker.Enabled = false;
+                    }
+
+                    _datesFilters.Clear();
+                }
+                else
+                {
+                    if (!_datesFilters.ContainsKey(DateSeachMode.OnDate))
+                        _datesFilters.Add(DateSeachMode.OnDate, new DateFilter(fromDateTimePicker.Value, DateSeachMode.OnDate));
+                }
+
+                _datesFiltersObservers.ForEach(i => i.OnNext(_datesFilters.Values.ToList()));
+            };
+            toCheckBox.CheckedChanged += (s, e) =>
+            {
+                if (!fromCheckBox.Checked)
+                {
+                    if (toCheckBox.Checked)
+                        ((CheckBox) s).CheckState = CheckState.Unchecked;
+                    if (_datesFilters.ContainsKey(DateSeachMode.FromDate))
+                        _datesFilters.Remove(DateSeachMode.FromDate);
+                    if (_datesFilters.ContainsKey(DateSeachMode.ToDate))
+                        _datesFilters.Remove(DateSeachMode.ToDate);
+                    return;
+                }
+
+                toDateTimePicker.Enabled = toCheckBox.Checked;
+                fromCheckBox.Text = toCheckBox.Checked ? "C" : "На";
+
+                if (!_datesFilters.ContainsKey(DateSeachMode.FromDate))
+                    _datesFilters.Add(DateSeachMode.FromDate, null);
+                _datesFilters[DateSeachMode.FromDate] = new DateFilter(
+                    fromDateTimePicker.Value, DateSeachMode.FromDate);
+
+                if (!_datesFilters.ContainsKey(DateSeachMode.ToDate))
+                    _datesFilters.Add(DateSeachMode.ToDate, null);
+                _datesFilters[DateSeachMode.ToDate] = new DateFilter(
+                    toDateTimePicker.Value, DateSeachMode.ToDate);
+
+                _datesFiltersObservers.ForEach(i => i.OnNext(_datesFilters.Values.ToList()));
+            };
+            fromDateTimePicker.ValueChanged += (s, e) =>
+            {
+                DateSeachMode mode = toCheckBox.Checked
+                    ? DateSeachMode.FromDate
+                    : DateSeachMode.OnDate;
+                if (!_datesFilters.ContainsKey(mode))
+                    _datesFilters.Add(mode, null);
+                _datesFilters[mode] = new DateFilter(
+                    fromDateTimePicker.Value, mode);
+                _datesFiltersObservers.ForEach(i => i.OnNext(_datesFilters.Values.ToList()));
+            };
+            toDateTimePicker.ValueChanged += (s, e) =>
+            {
+                DateSeachMode mode = DateSeachMode.ToDate;
+                if (!_datesFilters.ContainsKey(mode))
+                    _datesFilters[mode] = new DateFilter(
+                        fromDateTimePicker.Value, mode);
+                _datesFiltersObservers.ForEach(i => i.OnNext(_datesFilters.Values.ToList()));
             };
         }
 
@@ -73,7 +151,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                _filters = columns.ToDictionary(k => k, v => string.Empty);
+                _filters = columns.ToDictionary(k => k, v => new SearchingTerm(String.Empty));
 
                 foreach (Control control in filtersPanel.Controls)
                 {
@@ -91,7 +169,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         /// <summary>Предоставляет наблюдателю новые данные.</summary>
         /// <param name="value">Текущие сведения об уведомлениях.</param>
-        public void OnNext(KeyValuePair<ColumnList, string> value)
+        public void OnNext(KeyValuePair<ColumnList, SearchingTerm> value)
         {
             try
             {
@@ -99,7 +177,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     _filters[value.Key] = value.Value;
                 else
                     _filters.Add(value);
-                _observers.ForEach(e => e.OnNext(_filters));
+                _filtersObservers.ForEach(e => e.OnNext(_filters));
             }
             catch (Exception e)
             {
@@ -135,12 +213,30 @@ namespace OverWeightControl.Clients.ActsUI.Database
         /// <returns>
         ///   Ссылка на интерфейс, позволяющий наблюдателям прекратить получение уведомлений до того, как поставщик завершит их отправку.
         /// </returns>
-        public IDisposable Subscribe(IObserver<IDictionary<ColumnList, string>> observer)
+        IDisposable IObservable<IDictionary<ColumnList, SearchingTerm>>.Subscribe(IObserver<IDictionary<ColumnList, SearchingTerm>> observer)
         {
-            if(_observers == null)
-                _observers = new List<IObserver<IDictionary<ColumnList, string>>>();
-            if (!_observers.Contains(observer))
-                _observers.Add(observer);
+            if(_filtersObservers == null)
+                _filtersObservers = new List<IObserver<IDictionary<ColumnList, SearchingTerm>>>();
+            if (!_filtersObservers.Contains(observer))
+                _filtersObservers.Add(observer);
+            return null;
+        }
+
+        /// <summary>
+        ///   Уведомляет поставщика о том, что наблюдатель должен получать уведомления.
+        /// </summary>
+        /// <param name="observer">
+        ///   Объект, который должен получать уведомления.
+        /// </param>
+        /// <returns>
+        ///   Ссылка на интерфейс, позволяющий наблюдателям прекратить получение уведомлений до того, как поставщик завершит их отправку.
+        /// </returns>
+        IDisposable IObservable<IList<DateFilter>>.Subscribe(IObserver<IList<DateFilter>> observer)
+        {
+            if (_datesFiltersObservers == null)
+                _datesFiltersObservers = new List<IObserver<IList<DateFilter>>>();
+            if (!_datesFiltersObservers.Contains(observer))
+                _datesFiltersObservers.Add(observer);
             return null;
         }
     }

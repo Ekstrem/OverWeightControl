@@ -15,10 +15,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
 {
     public partial class FilterControl : 
         UserControl,
-        IObservable<KeyValuePair<ColumnList, string>>
+        IObservable<KeyValuePair<ColumnList, SearchingTerm>>
     {
         private readonly IConsoleService _console;
-        private List<IObserver<KeyValuePair<ColumnList, string>>> _observers;
+        private List<IObserver<KeyValuePair<ColumnList, SearchingTerm>>> _observers;
         private ColumnList _priviousColumn;
 
         public FilterControl()
@@ -50,9 +50,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
                         return;
 
                     _priviousColumn = (ColumnList) comboBox.SelectedItem;
-                    var pair = new KeyValuePair<ColumnList, string>(
+                    var pair = new KeyValuePair<ColumnList, SearchingTerm>(
                         (ColumnList)comboBox.SelectedItem,
-                        ((TextBox)s).Text);
+                        new SearchingTerm(((TextBox)s).Text, (SearchingMode)comboBox1.SelectedItem)
+                        );
                     _observers?.ForEach(en => en.OnNext(pair));
                 }
                 catch (Exception exception)
@@ -67,12 +68,13 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 {
                     comboBox.Enabled = checkBox1.Checked;
                     textBox.Enabled = checkBox1.Checked;
+                    comboBox1.Enabled = checkBox1.Checked;
                     if (!checkBox1.Checked)
                     {
                         textBox.Text = string.Empty;
-                        var pair = new KeyValuePair<ColumnList, string>(
-                            (ColumnList)comboBox.SelectedItem,
-                            String.Empty);
+                        var pair = new KeyValuePair<ColumnList, SearchingTerm>(
+                            (ColumnList) comboBox.SelectedItem,
+                            new SearchingTerm(String.Empty, (SearchingMode) comboBox1.SelectedItem));
                         _observers.ForEach(en => en.OnNext(pair));
                     }
                 }
@@ -88,8 +90,8 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 {
                     if (checkBox1.Checked && _priviousColumn != null)
                     {
-                        var pair = new KeyValuePair<ColumnList, string>(
-                            _priviousColumn, String.Empty);
+                        var pair = new KeyValuePair<ColumnList, SearchingTerm>(
+                            _priviousColumn, new SearchingTerm(String.Empty, (SearchingMode)comboBox1.SelectedItem));
                         _observers.ForEach(en => en.OnNext(pair));
                         textBox.Text = String.Empty;
                     }
@@ -99,12 +101,22 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     _console?.AddException(exception);
                 }
             };
+
+            Disposed += (s, e) =>
+            {
+                var pair = new KeyValuePair<ColumnList, SearchingTerm>(
+                    (ColumnList) comboBox.SelectedItem,
+                    new SearchingTerm(String.Empty, (SearchingMode) comboBox1.SelectedItem));
+                _observers.ForEach(en => en.OnNext(pair));
+            };
         }
 
         public void Initial(ICollection<ColumnList> columns, int chosing = -1)
         {
             try
             {
+                comboBox1.DataSource = new BindingSource(SearchingMode.GetModes(), null);
+
                 var source = columns
                     .Where(f => f.Visible)
                     .ToList();
@@ -131,10 +143,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
         /// <returns>
         ///   Ссылка на интерфейс, позволяющий наблюдателям прекратить получение уведомлений до того, как поставщик завершит их отправку.
         /// </returns>
-        public IDisposable Subscribe(IObserver<KeyValuePair<ColumnList, string>> observer)
+        public IDisposable Subscribe(IObserver<KeyValuePair<ColumnList, SearchingTerm>> observer)
         {
             if (_observers == null)
-                _observers = new List<IObserver<KeyValuePair<ColumnList, string>>>();
+                _observers = new List<IObserver<KeyValuePair<ColumnList, SearchingTerm>>>();
             if (!_observers.Contains(observer))
                 _observers.Add(observer);
             return null;

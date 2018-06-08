@@ -51,7 +51,8 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
             InitialComponentsEvents();
 
-            this.filtersDockControl1.Subscribe(this.actGridControl1);
+            ((IObservable<IDictionary<ColumnList, SearchingTerm>>)this.filtersDockControl1).Subscribe(this.actGridControl1);
+            ((IObservable<IList<DateFilter>>) this.filtersDockControl1).Subscribe(this.actGridControl1);
 
             _console?.AddEvent($"{nameof(ActDbView)} form created.");
         }
