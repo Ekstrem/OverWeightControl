@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace OverWeightControl.Common.RawData
 {
@@ -69,5 +70,13 @@ namespace OverWeightControl.Common.RawData
         public override string ToString() => Value;
 
         public override bool Equals(object obj) => ((string)obj).Equals(Value);
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1435885130;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Value);
+            hashCode = hashCode * -1521134295 + RecognizedAccuracy.GetHashCode();
+            return hashCode;
+        }
     }
 }

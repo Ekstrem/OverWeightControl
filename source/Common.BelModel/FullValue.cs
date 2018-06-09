@@ -123,5 +123,16 @@ namespace OverWeightControl.Common.BelModel
 
             return act;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1351203734;
+            hashCode = hashCode * -1521134295 + EqualityComparer<int?>.Default.GetHashCode(index);
+            hashCode = hashCode * -1521134295 + fieldId.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(description);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(recognizedValue);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<FullValue>>.Default.GetHashCode(value);
+            return hashCode;
+        }
     }
 }

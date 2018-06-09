@@ -14,7 +14,6 @@ namespace OverWeightControl.Clients.ParrentUI
         private readonly IUnityContainer _container;
         private readonly ISettingsStorage _settings;
         private readonly UpdateClient _updateClient;
-        private bool _adminMode;
 
         [InjectionConstructor]
         public MainForm(
