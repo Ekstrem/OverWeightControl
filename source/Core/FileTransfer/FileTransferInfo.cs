@@ -37,6 +37,10 @@ namespace OverWeightControl.Core.FileTransfer
         [JsonProperty]
         public bool IsCompresed { get; set; }
 
+        [DataMember]
+        [JsonProperty]
+        public string PpvkName { get; set; }
+
         /// <summary>
         ///   Создает новый объект, являющийся копией текущего экземпляра.
         /// </summary>
@@ -49,7 +53,8 @@ namespace OverWeightControl.Core.FileTransfer
                 Size = this.Size,
                 Ext = this.Ext,
                 Hash = this.Hash,
-                Data = this.Data
+                Data = this.Data,
+                PpvkName = this.PpvkName
             };
         }
 

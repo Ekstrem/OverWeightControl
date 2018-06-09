@@ -55,7 +55,7 @@ namespace OverWeightControl.Core.FileTransfer
                 if (!Directory.Exists(directory))
                     Directory.CreateDirectory(directory);
                 var oldFile = $"{_settings[ArgsKeyList.StorePath]}\\{fileTransferInfo.Id}";
-                var newFile = $"{directory}\\{fileTransferInfo.Id}.{fileTransferInfo.Ext}";
+                var newFile = $"{directory}\\{fileTransferInfo.Id};{fileTransferInfo.PpvkName}.{fileTransferInfo.Ext}";
                 if (File.Exists(oldFile))
                 {
                     File.Copy(oldFile, newFile);

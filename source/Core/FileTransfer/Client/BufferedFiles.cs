@@ -53,6 +53,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             {
                 var fileName = $"{_settings[ArgsKeyList.ScanPath]}\\{fileTransferInfo.Id}{fileTransferInfo.Ext}";
                 fileTransferInfo.Data = File.ReadAllBytes(fileName);
+                fileTransferInfo.PpvkName = _settings[ArgsKeyList.PpvkName];
                 return fileTransferInfo;
             }
             catch (Exception e)
