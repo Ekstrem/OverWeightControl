@@ -18,5 +18,6 @@
         public static string Version = nameof(Version);
         public static string HandValidation = nameof(HandValidation);
         public static string QueuesSize = nameof(QueuesSize);
+        public static string PpvkName = nameof(PpvkName);
     }
 }

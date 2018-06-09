@@ -89,7 +89,7 @@ namespace OverWeightControl.Common.Model
         [DisplayName("Дата Акта.")]
         [JsonProperty(Order = 3)]
         [StringLength(20)]
-        public string ActDateTime { get; set; }
+        public DateTime ActDateTime { get; set; }
 
         /// <summary>
         /// Номер ППВК.

@@ -59,7 +59,8 @@ namespace OverWeightControl.Core.Settings
                     {ArgsKeyList.Binding, "Net"},
                     {ArgsKeyList.Version, "0"},
                     {ArgsKeyList.HandValidation, "false"},
-                    {ArgsKeyList.QueuesSize, "30" }
+                    {ArgsKeyList.QueuesSize, "30" },
+                    {ArgsKeyList.PpvkName, "0" }
                 };
         }
 

@@ -36,14 +36,32 @@ namespace OverWeightControl.Common.BelModel
         /// <returns>Строка, представляющая текущий объект.</returns>
         public override string ToString() => recognizedValue;
 
+        /// <summary>
+        ///   Определяет, равен ли заданный объект текущему объекту.
+        /// </summary>
+        /// <param name="obj">
+        ///   Объект, который требуется сравнить с текущим объектом.
+        /// </param>
+        /// <returns>
+        ///   Значение <see langword="true" />, если указанный объект равен текущему объекту; в противном случае — значение <see langword="false" />.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is FullValue))
+                return false;
+            return fieldId.Equals(((FullValue) obj).fieldId)
+                   && recognizedValue.Equals(((FullValue) obj).recognizedValue);
+        }
+
 
         public static Act Load(string json)
         {
             var linq = JObject.Parse(json)["blankValues"];
             var act = new Act();
-            act.ActDateTime =
-                (string) linq["date"]["recognizedValue"]
-                + " " + (string) linq["time"]["recognizedValue"];
+            var dateString = (string) linq["date"]["recognizedValue"]
+                       + " " + (string) linq["time"]["recognizedValue"];
+            if (DateTime.TryParse(dateString, out var date))
+                act.ActDateTime = date;
             if (int.TryParse((string) linq["ppvkNumber"]["recognizedValue"], out int ppvkNum))
                 act.PpvkNumber = ppvkNum;
 

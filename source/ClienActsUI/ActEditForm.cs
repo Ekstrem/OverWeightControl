@@ -46,7 +46,7 @@ namespace OverWeightControl.Clients.ActsUI
             {
                 Id = id,
                 ActNumber = 11623,
-                ActDateTime = DateTime.Now.ToString(CultureInfo.CurrentCulture),
+                ActDateTime = DateTime.Now,
                 PpvkNumber = 17,
                 WeightPoint = "testWeightPointAddress",
 

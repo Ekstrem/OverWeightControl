@@ -237,9 +237,7 @@ namespace OverWeightControl
                     Name = nameof(Md5HashComputerFiles),
                     AllowRoles = new List<NodeRole>
                     {
-                        NodeRole.PPVK,
-                        NodeRole.VerificationStation,
-                        NodeRole.ReportsStation
+                        NodeRole.PPVK
                     }
                 },
                 new Dependency(4)

@@ -51,7 +51,7 @@ namespace OverWeightControl.Common.Model
         /// </summary>
         [DisplayName("Марка ТС")]
         [JsonProperty(Order = 2)]
-        [StringLength(25)]
+        [StringLength(50)]
         public string VehicleBrand { get; set; }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace OverWeightControl.Common.Model
         /// </summary>
         [DisplayName("Модель ТС")]
         [JsonProperty(Order = 3)]
-        [StringLength(25)]
+        [StringLength(50)]
         public string VehicleModel { get; set; }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace OverWeightControl.Common.Model
         /// </summary>
         [DisplayName("Регистрационый номер ТС")]
         [JsonProperty(Order = 4)]
-        [StringLength(25)]
+        [StringLength(50)]
         public string StateNumber { get; set; }
 
         public override bool Equals(object obj)

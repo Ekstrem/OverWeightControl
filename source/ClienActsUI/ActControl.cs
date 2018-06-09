@@ -46,7 +46,7 @@ namespace OverWeightControl.Clients.ActsUI
             try
             {
                 actNumberTextBox.LoadData(data.ActNumber);
-                dateTimePicker.Value = DateTime.Parse(data.ActDateTime);
+                dateTimePicker.Value =data.ActDateTime;
                 ppvkNumberTextBox.LoadData(data.PpvkNumber);
                 weightPointTextBox.LoadData(data.WeightPoint);
                 weighterControl1.LoadData(data.Weighter);
@@ -78,7 +78,7 @@ namespace OverWeightControl.Clients.ActsUI
             try
             {
                 data.ActNumber = int.Parse(actNumberTextBox.Text);
-                data.ActDateTime = dateTimePicker.Value.ToString(CultureInfo.InvariantCulture);
+                data.ActDateTime = dateTimePicker.Value;
                 data.PpvkNumber = int.Parse(ppvkNumberTextBox.Text);
                 data.WeightPoint = weightPointTextBox.Text;
                 weighterControl1.UpdateData(data.Weighter);

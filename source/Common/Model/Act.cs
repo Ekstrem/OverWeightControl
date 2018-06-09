@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
+using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 using OverWeightControl.Common.RawData;
 using OverWeightControl.Common.Serialization;
@@ -36,14 +36,13 @@ namespace OverWeightControl.Common.Model
             if (act.ActDate.RecognizedAccuracy == RecognizedValue.MaxAccuracy
                 && date != null && time != null)
             {
-                ActDateTime = (date + time)
-                    .ToString(CultureInfo.CurrentCulture);
+                ActDateTime = (date + time);
             }
 
             ActDateTime = (act.ActDate.RecognizedAccuracy ==
-                       RecognizedValue.MaxAccuracy)
-                ? act.ActDate.Value
-                : string.Empty;
+                           RecognizedValue.MaxAccuracy)
+                ? DateTime.Parse(act.ActDate.Value)
+                : DateTime.MinValue;
             PpvkNumber = (act.ActNumber.RecognizedAccuracy ==
                           RecognizedValue.MaxAccuracy)
                 ? int.Parse(act.ActNumber.Value)
@@ -71,8 +70,8 @@ namespace OverWeightControl.Common.Model
         /// </summary>
         [DisplayName("Дата Акта.")]
         [JsonProperty(Order = 2)]
-        [StringLength(20)]
-        public string ActDateTime { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime ActDateTime { get; set; }
 
         /// <summary>
         /// Номер ППВК.
