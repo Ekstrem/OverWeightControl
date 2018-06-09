@@ -124,14 +124,21 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         private List<Guid> FindForDatesAtGrid(List<Guid> outerList)
         {
+            if (_dateFilters == null)
+                return outerList;
+
             try
             {
                 var innerDatesList = new List<Guid>();
                 for (int i = 0; i < actGridView.Rows.Count; i++)
                 {
+                    var res = actGridView.Rows[i].Cells["Id"].Value.ToString();
+                    Guid.TryParse(res, out Guid id);
+                    if (!outerList.Contains(id))
+                        continue;
                     var buf = actGridView.Rows[i].Cells["ActDateTime"].Value?.ToString().Trim();
                     DateTime.TryParse(buf, out var date);
-                    if (_dateFilters != null && date != null &&
+                    if (date != null &&
                         (_dateFilters.Any(f => f.Mode == DateSeachMode.OnDate)
                          && date.Date == _dateFilters.Single(f => f.Mode == DateSeachMode.OnDate).Date.Date
                          || _dateFilters.Any(f => f.Mode == DateSeachMode.FromDate)
@@ -141,8 +148,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
                          && _dateFilters.Single(f => f.Mode == DateSeachMode.ToDate).Date.Date.CompareTo(date.Date) >=
                          0))
                     {
-                        var res = actGridView.Rows[i].Cells["Id"].Value.ToString();
-                        Guid.TryParse(res, out Guid id);
                         innerDatesList.Add(id);
                     }
                 }
