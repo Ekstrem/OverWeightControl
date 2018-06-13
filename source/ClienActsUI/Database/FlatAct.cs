@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Windows.Forms;
 using Newtonsoft.Json;
+using OverWeightControl.Common.Model;
+using OverWeightControl.Core.Console;
 
-namespace OverWeightControl.Common.Model
+namespace OverWeightControl.Clients.ActsUI.Database
 {
     /// <summary>
     /// Класс со всеми полями
@@ -369,5 +374,132 @@ namespace OverWeightControl.Common.Model
         public string DriverExplanation { get; set; }
 
         #endregion
+
+        /// <summary>
+        ///   Определяет, равен ли заданный объект текущему объекту.
+        /// </summary>
+        /// <param name="obj">
+        ///   Объект, который требуется сравнить с текущим объектом.
+        /// </param>
+        /// <returns>
+        ///   Значение <see langword="true" />, если указанный объект равен текущему объекту; в противном случае — значение <see langword="false" />.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            try
+            {
+                return ((FlatAct) obj).Id == Id
+                       && ((FlatAct) obj).ActNumber == ActNumber
+                       && ((FlatAct) obj).ActDateTime == ActDateTime
+                       && ((FlatAct) obj).PpvkNumber == PpvkNumber
+                       && ((FlatAct) obj).WeightPoint == WeigherNumber
+                       && ((FlatAct) obj).WeigherNumber == WeigherNumber
+                       && ((FlatAct) obj).VerificationDate == VerificationDate
+                       && ((FlatAct) obj).CertificateNumber == CertificateNumber
+                       && ((FlatAct) obj).ViolationNature == ViolationNature
+                       && ((FlatAct) obj).ViolationKoap == ViolationKoap
+                       && ((FlatAct) obj).VehicleOwner == VehicleOwner
+                       && ((FlatAct) obj).VehicleCountry == VehicleCountry
+                       && ((FlatAct) obj).VehicleSubjectCode == VehicleSubjectCode
+                       && ((FlatAct) obj).VehicleCompanyAddress == VehicleCompanyAddress
+                       && ((FlatAct) obj).VehicleRoute == VehicleRoute
+                       && ((FlatAct) obj).VehicleShipper == VehicleShipper
+                       && ((FlatAct) obj).FederalHighwaysDistance == FederalHighwaysDistance
+                       && ((FlatAct) obj).CarriageType == CarriageType
+                       && ((FlatAct) obj).FnMnSname == FnMnSname
+                       && ((FlatAct) obj).DriversLicenseNumber == DriversLicenseNumber
+                       && ((FlatAct) obj).OperatorName == OperatorName
+                       && ((FlatAct) obj).GibddName == GibddName
+                       && ((FlatAct) obj).GetingMark == GetingMark
+                       && ((FlatAct) obj).CargoCharacter == CargoCharacter
+                       && ((FlatAct) obj).CarriageType == CarriageType
+                       && ((FlatAct) obj).LegalWeight == LegalWeight
+                       && ((FlatAct) obj).ValetWeight == ValetWeight
+                       && ((FlatAct) obj).FactWeight == FactWeight
+                       && ((FlatAct) obj).PercentWeightOverflow == PercentWeightOverflow
+                       && ((FlatAct) obj).CargoSpecialAllow == CargoSpecialAllow
+                       && ((FlatAct) obj).RoadSection == RoadSection
+                       && ((FlatAct) obj).Tariffs == Tariffs
+                       && ((FlatAct) obj).LegLength == LegLength
+                       && ((FlatAct) obj).Pass == Pass
+                       && ((FlatAct) obj).OtherViolation == OtherViolation
+                       && ((FlatAct) obj).DriverExplanation == DriverExplanation;
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -845150336;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Guid>.Default.GetHashCode(Id);
+            hashCode = hashCode * -1521134295 + EqualityComparer<int?>.Default.GetHashCode(ActNumber);
+            hashCode = hashCode * -1521134295 + ActDateTime.GetHashCode();
+            hashCode = hashCode * -1521134295 + PpvkNumber.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(WeightPoint);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(WeigherNumber);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(VerificationDate);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CertificateNumber);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ViolationNature);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ViolationKoap);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(VehicleOwner);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(VehicleCountry);
+            hashCode = hashCode * -1521134295 + EqualityComparer<int?>.Default.GetHashCode(VehicleSubjectCode);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(VehicleCompanyAddress);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(VehicleRoute);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(VehicleShipper);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FederalHighwaysDistance);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CarriageType);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FnMnSname);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DriversLicenseNumber);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OperatorName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(GibddName);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(GetingMark);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CargoCharacter);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CargoType);
+            hashCode = hashCode * -1521134295 + EqualityComparer<float?>.Default.GetHashCode(LegalWeight);
+            hashCode = hashCode * -1521134295 + EqualityComparer<float?>.Default.GetHashCode(ValetWeight);
+            hashCode = hashCode * -1521134295 + EqualityComparer<float?>.Default.GetHashCode(FactWeight);
+            hashCode = hashCode * -1521134295 + EqualityComparer<float?>.Default.GetHashCode(PercentWeightOverflow);
+            hashCode = hashCode * -1521134295 + EqualityComparer<float?>.Default.GetHashCode(CargoSpecialAllow);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(RoadSection);
+            hashCode = hashCode * -1521134295 + EqualityComparer<int?>.Default.GetHashCode(Tariffs);
+            hashCode = hashCode * -1521134295 + EqualityComparer<float?>.Default.GetHashCode(LegLength);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Pass);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(OtherViolation);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DriverExplanation);
+            return hashCode;
+        }
+
+        internal static int LoadToGrid(
+            ICollection<FlatAct> data,
+            ICollection<ColumnList> columns,
+            DataGridView actGridView,
+            IConsoleService console)
+        {
+            try
+            {
+                actGridView.Rows.Clear();
+                foreach (var flatAct in data)
+                {
+                    var index = actGridView.Rows.Add();
+                    foreach (var e in columns)
+                    {
+                        actGridView.Rows[index].Cells[e.Name].Value =
+                            flatAct.GetType().GetProperty(e.Name)?.GetValue(flatAct, null);
+                    }
+                }
+                
+                return data.Count;
+            }
+            catch (Exception e)
+            {
+                console?.AddException(e);
+                return 0;
+            }
+        }
     }
 }

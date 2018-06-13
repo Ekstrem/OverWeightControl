@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using OverWeightControl.Common.Model;
@@ -51,21 +52,19 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             if (_data == null)
                 _data = data;
-            ToGrid(data);
+            if (actGridView.Rows.Count != data.Count)
+                ToGrid(data);
 
             try
             {
-                if (_filters != null && _filters.Any()
-                    || _dateFilters != null && _dateFilters.Any())
-                {
                     var outerList = _data.Select(m => m.Id).ToList();
                     
-                    outerList = FindForFilterAtGrid(outerList);
+                    outerList = FindForFilterAtGrid<FlatAct>(outerList);
 
                     outerList = FindForDatesAtGrid(outerList);
-
+                    
                     ToGrid(data.Where(f => outerList.Contains(f.Id)).ToList());
-                }
+                
 
                 return true;
             }
@@ -76,41 +75,32 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        private List<Guid> FindForFilterAtGrid(List<Guid> outerList)
+        private List<Guid> FindForFilterAtGrid<T>(List<Guid> outerList)
         {
             try
             {
-                if (_filters == null)
+                if (_filters == null || !_filters.Any())
                     return outerList;
-                
-                foreach (var filter in _filters?.Keys)
+
+                foreach (var filter in _filters.Keys)
                 {
-                    var innerFilterList = new List<Guid>();
-                    var columnName = filter != null ? actGridView.Columns[filter.Num].Name : null;
-                    for (int i = 0; i < actGridView.Rows.Count; i++)
-                    {
-                        var value = actGridView.Rows[i].Cells[columnName]?.Value?.ToString();
-                        if (value != null
-                            && !string.IsNullOrEmpty(filter.Name)
-                            && _filters != null
-                            && _filters.ContainsKey(filter)
+                    var filterName = _columns.Single(s => s.Description == filter.Name).Name;
+                    var t = typeof(FlatAct).GetProperty(filterName);
+                    var innerFilterList = _data
+                        .Where(f =>
                             // поиск по условию "Содержит"
-                            && (_filters[filter].Mode.Mode == SearchingModeEnum.Contains
-                                && value.ToLower().Contains(_filters[filter].SearchingData.ToLower())
+                                _filters[filter].Mode.Mode == SearchingModeEnum.Contains
+                                && t.GetValue(f).ToString().ToLower()
+                                    .Contains(_filters[filter].SearchingData.ToLower())
                                 // поиск по условию "Начинается с"
                                 || _filters[filter].Mode.Mode == SearchingModeEnum.StartWith
-                                && value.ToLower().StartsWith(_filters[filter].SearchingData.ToLower())))
-                        {
-                            var buf = actGridView.Rows[i].Cells["Id"].Value.ToString();
-                            Guid.TryParse(buf, out Guid id);
-                            innerFilterList.Add(id);
-                        }
-                    }
+                                && t.GetValue(f).ToString().ToLower()
+                                    .StartsWith(_filters[filter].SearchingData.ToLower()))
+                        .Select(m => m.Id);
 
                     outerList = !outerList.Any()
                         ? innerFilterList.ToList()
                         : innerFilterList.Intersect(outerList).ToList();
-                    innerFilterList.Clear();
                 }
 
                 return outerList;
@@ -124,40 +114,24 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         private List<Guid> FindForDatesAtGrid(List<Guid> outerList)
         {
-            if (_dateFilters == null)
+            try { 
+            if (_dateFilters == null || !_dateFilters.Any())
                 return outerList;
 
-            try
-            {
-                var innerDatesList = new List<Guid>();
-                for (int i = 0; i < actGridView.Rows.Count; i++)
-                {
-                    var res = actGridView.Rows[i].Cells["Id"].Value.ToString();
-                    Guid.TryParse(res, out Guid id);
-                    if (!outerList.Contains(id))
-                        continue;
-                    var buf = actGridView.Rows[i].Cells["ActDateTime"].Value?.ToString().Trim();
-                    DateTime.TryParse(buf, out var date);
-                    if (date != null &&
-                        (_dateFilters.Any(f => f.Mode == DateSeachMode.OnDate)
-                         && date.Date == _dateFilters.Single(f => f.Mode == DateSeachMode.OnDate).Date.Date
-                         || _dateFilters.Any(f => f.Mode == DateSeachMode.FromDate)
-                         && _dateFilters.Single(f => f.Mode == DateSeachMode.FromDate).Date.Date.CompareTo(date.Date) <=
-                         0
-                         && _dateFilters.Any(f => f.Mode == DateSeachMode.ToDate)
-                         && _dateFilters.Single(f => f.Mode == DateSeachMode.ToDate).Date.Date.CompareTo(date.Date) >=
-                         0))
-                    {
-                        innerDatesList.Add(id);
-                    }
-                }
-                
-                outerList = !outerList.Any()
-                    ? innerDatesList.ToList()
-                    : innerDatesList.Intersect(outerList).ToList();
-                innerDatesList.Clear();
+            outerList = _data
+                .Where(f =>
+                    _dateFilters.Any(a => a.Mode == DateSeachMode.OnDate)
+                    && f.ActDateTime.Date == _dateFilters.Single(a => a.Mode == DateSeachMode.OnDate).Date.Date
+                    || _dateFilters.Any(a => a.Mode == DateSeachMode.FromDate)
+                    && _dateFilters.Single(a => a.Mode == DateSeachMode.FromDate).Date.Date
+                        .CompareTo(f.ActDateTime.Date) <= 0
+                    && _dateFilters.Any(a => a.Mode == DateSeachMode.ToDate)
+                    && _dateFilters.Single(a => a.Mode == DateSeachMode.ToDate).Date.Date
+                        .CompareTo(f.ActDateTime.Date) >= 0)
+                .Select(m => m.Id)
+                .ToList();
 
-                return outerList;
+            return outerList;
             }
             catch (Exception e)
             {
@@ -170,18 +144,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                actGridView.Rows.Clear();
-                foreach (var flatAct in data)
-                {
-                    var index = actGridView.Rows.Add();
-                    foreach (var e in _columns)
-                    {
-                        actGridView.Rows[index].Cells[e.Name].Value =
-                            flatAct.GetType().GetProperty(e.Name).GetValue(flatAct, null);
-                    }
-                }
-
-                infoLabel.Text = data.Any() ? $"Загружено {data.Count} актов" : String.Empty;
+                var count = FlatAct.LoadToGrid(data, _columns, actGridView, _console);
+                infoLabel.Text = count != 0 
+                    ? $"Загружено {count} актов" 
+                    : String.Empty;
             }
             catch (Exception e)
             {
@@ -239,6 +205,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     data.Add(new ColumnList
                     {
                         Num = i,
+                        //TODO: Add Description
                         Name = actGridView.Columns[i].HeaderText,
                         Visible = actGridView.Columns[i].Visible
                     });

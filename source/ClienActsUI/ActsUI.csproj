@@ -144,6 +144,7 @@
     <Compile Include="Database\FiltersDockControl.Designer.cs">
       <DependentUpon>FiltersDockControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\FlatAct.cs" />
     <Compile Include="DataLoader.cs" />
     <Compile Include="DriverControl.cs">
       <SubType>UserControl</SubType>

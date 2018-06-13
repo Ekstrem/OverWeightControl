@@ -56,7 +56,6 @@
     <Compile Include="Model\AxisInfo.cs" />
     <Compile Include="Model\CargoInfo.cs" />
     <Compile Include="Model\DriverInfo.cs" />
-    <Compile Include="Model\FlatAct.cs" />
     <Compile Include="Model\VehicleDetail.cs" />
     <Compile Include="Model\VehicleInfo.cs" />
     <Compile Include="Model\WeighterInfo.cs" />

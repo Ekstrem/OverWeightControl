@@ -139,10 +139,9 @@ namespace OverWeightControl.Clients.ActsUI.Database
             };
             toDateTimePicker.ValueChanged += (s, e) =>
             {
-                DateSeachMode mode = DateSeachMode.ToDate;
-                if (!_datesFilters.ContainsKey(mode))
-                    _datesFilters[mode] = new DateFilter(
-                        fromDateTimePicker.Value, mode);
+                var mode = DateSeachMode.ToDate;
+                _datesFilters[mode] = new DateFilter(
+                    toDateTimePicker.Value, mode);
                 _datesFiltersObservers.ForEach(i => i.OnNext(_datesFilters.Values.ToList()));
             };
         }
