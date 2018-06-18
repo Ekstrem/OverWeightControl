@@ -21,19 +21,103 @@ namespace OverWeightControl.Clients.ActsUI.Database
         IObserver<IDictionary<ColumnList, SearchingTerm>>,
         IObserver<IList<DateFilter>>
     {
-        private readonly IDictionary<int, Guid> _fastAccess;
+        //private readonly IDictionary<int, Guid> _fastAccess;
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
         private IDictionary<ColumnList, SearchingTerm> _filters;
         private IList<DateFilter> _dateFilters;
         private ICollection<FlatAct> _data;
         private ICollection<ColumnList> _columns;
+        private const int _pageSize = 50;
+        private int _count;
 
         public ActGridControl()
         {
-            _fastAccess = new Dictionary<int, Guid>();
+            //_fastAccess = new Dictionary<int, Guid>();
             InitializeComponent();
+            InitialComponentsEvents();
             CreateFields<FlatAct>();
+        }
+
+        private void InitialComponentsEvents()
+        {
+            pageTextBox.KeyPress += (s, e) =>
+            {
+                var s2 = s;
+                var e2 = e;
+            };
+            actGridView.ColumnHeaderMouseClick += (s, e) =>
+            {
+                try
+                {
+                    var column = ((DataGridView) s).Columns[e.ColumnIndex].Name;
+                    if (column == null)
+                        return;
+
+                    _data = _data.ApplyOrder(column, "OrderBy").ToList();
+                    LoadData(_data);
+                }
+                catch (Exception exception)
+                {
+                    _console.AddException(exception);
+                }
+            };
+            firstButton.Click += (s, e) =>
+            {
+                try
+                {
+                    pageTextBox.Text = @"1";
+                    LoadData(_data);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+            };
+            previousButton.Click += (s, e) =>
+            {
+                try
+                {
+                    if (int.TryParse(pageTextBox.Text, out int page)
+                        && page > 1)
+                    {
+                        pageTextBox.Text = (page - 1).ToString();
+                        LoadData(_data);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+            };
+            nextButton.Click += (s, e) =>
+            {
+                try
+                {
+                    if (int.TryParse(pageTextBox.Text, out int page)
+                        && page * _pageSize < _count)
+                    {
+                        pageTextBox.Text = (page + 1).ToString();
+                        LoadData(_data);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+            };
+            lastButton.Click += (s, e) =>
+            {
+                try
+                {
+                    pageTextBox.Text = (_count / _pageSize + 1).ToString();
+                    LoadData(_data);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+            };
         }
 
         [InjectionConstructor]
@@ -45,7 +129,8 @@ namespace OverWeightControl.Clients.ActsUI.Database
             _settings = settings;
 
             InitializeComponent();
-            _fastAccess = new Dictionary<int, Guid>();
+            //_fastAccess = new Dictionary<int, Guid>();
+            CreateFields<FlatAct>();
         }
 
         public bool LoadData(ICollection<FlatAct> data)
@@ -57,14 +142,14 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
             try
             {
-                    var outerList = _data.Select(m => m.Id).ToList();
-                    
-                    outerList = FindForFilterAtGrid<FlatAct>(outerList);
+                var outerList = _data.Select(m => m.Id).ToList();
 
-                    outerList = FindForDatesAtGrid(outerList);
-                    
-                    ToGrid(data.Where(f => outerList.Contains(f.Id)).ToList());
-                
+                outerList = FindForDatesAtGrid(outerList);
+
+                outerList = FindForFilterGrid<FlatAct>(outerList);
+
+                ToGrid(data.Where(f => outerList.Contains(f.Id)).ToList());
+
 
                 return true;
             }
@@ -75,7 +160,13 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        private List<Guid> FindForFilterAtGrid<T>(List<Guid> outerList)
+        /// <summary>
+        /// Поиск фильтров
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="outerList"></param>
+        /// <returns></returns>
+        private List<Guid> FindForFilterGrid<T>(List<Guid> outerList)
         {
             try
             {
@@ -85,7 +176,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 foreach (var filter in _filters.Keys)
                 {
                     var filterName = _columns.Single(s => s.Description == filter.Name).Name;
-                    var t = typeof(FlatAct).GetProperty(filterName);
+                    var t = typeof(T).GetProperty(filterName);
                     var innerFilterList = _data
                         .Where(f =>
                             // поиск по условию "Содержит"
@@ -144,9 +235,14 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                var count = FlatAct.LoadToGrid(data, _columns, actGridView, _console);
-                infoLabel.Text = count != 0 
-                    ? $"Загружено {count} актов" 
+                int page = int.TryParse(pageTextBox.Text, out int buf) ? buf : 1;
+                if (String.IsNullOrEmpty(pageTextBox.Text))
+                    pageTextBox.Text = page.ToString();
+                var pageData = data.Skip(_pageSize * (page - 1)).Take(_pageSize).ToList();
+                FlatAct.LoadToGrid(pageData, _columns, actGridView, _console);
+                _count = data.Count;
+                infoLabel.Text = _count != 0 
+                    ? $"Загружено {_count} актов" 
                     : String.Empty;
             }
             catch (Exception e)
