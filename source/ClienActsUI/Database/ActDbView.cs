@@ -176,14 +176,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 actGridControl1.LoadData(columnsList);
                 var columns = columnsList.ToArray();
 
-                for (int i = 0; i < rows.Length; i++)
-                {
-                    for (int j = 0; j < columns.Length; j++)
-                    {
-                        var buf = rows[i].GetType().GetProperty(columns[j].Description)?.GetValue(rows[i], null);
-                    }
-                }
-
                 Excel.Application xlexcel;
                 Excel.Workbook xlWorkBook;
                 Excel.Worksheet xlWorkSheet;
@@ -201,9 +193,17 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 {
                     for (int j = 0; j < columns.Length; j++)
                     {
-                        var buf = rows[i].GetType().GetProperty(columns[j].Name)?.GetValue(rows[i], null);
-                        _console.AddEvent($"{buf}, {i}, {j}");
-                        xlWorkSheet.Cells[i + 2, j + 1] = buf;
+                        try
+                        {
+                            var column = columns[j].Description;
+                            var props = rows[i].GetType().GetProperty(column);
+                            var buf = props?.GetValue(rows[i], null);
+                            xlWorkSheet.Cells[i + 2, j + 1] = buf;
+                        }
+                        catch (Exception e)
+                        {
+                            _console?.AddException(e);
+                        }
                     }
                 }
 
