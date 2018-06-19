@@ -150,7 +150,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
                 ToGrid(data.Where(f => outerList.Contains(f.Id)).ToList());
 
-
                 return true;
             }
             catch (Exception e)
@@ -285,7 +284,26 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public bool UpdateData(ICollection<FlatAct> data)
         {
-            return false;
+            try
+            {
+                if (data == null)
+                    return false;
+
+                data.Clear();
+                var outerList = _data.Select(m => m.Id).ToList();
+
+                outerList = FindForDatesAtGrid(outerList);
+
+                outerList = FindForFilterGrid<FlatAct>(outerList);
+
+                _data.Where(f => outerList.Contains(f.Id)).ForEach(data.Add);
+                return data.Count > 0;
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+                return false;
+            }
         }
 
         public bool LoadData(ICollection<ColumnList> data)
@@ -301,7 +319,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     data.Add(new ColumnList
                     {
                         Num = i,
-                        //TODO: Add Description
+                        Description = actGridView.Columns[i].Name,
                         Name = actGridView.Columns[i].HeaderText,
                         Visible = actGridView.Columns[i].Visible
                     });
@@ -385,17 +403,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
         public void OnCompleted()
         {
             throw new NotImplementedException();
-        }
-
-        internal void CopyAlltoClipboard()
-        {
-            actGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            actGridView.MultiSelect = true;
-            actGridView.SelectAll();
-            DataObject dataObj = actGridView.GetClipboardContent();
-            if (dataObj != null)
-                Clipboard.SetDataObject(dataObj);
-            actGridView.MultiSelect = false;
         }
     }
 }

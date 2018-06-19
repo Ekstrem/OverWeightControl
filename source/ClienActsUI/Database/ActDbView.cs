@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -168,23 +169,51 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                actGridControl1.CopyAlltoClipboard();
+                ICollection<FlatAct> rowsList = new List<FlatAct>();
+                actGridControl1.UpdateData(rowsList);
+                var rows = rowsList.ToArray();
+                ICollection<ColumnList> columnsList = new List<ColumnList>();
+                actGridControl1.LoadData(columnsList);
+                var columns = columnsList.ToArray();
+
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    for (int j = 0; j < columns.Length; j++)
+                    {
+                        var buf = rows[i].GetType().GetProperty(columns[j].Description)?.GetValue(rows[i], null);
+                    }
+                }
+
                 Excel.Application xlexcel;
                 Excel.Workbook xlWorkBook;
                 Excel.Worksheet xlWorkSheet;
                 object misValue = Missing.Value;
                 xlexcel = new Excel.Application();
-                xlexcel.Visible = true;
                 xlWorkBook = xlexcel.Workbooks.Add(misValue);
                 xlWorkSheet = (Excel.Worksheet) xlWorkBook.Worksheets.get_Item(1);
-                Excel.Range CR = (Excel.Range) xlWorkSheet.Cells[1, 1];
-                //CR.Select();
+
+                for (int i = 0; i < columns.Length; i++)
+                {
+                    xlWorkSheet.Cells[1, i + 1] = columns[i].Name;
+                }
+                
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    for (int j = 0; j < columns.Length; j++)
+                    {
+                        var buf = rows[i].GetType().GetProperty(columns[j].Name)?.GetValue(rows[i], null);
+                        _console.AddEvent($"{buf}, {i}, {j}");
+                        xlWorkSheet.Cells[i + 2, j + 1] = buf;
+                    }
+                }
+
                 Excel.Range rng = (Excel.Range)xlWorkSheet.Rows[1];
                 rng.Font.Bold = true;
-                Excel.Range deleteRange = (Excel.Range) xlWorkSheet.Columns[1];
-                deleteRange.ColumnWidth =1;
-                xlWorkSheet.PasteSpecial(CR, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, true);
+                
                 xlWorkSheet.Columns.AutoFit();
+
+                xlexcel.Visible = true;
+                xlexcel.UserControl = true;
             }
             catch (Exception e)
             {

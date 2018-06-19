@@ -39,7 +39,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public bool UpdateData(ICollection<ColumnList> data)
         {
-            throw new NotImplementedException();
             return false;
         }
     }
