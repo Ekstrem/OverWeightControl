@@ -477,7 +477,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             ICollection<FlatAct> data,
             ICollection<ColumnList> columns,
             DataGridView actGridView,
-            IConsoleService console)
+            IConsoleService console = null)
         {
             try
             {

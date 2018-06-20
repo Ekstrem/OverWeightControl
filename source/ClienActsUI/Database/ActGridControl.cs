@@ -363,6 +363,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 _filters = value
                     .Where(f => !string.IsNullOrEmpty(f.Value.SearchingData))
                     .ToDictionary(k => k.Key, v => v.Value);
+                pageTextBox.Text = @"1";
                 LoadData(_data);
             }
             catch (Exception e)
