@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace OverWeightControl.Clients.ActsUI.Database
+namespace OverWeightControl.Clients.ActsUI.Tools
 {
     public static class QueryHelper
     {
@@ -15,7 +15,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                return source.AsQueryable().ApplyOrder(property, methodName).AsEnumerable();
+                return source
+                    .AsQueryable()
+                    .ApplyOrder(property, methodName)
+                    .AsEnumerable();
             }
             catch (Exception e)
             {
@@ -60,20 +63,63 @@ namespace OverWeightControl.Clients.ActsUI.Database
         }
 
         public static IQueryable<T> Where<T>(
-            IQueryable<T> source,
+            this IQueryable<T> source,
             string columnName,
-            string filterValue)
+            string filterValue,
+            string operation)
         {
             try
             {
-                ParameterExpression parameter = Expression.Parameter(typeof(T), "x");
-                Expression property = Expression.Property(parameter, columnName);
-                Expression constant = Expression.Constant(filterValue);
-                Expression equality = Expression.Equal(property, constant);
-                Expression<Func<T, bool>> predicate =
-                    Expression.Lambda<Func<T, bool>>(equality, parameter);
-                Func<T, bool> compiled = predicate.Compile();
-                return (IQueryable<T>)source.Where(compiled);
+                var parameter = Expression.Parameter(typeof(T), "x");
+                Expression column = Expression.Property(parameter, columnName);
+
+                var constant = Expression.Constant(filterValue.ToLower());
+                Expression[] methodArgs = {constant};
+
+                var toStringCall = Expression.Call(column, "ToString", Type.EmptyTypes);
+                var toLowerCall = Expression.Call(toStringCall, "ToLower", Type.EmptyTypes);
+                MethodInfo method = typeof(string).GetMethod(operation, new[] {typeof(string)});
+                Expression predicateCall = Expression.Call(toLowerCall, method, methodArgs);
+                var lambda = Expression.Lambda<Func<T, bool>>(predicateCall, parameter);
+
+                return source.Where(lambda);
+
+                // return source.Provider.CreateQuery<T>(lambda);
+
+                /*'(.Lambda #Lambda1<System.Func`2[OverWeightControl.Common.Model.Act,System.Boolean]>)
+
+                    .Lambda #Lambda1<System.Func`2[OverWeightControl.Common.Model.Act,System.Boolean]>(OverWeightControl.Common.Model.Act $f)
+                {
+                    .Call(.Call(.Call($f.PpvkNumber).ToString()).ToLower()).Contains("1")
+                }*/
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        
+        public static IEnumerable<T> Where<T>(
+            this IEnumerable<T> source,
+            string columnName,
+            string filterValue,
+            string operation)
+        {
+            try
+            {
+                var parameter = Expression.Parameter(typeof(T), "x");
+                Expression column = Expression.Property(parameter, columnName);
+
+                var constant = Expression.Constant(filterValue.ToLower());
+                Expression[] methodArgs = { constant };
+
+                var toStringCall = Expression.Call(column, "ToString", Type.EmptyTypes);
+                var toLowerCall = Expression.Call(toStringCall, "ToLower", Type.EmptyTypes);
+                MethodInfo method = typeof(string).GetMethod(operation, new[] { typeof(string) });
+                Expression predicateCall = Expression.Call(toLowerCall, method, methodArgs);
+                var lambda = Expression.Lambda<Func<T, bool>>(predicateCall, parameter);
+
+                return source.Where(lambda.Compile());
             }
             catch (Exception e)
             {
@@ -81,7 +127,19 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        public static MethodInfo GetGenericMethod(
+        public static IEnumerable<T> Where<T>(
+            this IEnumerable<T> source,
+            IDictionary<ColumnInfo, SearchingTerm> terms)
+        {
+            if (terms == null)
+                return source;
+
+            return terms.Keys.Aggregate(
+                    source, 
+                    (current, term) => current.Where(term.Description, terms[term].SearchingData, terms[term].Mode.Mode.ToString()));
+        }
+
+        private static MethodInfo GetGenericMethod(
             this Type type,
             string name,
             Type[] genericTypeArgs,

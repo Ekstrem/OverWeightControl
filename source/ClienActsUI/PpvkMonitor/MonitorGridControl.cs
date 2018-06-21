@@ -7,35 +7,48 @@ using Newtonsoft.Json;
 using OverWeightControl.Clients.ActsUI.Tools;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
+using OverWeightControl.Core.FileTransfer;
 using OverWeightControl.Core.Settings;
 using Unity.Attributes;
 using Unity.Interception.Utilities;
 
-namespace OverWeightControl.Clients.ActsUI.Database
+namespace OverWeightControl.Clients.ActsUI.PpvkMonitor
 {
-    public partial class ActGridControl :
+    public partial class MonitorGridControl :
         UserControl,
-        IEditable<ICollection<FlatAct>>,
+        IEditable<ICollection<PpvkFileInfo>>,
         IEditable<ICollection<ColumnInfo>>,
         IObserver<IDictionary<ColumnInfo, SearchingTerm>>,
         IObserver<IList<DateFilter>>
     {
-        //private readonly IDictionary<int, Guid> _fastAccess;
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
         private IDictionary<ColumnInfo, SearchingTerm> _filters;
         private IList<DateFilter> _dateFilters;
-        private ICollection<FlatAct> _data;
+        private ICollection<PpvkFileInfo> _data;
         private ICollection<ColumnInfo> _columns;
         private const int _pageSize = 50;
         private int _count;
 
-        public ActGridControl()
+        public MonitorGridControl()
         {
             //_fastAccess = new Dictionary<int, Guid>();
             InitializeComponent();
             InitialComponentsEvents();
-            CreateFields<FlatAct>();
+            CreateFields<PpvkFileInfo>();
+        }
+
+        [InjectionConstructor]
+        public MonitorGridControl(
+            IConsoleService console,
+            ISettingsStorage settings)
+        {
+            _console = console;
+            _settings = settings;
+
+            InitializeComponent();
+            //_fastAccess = new Dictionary<int, Guid>();
+            CreateFields<PpvkFileInfo>();
         }
 
         private void InitialComponentsEvents()
@@ -49,7 +62,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             {
                 try
                 {
-                    var column = ((DataGridView) s).Columns[e.ColumnIndex].Name;
+                    var column = ((DataGridView)s).Columns[e.ColumnIndex].Name;
                     if (column == null)
                         return;
 
@@ -119,20 +132,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             };
         }
 
-        [InjectionConstructor]
-        public ActGridControl(
-            IConsoleService console,
-            ISettingsStorage settings)
-        {
-            _console = console;
-            _settings = settings;
-
-            InitializeComponent();
-            //_fastAccess = new Dictionary<int, Guid>();
-            CreateFields<FlatAct>();
-        }
-
-        public bool LoadData(ICollection<FlatAct> data)
+        public bool LoadData(ICollection<PpvkFileInfo> data)
         {
             if (_data == null)
                 _data = data;
@@ -145,7 +145,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
                 outerList = FindForDatesAtGrid(outerList);
 
-                outerList = FindForFilterGrid<FlatAct>(outerList);
+                outerList = FindForFilterGrid<PpvkFileInfo>(outerList);
 
                 ToGrid(data.Where(f => outerList.Contains(f.Id)).ToList());
 
@@ -210,13 +210,13 @@ namespace OverWeightControl.Clients.ActsUI.Database
             outerList = _data
                 .Where(f =>
                     _dateFilters.Any(a => a.Mode == DateSeachMode.OnDate)
-                    && f.ActDateTime.Date == _dateFilters.Single(a => a.Mode == DateSeachMode.OnDate).Date.Date
+                    && f.FindAtPpvkTime.Date == _dateFilters.Single(a => a.Mode == DateSeachMode.OnDate).Date.Date
                     || _dateFilters.Any(a => a.Mode == DateSeachMode.FromDate)
                     && _dateFilters.Single(a => a.Mode == DateSeachMode.FromDate).Date.Date
-                        .CompareTo(f.ActDateTime.Date) <= 0
+                        .CompareTo(f.FindAtPpvkTime.Date) <= 0
                     && _dateFilters.Any(a => a.Mode == DateSeachMode.ToDate)
                     && _dateFilters.Single(a => a.Mode == DateSeachMode.ToDate).Date.Date
-                        .CompareTo(f.ActDateTime.Date) >= 0)
+                        .CompareTo(f.FindAtPpvkTime.Date) >= 0)
                 .Select(m => m.Id)
                 .ToList();
 
@@ -229,7 +229,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
         
-        private void ToGrid(ICollection<FlatAct> data)
+        private void ToGrid(ICollection<PpvkFileInfo> data)
         {
             try
             {
@@ -237,7 +237,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 if (String.IsNullOrEmpty(pageTextBox.Text))
                     pageTextBox.Text = page.ToString();
                 var pageData = data.Skip(_pageSize * (page - 1)).Take(_pageSize).ToList();
-                FlatAct.LoadToGrid(pageData, _columns, actGridView, _console);
+                LoadToGrid(pageData, _columns, actGridView, _console);
                 _count = data.Count;
                 infoLabel.Text = _count != 0 
                     ? $"Загружено {_count} актов" 
@@ -258,16 +258,18 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     .Select(propertyInfo => new ColumnInfo
                     {
                         Name = propertyInfo.Name,
-                        Num = (int)propertyInfo.CustomAttributes
-                            .Single(f => f.AttributeType == typeof(JsonPropertyAttribute))
-                            .NamedArguments[0].TypedValue.Value,
+                        Num = (int?)propertyInfo.CustomAttributes
+                            .SingleOrDefault(f => f.AttributeType == typeof(JsonPropertyAttribute))
+                            ?.NamedArguments[0].TypedValue.Value ?? -1,
                         Description = propertyInfo.CustomAttributes
-                            .Single(f => f.AttributeType == typeof(DisplayNameAttribute))
-                            .ConstructorArguments[0].Value.ToString(),
+                            .SingleOrDefault(f => f.AttributeType == typeof(DisplayNameAttribute))
+                            ?.ConstructorArguments[0].Value.ToString() ?? String.Empty,
                         Visible = true
                     })
                     .OrderBy(o => o.Num)
                     .ToList();
+                if (_columns.Min(m => m.Num) == 0)
+                    _columns.ForEach(e => e.Num += 1);
                 _columns.ForEach(e => actGridView.Columns.Add(e.Name, e.Description));
             }
             catch (Exception e)
@@ -281,7 +283,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             return (Guid?)actGridView?.CurrentRow?.Cells["Id"]?.Value ?? Guid.Empty;
         }
 
-        public bool UpdateData(ICollection<FlatAct> data)
+        public bool UpdateData(ICollection<PpvkFileInfo> data)
         {
             try
             {
@@ -293,7 +295,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
                 outerList = FindForDatesAtGrid(outerList);
 
-                outerList = FindForFilterGrid<FlatAct>(outerList);
+                outerList = FindForFilterGrid<PpvkFileInfo>(outerList);
 
                 _data.Where(f => outerList.Contains(f.Id)).ForEach(data.Add);
                 return data.Count > 0;
@@ -403,6 +405,34 @@ namespace OverWeightControl.Clients.ActsUI.Database
         public void OnCompleted()
         {
             throw new NotImplementedException();
+        }
+
+        internal static int LoadToGrid(
+            List<PpvkFileInfo> data,
+            ICollection<ColumnInfo> columns,
+            DataGridView actGridView,
+            IConsoleService console = null)
+        {
+            try
+            {
+                actGridView.Rows.Clear();
+                foreach (var flatAct in data)
+                {
+                    var index = actGridView.Rows.Add();
+                    foreach (var e in columns)
+                    {
+                        actGridView.Rows[index].Cells[e.Name].Value =
+                            flatAct.GetType().GetProperty(e.Name)?.GetValue(flatAct, null);
+                    }
+                }
+
+                return data.Count;
+            }
+            catch (Exception e)
+            {
+                console?.AddException(e);
+                return 0;
+            }
         }
     }
 }

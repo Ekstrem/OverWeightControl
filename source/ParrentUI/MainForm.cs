@@ -29,7 +29,7 @@ namespace OverWeightControl.Clients.ParrentUI
 
             // Станция верфикации
             actListVerificationToolStripMenuItem.Click += (s, e) => StartForm("ActDbView");
-            // actVerificationWizardToolStripMenuItem.Click += (s, e) =>
+            actVerificationWizardToolStripMenuItem.Click += (s, e) => StartForm("MonitorDbView");
 
             // Администрирование
             settingsToolStripMenuItem.Click += (s, e) => StartForm("EditorSettingsStorage");

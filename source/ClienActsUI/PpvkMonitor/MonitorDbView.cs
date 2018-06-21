@@ -12,6 +12,7 @@ using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 using Newtonsoft.Json;
 using OverWeightControl.Clients.ActsUI.Tools;
+using OverWeightControl.Core.FileTransfer;
 using Unity;
 using Unity.Attributes;
 
@@ -19,22 +20,22 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace OverWeightControl.Clients.ActsUI.Database
 {
-    public partial class ActDbView : Form
+    public partial class MonitorDbView : Form
     {
-        private const string _fileName = "columns.cfg";
+        private const string _fileName = "monitorColumns.cfg";
         private readonly ISettingsStorage _settings;
         private readonly IConsoleService _console;
         private readonly IUnityContainer _container;
         private readonly ModelContext _context;
-        private List<Act> _acts;
+        private List<PpvkFileInfo> _fileInfos;
 
-        public ActDbView()
+        public MonitorDbView()
         {
             InitializeComponent();
         }
 
         [InjectionConstructor]
-        public ActDbView(
+        public MonitorDbView(
             ISettingsStorage settings,
             IConsoleService console,
             IUnityContainer container,
@@ -59,9 +60,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             editActButton.Click += (s, e) =>
               {
+                  throw new ApplicationException();
                   Guid index = actGridControl1.GetMarked();
-                  var act = _acts.FirstOrDefault(f => f.Id == index);
-                  ActEditForm.ShowModal(_container, act);
+                  var act = _fileInfos.FirstOrDefault(f => f.Id == index);
+                  //ActEditForm.ShowModal(_container, act);
                   int changed = _context.SaveChanges();
                   _console.AddEvent($"Внесено {changed} изменений");
                   if (changed != 0)
@@ -92,16 +94,17 @@ namespace OverWeightControl.Clients.ActsUI.Database
             {
                 try
                 {
+                    throw new ApplicationException();
                     Guid index = actGridControl1.GetMarked();
-                    var act = _acts.FirstOrDefault(f => f.Id == index);
+                    var pfi = _fileInfos.FirstOrDefault(f => f.Id == index);
                     string directory = _settings[ArgsKeyList.BackUpPath];
                     var fileName = Directory.GetFiles(
                         _settings[ArgsKeyList.BackUpPath]
-                        , $"{act.Id}.*")
+                        , $"{pfi.Id}.*")
                         .FirstOrDefault(f => !f.Contains(".json"));
                     if (fileName == null)
                         return;
-                    BroserForm.ShowModal(_console, fileName, act.ActNumber.ToString());
+                    BroserForm.ShowModal(_console, fileName, pfi.Id.ToString());
                 }
                 catch (Exception ex)
                 {
@@ -119,12 +122,12 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                if (_acts == null || !_acts.Any())
+                if (_fileInfos == null || !_fileInfos.Any())
                 {
                     LoadDataFromDataBase();
                 }
 
-                actGridControl1.LoadData(_acts.Select(FlatAct.Expand).ToList());
+                actGridControl1.LoadData(_fileInfos);
 
                 // загрузка отображаемых колонок
                 if (File.Exists(_fileName))
@@ -135,7 +138,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     filtersDockControl1.InitColumns(columns);
                 }
 
-                _console?.AddEvent($"Loaded acts from DB. Count: {_acts.Count}");
+                _console?.AddEvent($"Loaded acts from DB. Count: {_fileInfos.Count}");
             }
             catch (Exception e)
             {
@@ -148,13 +151,17 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                _acts = _context
-                    .Set<Act>()
-                    .Include(d => d.Driver)
-                    .Include(c => c.Cargo)
-                    .Include(w => w.Weighter)
-                    .Include(v => v.Vehicle)
+                _fileInfos = _context.Set<PpvkFileInfo>().ToList();
+                var set = new HashSet<Guid>(_fileInfos.Select(m => m.Id));
+
+                var path = _settings[ArgsKeyList.BackUpPath];
+                var files = Directory
+                    .GetFiles(path, @"*.details")
+                    .Where(f => !set.Contains(Guid.Parse(f.Split('.')[0])))
+                    .Select(File.ReadAllText)
+                    .Select(m => new PpvkFileInfo().LoadFromJson(m))
                     .ToList();
+                _fileInfos.AddRange(files);
             }
             catch (Exception e)
             {
@@ -166,7 +173,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                ICollection<FlatAct> rowsList = new List<FlatAct>();
+                ICollection<PpvkFileInfo> rowsList = new List<PpvkFileInfo>();
                 actGridControl1.UpdateData(rowsList);
                 var rows = rowsList.ToArray();
                 ICollection<ColumnInfo> columnsList = new List<ColumnInfo>();

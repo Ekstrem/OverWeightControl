@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OverWeightControl.Clients.ActsUI.Database
+namespace OverWeightControl.Clients.ActsUI.Tools
 {
     public class DateFilter
     {

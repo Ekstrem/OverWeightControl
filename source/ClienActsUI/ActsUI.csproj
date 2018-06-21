@@ -130,8 +130,8 @@
     <Compile Include="Database\ChosingColumnsForm.Designer.cs">
       <DependentUpon>ChosingColumnsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\ColumnInfo.cs" />
-    <Compile Include="Database\DateFilter.cs" />
+    <Compile Include="Tools\ColumnInfo.cs" />
+    <Compile Include="Tools\DateFilter.cs" />
     <Compile Include="Database\FilterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -145,7 +145,7 @@
       <DependentUpon>FiltersDockControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\FlatAct.cs" />
-    <Compile Include="Database\QueryHelper.cs" />
+    <Compile Include="Tools\QueryHelper.cs" />
     <Compile Include="DataLoader.cs" />
     <Compile Include="DriverControl.cs">
       <SubType>UserControl</SubType>
@@ -153,7 +153,22 @@
     <Compile Include="DriverControl.Designer.cs">
       <DependentUpon>DriverControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="PpvkMonitor\MonitorGridControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PpvkMonitor\MonitorGridControl.Designer.cs">
+      <DependentUpon>MonitorGridControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PpvkMonitor\MonitorDbView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PpvkMonitor\MonitorDbView.Designer.cs">
+      <DependentUpon>MonitorDbView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\SearchingMode.cs" />
+    <Compile Include="Tools\SearchingModeEnum.cs" />
+    <Compile Include="Tools\SearchingTerm.cs" />
     <Compile Include="ValidatioinControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -218,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DriverControl.resx">
       <DependentUpon>DriverControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PpvkMonitor\MonitorGridControl.resx">
+      <DependentUpon>MonitorGridControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PpvkMonitor\MonitorDbView.resx">
+      <DependentUpon>MonitorDbView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ValidatioinControl.resx">
       <DependentUpon>ValidatioinControl.cs</DependentUpon>

@@ -5,6 +5,9 @@ using Unity.Lifetime;
 
 namespace OverWeightControl
 {
+    /// <summary>
+    /// Клас содержащий информацию о зависимостях.
+    /// </summary>
     [JsonObject]
     public class Dependency
     {

@@ -107,6 +107,13 @@ namespace OverWeightControl
                     Realization = typeof(ActDbView),
                     Name = nameof(ActDbView),
                     Register = true
+                },
+                new Dependency(5)
+                {
+                    Abstractions = typeof(Form),
+                    Realization = typeof(MonitorDbView),
+                    Name = nameof(MonitorDbView),
+                    Register = true
                 }
             };
         }

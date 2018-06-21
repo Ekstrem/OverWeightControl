@@ -18,7 +18,7 @@ namespace OverWeightControl.Common.Serialization
         /// <summary>
         /// Unique identifier.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(Order = 0)]
         public Guid Id { get; set; }
 
         /// <summary>
