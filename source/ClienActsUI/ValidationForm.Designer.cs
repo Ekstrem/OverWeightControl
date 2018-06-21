@@ -30,19 +30,11 @@ namespace OverWeightControl.Clients.ActsUI
         /// </summary>
         private void InitializeComponent()
         {
-            this.validatioinControl1 = // new OverWeightControl.Clients.ParrentUI.ValidatioinControl();
-                _container.Resolve<ValidatioinControl>();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ValidationForm));
             this.actBtn = new System.Windows.Forms.Button();
             this.validateBtn = new System.Windows.Forms.Button();
             this.updateBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // validatioinControl1
-            // 
-            this.validatioinControl1.Location = new System.Drawing.Point(12, 12);
-            this.validatioinControl1.Name = "validatioinControl1";
-            this.validatioinControl1.Size = new System.Drawing.Size(479, 505);
-            this.validatioinControl1.TabIndex = 0;
             // 
             // actBtn
             // 
@@ -82,7 +74,7 @@ namespace OverWeightControl.Clients.ActsUI
             this.Controls.Add(this.updateBtn);
             this.Controls.Add(this.validateBtn);
             this.Controls.Add(this.actBtn);
-            this.Controls.Add(this.validatioinControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ValidationForm";
