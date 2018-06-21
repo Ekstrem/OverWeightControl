@@ -13,16 +13,17 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
         {
             return _dict ?? (_dict = new Dictionary<Type, string>
             {
-                {typeof(FinderFiles), "Копирование отсканированных файлов"},
+                {typeof(FinderFiles), "Поиск файлов в директории \"ScanPath\""},
                 {typeof(BufferedFiles), "Загрузка файлов в память"},
                 {typeof(Md5HashComputerFiles), "Подсчёт хэша файлов"},
                 {typeof(CompresserFiles), "Сжатие файлов"},
                 {typeof(UnCompresserFiles), "Разжатие файлов"},
                 {typeof(SenderFiles), "Отправка файлов на сервер" },
-                {typeof(RecivingFiles), "Получено файлов" },
-                {typeof(SaveForAfcFiles), "Сохраненние файлов для AFC" },
+                {typeof(RecivingFiles), "Получение файлов" },
+                {typeof(SaveFileInfo), "Сохраненние информации о переданном файле" },
+                {typeof(SaveForAfcFiles), "Сохраненние файлов для AFC в \"AcfPath\"" },
                 {typeof(DeleteFiles), "Удаление файлов" },
-                {typeof(BackUpFiles), "Копирование в BackUp" },
+                {typeof(BackUpFiles), "Копирование в \"BackUpPath\"" },
                 {typeof(FinalizeFiles), "Очистка очереди" },
                 {typeof(JsonReadFiles), "Загружено файлов для верификации" }
             });
@@ -32,6 +33,5 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
         {
             return GetDictinary()[type];
         }
-
     }
 }

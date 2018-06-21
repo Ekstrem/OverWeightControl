@@ -77,7 +77,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
             WorkflowChainDescription.GetDescription(this.GetType());
 
         #region IRemoteInteraction
-
+        
         /// <summary>
         /// Отправка файла.
         /// </summary>
@@ -86,6 +86,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
         /// <returns>Колличество полученных файлов.</returns>
         public SendResult SendFile(Guid fileId, FileTransferInfo stream)
         {
+            stream.ReciveFileTime = DateTime.Now;
             TryAdd(stream);
             return SendResult.SimpleComplitedResult(fileId);
         }

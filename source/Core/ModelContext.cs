@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Mapping;
 using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
+using OverWeightControl.Core.FileTransfer;
 using OverWeightControl.Core.Settings;
 using Unity.Attributes;
 
@@ -42,6 +43,8 @@ namespace OverWeightControl
         public DbSet<VehicleDetail> VehicleDetails { get; set; }
         public DbSet<VehicleInfo> Vehicles { get; set; }
         public DbSet<WeighterInfo> Weighters { get; set; }
+
+        public DbSet<PpvkFileInfo> FileInfos { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

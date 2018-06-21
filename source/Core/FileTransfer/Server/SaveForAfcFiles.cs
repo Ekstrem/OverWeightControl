@@ -33,7 +33,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
         /// </summary>
         public override void Dispose()
         {
-            _console.AddEvent($"{nameof(SaveForAfcFiles)} stoped.");
+            _console.AddEvent($"{nameof(SaveFileInfo)} stoped.");
             base.Dispose();
         }
 

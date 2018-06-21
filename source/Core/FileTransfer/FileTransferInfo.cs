@@ -14,7 +14,13 @@ namespace OverWeightControl.Core.FileTransfer
     [JsonObject]
     public class FileTransferInfo : ICloneable
     {
-        public FileTransferInfo() => IsCompresed = false;
+        public FileTransferInfo()
+        {
+            IsCompresed = false;
+            FindAtPpvkTime = DateTime.MinValue;
+            ReciveFileTime = DateTime.MinValue;
+            SaveToDbTime = DateTime.MinValue;
+        }
 
         [DataMember]
         [JsonProperty]
@@ -41,6 +47,18 @@ namespace OverWeightControl.Core.FileTransfer
         [JsonProperty]
         public string PpvkName { get; set; }
 
+        [DataMember]
+        [JsonProperty]
+        public DateTime FindAtPpvkTime { get; set; }
+
+        [DataMember]
+        [JsonProperty]
+        public DateTime ReciveFileTime { get; set; }
+
+        [DataMember]
+        [JsonProperty]
+        public DateTime SaveToDbTime { get; set; }
+
         /// <summary>
         ///   Создает новый объект, являющийся копией текущего экземпляра.
         /// </summary>
@@ -65,7 +83,7 @@ namespace OverWeightControl.Core.FileTransfer
             return $"ID:{Id}; Ext:{Ext}; Size:{Size}";
         }
 
-        public static string GetHash(byte[] data)
+        public static string GetMd5Hash(byte[] data)
         {
             var md5 = new MD5CryptoServiceProvider();
             var hash = md5.ComputeHash(data);

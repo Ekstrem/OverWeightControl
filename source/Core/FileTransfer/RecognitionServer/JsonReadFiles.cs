@@ -36,15 +36,6 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
         {
             _context = (ModelContext)context;
             _console.AddEvent($"{nameof(JsonReadFiles)} ready.");
-            try
-            {
-                // if (Boolean.TryParse(settings[ArgsKeyList.HandValidation], out bool buf) && buf)
-                // _validationForm = container.Resolve<Form>("ValidationForm");
-            }
-            catch (Exception e)
-            {
-                console.AddException(e);
-            }
         }
 
         ~JsonReadFiles()
@@ -69,15 +60,13 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
                     json,
                     ex => _console?.AddException(ex));
                 var parsedAct = bl.ToModelFormat(ex => _console?.AddException(ex));
-                if (_validationForm != null
-                    && bool.TryParse(_settings[ArgsKeyList.HandValidation], out bool buf)
-                    && buf
-                    && ((IEditable<Act>)_validationForm).LoadData(parsedAct)
-                    && _validationForm.ShowDialog() == DialogResult.OK
-                    && ((IEditable<Act>)_validationForm).UpdateData(parsedAct)) { }
+                // HandingValidation(parsedAct);
 
                 _context.Acts.Add(parsedAct);
-                _context.SaveChanges();
+                var cnt = _context.SaveChangesAsync();
+                _console.AddEvent($"{fileTransferInfo} added. {cnt}.");
+
+                GetPpvkFileInfo(fileTransferInfo);
 
                 return fileTransferInfo;
             }
@@ -110,6 +99,38 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
             File.WriteAllBytes(
                 $"{dir}{fileTransferInfo.Id}{fileTransferInfo.Ext}",
                 fileTransferInfo.Data);
+        }
+
+        private void GetPpvkFileInfo(FileTransferInfo fileTransferInfo)
+        {
+            try
+            {
+                var directory = _settings[ArgsKeyList.BackUpPath];
+                var path = $"{directory}\\{fileTransferInfo.Id}.details";
+                if (!File.Exists(path))
+                    return;
+                var json = File.ReadAllText(path);
+                var pfi = new PpvkFileInfo().LoadFromJson(json);
+                pfi.SaveToDbTime = DateTime.Now;
+                _context.FileInfos.Add(pfi);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+            }
+        }
+
+        private void HandingValidation(Act parsedAct)
+        {
+            if (_validationForm != null
+                && bool.TryParse(_settings[ArgsKeyList.HandValidation], out bool buf)
+                && buf
+                && ((IEditable<Act>) _validationForm).LoadData(parsedAct)
+                && _validationForm.ShowDialog() == DialogResult.OK
+                && ((IEditable<Act>) _validationForm).UpdateData(parsedAct))
+            {
+            }
         }
     }
 }

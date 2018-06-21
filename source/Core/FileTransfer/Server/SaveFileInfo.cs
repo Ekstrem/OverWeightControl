@@ -1,41 +1,39 @@
 ﻿using System;
+using System.IO;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.FileTransfer.WorkFlow;
 using OverWeightControl.Core.Settings;
 using Unity.Attributes;
 
-namespace OverWeightControl.Core.FileTransfer.Client
+namespace OverWeightControl.Core.FileTransfer.Server
 {
-    /// <summary>
-    /// Считает MD5 хэш файла.
-    /// </summary>
-    public class Md5HashComputerFiles : WorkFlowDecoratorBase
+    public class SaveFileInfo : WorkFlowDecoratorBase, IDisposable
     {
-
         #region Lifetime cicle
 
-        internal Md5HashComputerFiles()
-        {
-        }
+        internal SaveFileInfo() { }
 
         [InjectionConstructor]
-        public Md5HashComputerFiles(
+        public SaveFileInfo(
             IWorkFlowProducerConsumer consumer,
             ISettingsStorage settings,
             IConsoleService console)
             : base(consumer, settings, console)
         {
-            _console.AddEvent($"{nameof(Md5HashComputerFiles)} ready.");
+            _console.AddEvent($"{nameof(SaveFileInfo)} ready.");
         }
 
-        ~Md5HashComputerFiles()
+        ~SaveFileInfo()
         {
             Dispose();
         }
 
+        /// <summary>
+        ///   Выполняет определяемые приложением задачи, связанные с удалением, высвобождением или сбросом неуправляемых ресурсов.
+        /// </summary>
         public override void Dispose()
         {
-            _console.AddEvent($"{nameof(Md5HashComputerFiles)} stoped.");
+            _console.AddEvent($"{nameof(SaveFileInfo)} stoped.");
             base.Dispose();
         }
 
@@ -50,11 +48,14 @@ namespace OverWeightControl.Core.FileTransfer.Client
         {
             try
             {
-                if (fileTransferInfo.Hash == null)
-                    fileTransferInfo.Hash = FileTransferInfo.GetMd5Hash(fileTransferInfo.Data);
-                return fileTransferInfo.Hash.Equals(FileTransferInfo.GetMd5Hash(fileTransferInfo.Data))
-                    ? fileTransferInfo
-                    : null;
+                var info = new PpvkFileInfo(fileTransferInfo);
+                var directory = _settings[ArgsKeyList.BackUpPath];
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                var path = $"{directory}\\{fileTransferInfo.Id}.details";
+                File.WriteAllText(path, info.ToJson());
+                return fileTransferInfo;
             }
             catch (Exception e)
             {
@@ -63,7 +64,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
             }
         }
 
-        public override string Description => // $"Подсчёт хэша файлов";
+        public override string Description => // "Сохраненние файлов для AFC";
             WorkflowChainDescription.GetDescription(this.GetType());
     }
 }

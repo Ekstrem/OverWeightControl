@@ -255,18 +255,6 @@ namespace OverWeightControl
                     Name = nameof(SenderFiles),
                     AllowRoles = new List<NodeRole> {NodeRole.PPVK}
                 },
-                new Dependency(14)
-                {
-                    Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(DeleteFiles),
-                    Name = nameof(DeleteFiles),
-                    Register = true,
-                    AllowRoles = new List<NodeRole>
-                    {
-                        NodeRole.PPVK,
-                        NodeRole.VerificationStation
-                    }
-                },
                 new Dependency(7)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
@@ -307,8 +295,8 @@ namespace OverWeightControl
                 new Dependency(10)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
-                    Realization = typeof(SaveForAfcFiles),
-                    Name = nameof(SaveForAfcFiles),
+                    Realization = typeof(SaveFileInfo),
+                    Name = nameof(SaveFileInfo),
                     Register = false,
                     AllowRoles = new List<NodeRole>
                     {
@@ -318,11 +306,34 @@ namespace OverWeightControl
                 new Dependency(11)
                 {
                     Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(SaveForAfcFiles),
+                    Name = nameof(SaveForAfcFiles),
+                    Register = false,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.AFC
+                    }
+                },
+                new Dependency(12)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
                     Realization = typeof(JsonReadFiles),
                     Name = nameof(JsonReadFiles),
                     Register = false,
                     AllowRoles = new List<NodeRole>
                     {
+                        NodeRole.VerificationStation
+                    }
+                },
+                new Dependency(14)
+                {
+                    Abstractions = typeof(IWorkFlowProducerConsumer),
+                    Realization = typeof(DeleteFiles),
+                    Name = nameof(DeleteFiles),
+                    Register = true,
+                    AllowRoles = new List<NodeRole>
+                    {
+                        NodeRole.PPVK,
                         NodeRole.VerificationStation
                     }
                 },
