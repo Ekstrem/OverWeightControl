@@ -31,7 +31,7 @@ namespace OverWeightControl.Core.FileTransfer.WorkFlow
 
         public static string GetDescription(Type type)
         {
-            return GetDictinary()[type];
+            return GetDictinary().ContainsKey(type) ? GetDictinary()[type] : String.Empty;
         }
     }
 }

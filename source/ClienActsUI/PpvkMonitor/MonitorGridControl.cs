@@ -421,8 +421,11 @@ namespace OverWeightControl.Clients.ActsUI.PpvkMonitor
                     var index = actGridView.Rows.Add();
                     foreach (var e in columns)
                     {
-                        actGridView.Rows[index].Cells[e.Name].Value =
-                            flatAct.GetType().GetProperty(e.Name)?.GetValue(flatAct, null);
+                        var value = flatAct.GetType().GetProperty(e.Name)?.GetValue(flatAct, null);
+                        var res = DateTime.TryParse(value?.ToString(), out var buf)
+                            ? (buf.Equals(DateTime.MinValue) ? String.Empty : buf.ToString())
+                            : string.Empty;
+                        actGridView.Rows[index].Cells[e.Name].Value = res;
                     }
                 }
 

@@ -58,6 +58,9 @@ namespace OverWeightControl.Core.RemoteInteraction
         {
             try
             {
+                if (_host != null)
+                    return false;
+
                 var binding = WcfSettings.GetBinding(
                     settings: _settings,
                     console: _console);
@@ -76,6 +79,8 @@ namespace OverWeightControl.Core.RemoteInteraction
                 _host.Description.Behaviors.Add(_container.Resolve<UnityServiceBehavior>());
 
                 _host.Open();
+
+                _console.AddEvent($"{implamentation} hosted.");
 
                 return true;
             }

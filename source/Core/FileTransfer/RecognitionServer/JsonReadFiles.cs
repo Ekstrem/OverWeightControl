@@ -63,7 +63,7 @@ namespace OverWeightControl.Core.FileTransfer.RecognitionServer
                 // HandingValidation(parsedAct);
 
                 _context.Acts.Add(parsedAct);
-                var cnt = _context.SaveChangesAsync();
+                var cnt = _context.SaveChanges();
                 _console.AddEvent($"{fileTransferInfo} added. {cnt}.");
 
                 GetPpvkFileInfo(fileTransferInfo);

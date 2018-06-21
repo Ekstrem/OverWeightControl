@@ -40,7 +40,8 @@ namespace OverWeightControl.Core.FileTransfer.Server
         ~RecivingFiles()
         {
             _console.AddEvent($"{nameof(RecivingFiles)} stoped.");
-            Dispose(); }
+            Dispose();
+        }
 
         public void Dispose()
         {
