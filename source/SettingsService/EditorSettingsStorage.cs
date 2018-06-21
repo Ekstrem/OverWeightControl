@@ -38,7 +38,7 @@ namespace OverWeightControl.Core.Settings
             if (data == null)
                 data = _settings;
             foreach (var key in data.GetKeys())
-                dataGridView1.Rows.Add(key, data[key]);
+                dataGridView1.Rows.Add(key, data[key], ConfigurationKeyDescription.GetDescription(key));
             return true;
         }
 

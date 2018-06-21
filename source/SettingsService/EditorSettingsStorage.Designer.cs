@@ -30,11 +30,12 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.cancelBtn = new System.Windows.Forms.Button();
+            this.okBtn = new System.Windows.Forms.Button();
             this.KeyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.okBtn = new System.Windows.Forms.Button();
-            this.cancelBtn = new System.Windows.Forms.Button();
+            this.descriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -52,12 +53,45 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.KeyColumn,
-            this.ValueColumn});
+            this.ValueColumn,
+            this.descriptionColumn});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(605, 370);
+            this.dataGridView1.Size = new System.Drawing.Size(1170, 488);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.cancelBtn);
+            this.panel1.Controls.Add(this.okBtn);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 437);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1170, 51);
+            this.panel1.TabIndex = 1;
+            // 
+            // cancelBtn
+            // 
+            this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelBtn.Location = new System.Drawing.Point(1078, 16);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(75, 23);
+            this.cancelBtn.TabIndex = 1;
+            this.cancelBtn.Text = "Отменить";
+            this.cancelBtn.UseVisualStyleBackColor = true;
+            // 
+            // okBtn
+            // 
+            this.okBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.okBtn.Location = new System.Drawing.Point(971, 16);
+            this.okBtn.Name = "okBtn";
+            this.okBtn.Size = new System.Drawing.Size(83, 23);
+            this.okBtn.TabIndex = 0;
+            this.okBtn.Text = "Принять";
+            this.okBtn.UseVisualStyleBackColor = true;
             // 
             // KeyColumn
             // 
@@ -67,45 +101,22 @@
             // 
             // ValueColumn
             // 
-            this.ValueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ValueColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.ValueColumn.HeaderText = "Значения настроек";
             this.ValueColumn.Name = "ValueColumn";
+            this.ValueColumn.Width = 130;
             // 
-            // panel1
+            // descriptionColumn
             // 
-            this.panel1.Controls.Add(this.cancelBtn);
-            this.panel1.Controls.Add(this.okBtn);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 319);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(605, 51);
-            this.panel1.TabIndex = 1;
-            // 
-            // okBtn
-            // 
-            this.okBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okBtn.Location = new System.Drawing.Point(396, 16);
-            this.okBtn.Name = "okBtn";
-            this.okBtn.Size = new System.Drawing.Size(83, 23);
-            this.okBtn.TabIndex = 0;
-            this.okBtn.Text = "Принять";
-            this.okBtn.UseVisualStyleBackColor = true;
-            // 
-            // cancelBtn
-            // 
-            this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelBtn.Location = new System.Drawing.Point(503, 16);
-            this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(75, 23);
-            this.cancelBtn.TabIndex = 1;
-            this.cancelBtn.Text = "Отменить";
-            this.cancelBtn.UseVisualStyleBackColor = true;
+            this.descriptionColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.descriptionColumn.HeaderText = "Пояснение";
+            this.descriptionColumn.Name = "descriptionColumn";
             // 
             // EditorSettingsStorage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 370);
+            this.ClientSize = new System.Drawing.Size(1170, 488);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.dataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -122,10 +133,11 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn KeyColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ValueColumn;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button okBtn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn KeyColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ValueColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionColumn;
     }
 }
