@@ -130,7 +130,7 @@
     <Compile Include="Database\ChosingColumnsForm.Designer.cs">
       <DependentUpon>ChosingColumnsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\ColumnList.cs" />
+    <Compile Include="Database\ColumnInfo.cs" />
     <Compile Include="Database\DateFilter.cs" />
     <Compile Include="Database\FilterControl.cs">
       <SubType>UserControl</SubType>

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;

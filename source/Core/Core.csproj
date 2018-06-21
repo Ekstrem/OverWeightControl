@@ -85,6 +85,7 @@
     <Compile Include="Console\ConsoleMessage.cs" />
     <Compile Include="Console\ConsoleMessageType.cs" />
     <Compile Include="FileTransfer\BackUpFiles.cs" />
+    <Compile Include="FileTransfer\PpvkFileInfo.cs" />
     <Compile Include="FileTransfer\Server\SaveFileInfo.cs" />
     <Compile Include="FileTransfer\WorkFlow\WorkflowChainDescription.cs" />
     <Compile Include="FileTransfer\FinalizeFiles.cs" />

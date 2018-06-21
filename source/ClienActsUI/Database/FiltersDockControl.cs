@@ -10,19 +10,19 @@ using Unity.Interception.Utilities;
 namespace OverWeightControl.Clients.ActsUI.Database
 {
     public partial class FiltersDockControl : UserControl,
-        IObserver<KeyValuePair<ColumnList, SearchingTerm>>,
-        IObservable<IDictionary<ColumnList, SearchingTerm>>,
+        IObserver<KeyValuePair<ColumnInfo, SearchingTerm>>,
+        IObservable<IDictionary<ColumnInfo, SearchingTerm>>,
         IObservable<IList<DateFilter>>
     {
         private readonly IConsoleService _console;
-        private IDictionary<ColumnList, SearchingTerm> _filters;
-        private List<IObserver<IDictionary<ColumnList, SearchingTerm>>> _filtersObservers;
+        private IDictionary<ColumnInfo, SearchingTerm> _filters;
+        private List<IObserver<IDictionary<ColumnInfo, SearchingTerm>>> _filtersObservers;
         private IDictionary<DateSeachMode, DateFilter> _datesFilters;
         private List<IObserver<IList<DateFilter>>> _datesFiltersObservers;
 
         public FiltersDockControl()
         {
-            _filters = new Dictionary<ColumnList, SearchingTerm>();
+            _filters = new Dictionary<ColumnInfo, SearchingTerm>();
             _datesFilters = new Dictionary<DateSeachMode, DateFilter>();
             InitializeComponent();
             InitialControlsEvents();
@@ -32,7 +32,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
         public FiltersDockControl(IConsoleService console)
         {
             _console = console;
-            _filters = new Dictionary<ColumnList, SearchingTerm>();
+            _filters = new Dictionary<ColumnInfo, SearchingTerm>();
             _datesFilters = new Dictionary<DateSeachMode, DateFilter>();
             InitializeComponent();
             InitialControlsEvents();
@@ -146,7 +146,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             };
         }
 
-        public void InitColumns(ICollection<ColumnList> columns)
+        public void InitColumns(ICollection<ColumnInfo> columns)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         /// <summary>Предоставляет наблюдателю новые данные.</summary>
         /// <param name="value">Текущие сведения об уведомлениях.</param>
-        public void OnNext(KeyValuePair<ColumnList, SearchingTerm> value)
+        public void OnNext(KeyValuePair<ColumnInfo, SearchingTerm> value)
         {
             try
             {
@@ -212,10 +212,10 @@ namespace OverWeightControl.Clients.ActsUI.Database
         /// <returns>
         ///   Ссылка на интерфейс, позволяющий наблюдателям прекратить получение уведомлений до того, как поставщик завершит их отправку.
         /// </returns>
-        IDisposable IObservable<IDictionary<ColumnList, SearchingTerm>>.Subscribe(IObserver<IDictionary<ColumnList, SearchingTerm>> observer)
+        IDisposable IObservable<IDictionary<ColumnInfo, SearchingTerm>>.Subscribe(IObserver<IDictionary<ColumnInfo, SearchingTerm>> observer)
         {
             if(_filtersObservers == null)
-                _filtersObservers = new List<IObserver<IDictionary<ColumnList, SearchingTerm>>>();
+                _filtersObservers = new List<IObserver<IDictionary<ColumnInfo, SearchingTerm>>>();
             if (!_filtersObservers.Contains(observer))
                 _filtersObservers.Add(observer);
             return null;
