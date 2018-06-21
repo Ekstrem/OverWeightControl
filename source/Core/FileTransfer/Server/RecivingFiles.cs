@@ -87,7 +87,7 @@ namespace OverWeightControl.Core.FileTransfer.Server
         /// <returns>Колличество полученных файлов.</returns>
         public SendResult SendFile(Guid fileId, FileTransferInfo stream)
         {
-            stream.ReciveFileTime = DateTime.Now;
+            stream.ReciveFileTime = DateTime.Now.ToString();
             TryAdd(stream);
             return SendResult.SimpleComplitedResult(fileId);
         }

@@ -39,6 +39,36 @@ namespace OverWeightControl.Core.RemoteInteraction
             }
         }
 
+        /// <summary>
+        /// Получить адрес.
+        /// </summary>
+        /// <returns>Адрес сервиса.</returns>
+        /// <exception cref="KeyNotFoundException">
+        /// В DI-контейнере не были найдены настройки соединения.
+        /// <c>MachineUrl</c> или <c>TcpPort</c>
+        /// </exception>
+        internal static Uri GetAddress(
+            Type type,
+            Binding binding,
+            ISettingsStorage settings,
+            IConsoleService console)
+        {
+            try
+            {
+                var uriBuilder = new UriBuilder(
+                    scheme: binding.Scheme,
+                    host: settings[ArgsKeyList.ServerName],
+                    port: int.Parse(settings[ArgsKeyList.Port]),
+                    pathValue: $"{type.Name}.svc");
+                return new Uri($"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}/{uriBuilder.Path}");
+            }
+            catch (Exception e)
+            {
+                console?.AddException(e);
+                return null;
+            }
+        }
+
         internal static Binding GetBinding(
             ISettingsStorage settings,
             IConsoleService console)

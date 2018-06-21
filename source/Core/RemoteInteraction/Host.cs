@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,7 +18,7 @@ namespace OverWeightControl.Core.RemoteInteraction
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
         private readonly IUnityContainer _container;
-        private ServiceHost _host;
+        private IDictionary<Type, ServiceHost> _hosts;
 
         #region LifeTime
 
@@ -31,6 +32,7 @@ namespace OverWeightControl.Core.RemoteInteraction
             _settings = settings;
             _container = container;
 
+            _hosts = new ConcurrentDictionary<Type, ServiceHost>();
             FindAndHost()
                 .ForEach(e => HostService(e.Value, e.Key));
         }
@@ -42,43 +44,47 @@ namespace OverWeightControl.Core.RemoteInteraction
 
         public void Dispose()
         {
-            if (_host != null)
+            if (_hosts != null)
             {
-                if (_host.State != CommunicationState.Faulted)
-                    _host.Close();
-                _host = null;
+                _hosts
+                    .Where(f => f.Value.State != CommunicationState.Faulted)
+                    .ForEach(e => e.Value.Close());
+                _hosts.Clear();
             }
         }
 
         #endregion
 
-        public CommunicationState State => _host.State;
+        public CommunicationState State => _hosts.FirstOrDefault().Value.State;
 
         public bool HostService(Type service, Type implamentation)
         {
             try
             {
-                if (_host != null)
+                if (_hosts == null || _hosts.ContainsKey(service))
                     return false;
 
                 var binding = WcfSettings.GetBinding(
                     settings: _settings,
                     console: _console);
-                var uri = WcfSettings.GetAddress<IRemoteInteraction>(
+                var uri = WcfSettings.GetAddress(
+                    type: service,
                     binding: binding,
                     settings: _settings,
                     console: _console);
-                _host = new ServiceHost(implamentation, uri);
-                _host.AddServiceEndpoint(
+                var host = new ServiceHost(implamentation, uri);
+                host.AddServiceEndpoint(
                     implementedContract: service,
                     binding: binding,
                     address: uri);
 
                 // AddServiceMetadata();
 
-                _host.Description.Behaviors.Add(_container.Resolve<UnityServiceBehavior>());
+                host.Description.Behaviors.Add(_container.Resolve<UnityServiceBehavior>());
 
-                _host.Open();
+                host.Open();
+
+                _hosts.Add(service, host);
 
                 _console.AddEvent($"{implamentation} hosted.");
 

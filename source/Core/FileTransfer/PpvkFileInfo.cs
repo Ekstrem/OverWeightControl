@@ -22,9 +22,9 @@ namespace OverWeightControl.Core.FileTransfer
             Id = fileTransferInfo.Id;
             PpvkName = fileTransferInfo.PpvkName;
             Extention = fileTransferInfo.Ext;
-            FindAtPpvkTime = fileTransferInfo.FindAtPpvkTime;
-            ReciveFileTime = fileTransferInfo.ReciveFileTime;
-            SaveToDbTime = fileTransferInfo.SaveToDbTime;
+            FindAtPpvkTime = DateTime.Parse(fileTransferInfo.FindAtPpvkTime);
+            ReciveFileTime = DateTime.Parse(fileTransferInfo.ReciveFileTime);
+            SaveToDbTime = DateTime.Parse(fileTransferInfo.SaveToDbTime);
         }
         
         [JsonProperty(Order = 1)]

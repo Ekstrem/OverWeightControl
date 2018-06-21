@@ -17,9 +17,9 @@ namespace OverWeightControl.Core.FileTransfer
         public FileTransferInfo()
         {
             IsCompresed = false;
-            FindAtPpvkTime = DateTime.MinValue;
-            ReciveFileTime = DateTime.MinValue;
-            SaveToDbTime = DateTime.MinValue;
+            FindAtPpvkTime = DateTime.MinValue.ToString();
+            ReciveFileTime = DateTime.MinValue.ToString();
+            SaveToDbTime = DateTime.MinValue.ToString();
         }
 
         [DataMember]
@@ -49,15 +49,15 @@ namespace OverWeightControl.Core.FileTransfer
 
         [DataMember]
         [JsonProperty]
-        public DateTime FindAtPpvkTime { get; set; }
+        public string FindAtPpvkTime { get; set; }
 
         [DataMember]
         [JsonProperty]
-        public DateTime ReciveFileTime { get; set; }
+        public string ReciveFileTime { get; set; }
 
         [DataMember]
         [JsonProperty]
-        public DateTime SaveToDbTime { get; set; }
+        public string SaveToDbTime { get; set; }
 
         /// <summary>
         ///   Создает новый объект, являющийся копией текущего экземпляра.

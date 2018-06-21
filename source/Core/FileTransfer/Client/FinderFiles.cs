@@ -114,7 +114,7 @@ namespace OverWeightControl.Core.FileTransfer.Client
                         Id = isGuidName ? result : Guid.NewGuid(),
                         Size = file.Length,
                         Ext = file.Extension,
-                        FindAtPpvkTime = DateTime.Now
+                        FindAtPpvkTime = DateTime.Now.ToString()
                     };
 
                     if (!isGuidName)
