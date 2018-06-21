@@ -475,7 +475,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         internal static int LoadToGrid(
             ICollection<FlatAct> data,
-            ICollection<ColumnList> columns,
+            ICollection<ColumnInfo> columns,
             DataGridView actGridView,
             IConsoleService console = null)
         {

@@ -7,7 +7,7 @@ using OverWeightControl.Core.Console;
 
 namespace OverWeightControl.Clients.ActsUI.Database
 {
-    public partial class ChosingColumnsForm : Form, IEditable<ICollection<ColumnList>>
+    public partial class ChosingColumnsForm : Form, IEditable<ICollection<ColumnInfo>>
     {
         private readonly IConsoleService _console;
         public ChosingColumnsForm()
@@ -23,7 +23,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             InitializeComponent();
         }
 
-        public bool LoadData(ICollection<ColumnList> data)
+        public bool LoadData(ICollection<ColumnInfo> data)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        public bool UpdateData(ICollection<ColumnList> data)
+        public bool UpdateData(ICollection<ColumnInfo> data)
         {
             return false;
         }

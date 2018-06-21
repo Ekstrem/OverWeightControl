@@ -17,17 +17,17 @@ namespace OverWeightControl.Clients.ActsUI.Database
     public partial class ActGridControl :
         UserControl,
         IEditable<ICollection<FlatAct>>,
-        IEditable<ICollection<ColumnList>>,
-        IObserver<IDictionary<ColumnList, SearchingTerm>>,
+        IEditable<ICollection<ColumnInfo>>,
+        IObserver<IDictionary<ColumnInfo, SearchingTerm>>,
         IObserver<IList<DateFilter>>
     {
         //private readonly IDictionary<int, Guid> _fastAccess;
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
-        private IDictionary<ColumnList, SearchingTerm> _filters;
+        private IDictionary<ColumnInfo, SearchingTerm> _filters;
         private IList<DateFilter> _dateFilters;
         private ICollection<FlatAct> _data;
-        private ICollection<ColumnList> _columns;
+        private ICollection<ColumnInfo> _columns;
         private const int _pageSize = 50;
         private int _count;
 
@@ -183,7 +183,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                                 && t.GetValue(f).ToString().ToLower()
                                     .Contains(_filters[filter].SearchingData.ToLower())
                                 // поиск по условию "Начинается с"
-                                || _filters[filter].Mode.Mode == SearchingModeEnum.StartWith
+                                || _filters[filter].Mode.Mode == SearchingModeEnum.StartsWith
                                 && t.GetValue(f).ToString().ToLower()
                                     .StartsWith(_filters[filter].SearchingData.ToLower()))
                         .Select(m => m.Id);
@@ -256,7 +256,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             {
                 _columns = typeof(T)
                     .GetProperties()
-                    .Select(propertyInfo => new ColumnList
+                    .Select(propertyInfo => new ColumnInfo
                     {
                         Name = propertyInfo.Name,
                         Num = (int)propertyInfo.CustomAttributes
@@ -306,17 +306,17 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        public bool LoadData(ICollection<ColumnList> data)
+        public bool LoadData(ICollection<ColumnInfo> data)
         {
             try
             {
                 if (data == null)
-                    data = new List<ColumnList>();
+                    data = new List<ColumnInfo>();
                 data.Clear();
 
                 for (int i = 0; i < actGridView.Columns.Count; i++)
                 {
-                    data.Add(new ColumnList
+                    data.Add(new ColumnInfo
                     {
                         Num = i,
                         Description = actGridView.Columns[i].Name,
@@ -334,7 +334,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        public bool UpdateData(ICollection<ColumnList> data)
+        public bool UpdateData(ICollection<ColumnInfo> data)
         {
             try
             {
@@ -356,7 +356,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         /// <summary>Предоставляет наблюдателю новые данные.</summary>
         /// <param name="value">Текущие сведения об уведомлениях.</param>
-        public void OnNext(IDictionary<ColumnList, SearchingTerm> value)
+        public void OnNext(IDictionary<ColumnInfo, SearchingTerm> value)
         {
             try
             {

@@ -52,7 +52,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
             InitialComponentsEvents();
 
-            ((IObservable<IDictionary<ColumnList, SearchingTerm>>)this.filtersDockControl1).Subscribe(this.actGridControl1);
+            ((IObservable<IDictionary<ColumnInfo, SearchingTerm>>)this.filtersDockControl1).Subscribe(this.actGridControl1);
             ((IObservable<IList<DateFilter>>) this.filtersDockControl1).Subscribe(this.actGridControl1);
 
             _console?.AddEvent($"{nameof(ActDbView)} form created.");
@@ -74,7 +74,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             {
                 try
                 {
-                    var columns = new List<ColumnList>();
+                    var columns = new List<ColumnInfo>();
                     actGridControl1.LoadData(columns);
                     using (var form = new ChosingColumnsForm(_console))
                     {
@@ -133,7 +133,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 if (File.Exists(_fileName))
                 {
                     var json = File.ReadAllText(_fileName);
-                    var columns = JsonConvert.DeserializeObject<List<ColumnList>>(json);
+                    var columns = JsonConvert.DeserializeObject<List<ColumnInfo>>(json);
                     actGridControl1.UpdateData(columns);
                     filtersDockControl1.InitColumns(columns);
                 }
@@ -172,7 +172,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 ICollection<FlatAct> rowsList = new List<FlatAct>();
                 actGridControl1.UpdateData(rowsList);
                 var rows = rowsList.ToArray();
-                ICollection<ColumnList> columnsList = new List<ColumnList>();
+                ICollection<ColumnInfo> columnsList = new List<ColumnInfo>();
                 actGridControl1.LoadData(columnsList);
                 var columns = columnsList.ToArray();
 

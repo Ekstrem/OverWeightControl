@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OverWeightControl.Clients.ActsUI.Database
 {
-    public class ColumnList
+    public class ColumnInfo
     {
         public string Name { get; set; }
         public int Num { get; set; }
@@ -69,7 +70,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             switch (Mode)
             {
-                case SearchingModeEnum.StartWith:
+                case SearchingModeEnum.StartsWith:
                     return "Начинается с";
                 case SearchingModeEnum.Contains:
                     return "Содержит";
@@ -80,9 +81,12 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public static ICollection<SearchingMode> GetModes()
         {
+            //var t = typeof(SearchingModeEnum).GetFields()
+            //    .Where(f => f.FieldType == typeof(SearchingModeEnum))
+            //    .Select(m => m.Name);
             return new List<SearchingMode>
             {
-                new SearchingMode(SearchingModeEnum.StartWith),
+                new SearchingMode(SearchingModeEnum.StartsWith),
                 new SearchingMode(SearchingModeEnum.Contains)
             };
         }
@@ -112,7 +116,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
     public enum SearchingModeEnum
     {
-        StartWith = 0,
+        StartsWith = 0,
         Contains = 1
     }
 }
