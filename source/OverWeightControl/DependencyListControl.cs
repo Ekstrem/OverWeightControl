@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using OverWeightControl.Core.Clients;
 using OverWeightControl.Core.Console;
+using OverWeightControl.Core.FileTransfer.WorkFlow;
 using Unity.Attributes;
 
 namespace OverWeightControl
@@ -82,7 +83,8 @@ namespace OverWeightControl
                         dep.Abstractions.Name,
                         dep.Realization.Name,
                         dep.Name,
-                        dep.Register);
+                        dep.Register,
+                        WorkflowChainDescription.GetDescription(dep.Realization));
                     dataGrid.Rows[rowNum].Tag = dep;
                 }
 

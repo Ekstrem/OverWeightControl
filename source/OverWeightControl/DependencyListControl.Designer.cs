@@ -38,6 +38,7 @@
             this.realizationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.depNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.registerColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.aboutColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             this.SuspendLayout();
@@ -92,7 +93,8 @@
             this.abstractionColumn,
             this.realizationColumn,
             this.depNameColumn,
-            this.registerColumn});
+            this.registerColumn,
+            this.aboutColumn});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -113,37 +115,43 @@
             // 
             // orderColumn
             // 
-            this.orderColumn.HeaderText = "Order";
+            this.orderColumn.HeaderText = "Порядок";
             this.orderColumn.Name = "orderColumn";
             this.orderColumn.ReadOnly = true;
-            this.orderColumn.Width = 58;
+            this.orderColumn.Width = 76;
             // 
             // abstractionColumn
             // 
-            this.abstractionColumn.HeaderText = "Abstraction";
+            this.abstractionColumn.HeaderText = "Абстракция";
             this.abstractionColumn.Name = "abstractionColumn";
             this.abstractionColumn.ReadOnly = true;
-            this.abstractionColumn.Width = 85;
+            this.abstractionColumn.Width = 92;
             // 
             // realizationColumn
             // 
-            this.realizationColumn.HeaderText = "Realization";
+            this.realizationColumn.HeaderText = "Реализация";
             this.realizationColumn.Name = "realizationColumn";
             this.realizationColumn.ReadOnly = true;
-            this.realizationColumn.Width = 84;
+            this.realizationColumn.Width = 93;
             // 
             // depNameColumn
             // 
-            this.depNameColumn.HeaderText = "Dependency Name";
+            this.depNameColumn.HeaderText = "Имя зависимости";
             this.depNameColumn.Name = "depNameColumn";
             this.depNameColumn.ReadOnly = true;
             this.depNameColumn.Width = 114;
             // 
             // registerColumn
             // 
-            this.registerColumn.HeaderText = "Register";
+            this.registerColumn.HeaderText = "Зарегистрировано";
             this.registerColumn.Name = "registerColumn";
-            this.registerColumn.Width = 52;
+            this.registerColumn.Width = 108;
+            // 
+            // aboutColumn
+            // 
+            this.aboutColumn.HeaderText = "Описание";
+            this.aboutColumn.Name = "aboutColumn";
+            this.aboutColumn.Width = 82;
             // 
             // DependencyListControl
             // 
@@ -169,5 +177,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn realizationColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn depNameColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn registerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn aboutColumn;
     }
 }
