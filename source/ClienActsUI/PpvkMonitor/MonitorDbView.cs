@@ -157,9 +157,8 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 var path = _settings[ArgsKeyList.BackUpPath];
                 var files = Directory
                     .GetFiles(path, @"*.details")
-                    .Where(f => !set.Contains(Guid.Parse(f.Split('.')[0])))
-                    .Select(File.ReadAllText)
-                    .Select(m => new PpvkFileInfo().LoadFromJson(m))
+                    .Select(m => new PpvkFileInfo().LoadFromJson(File.ReadAllText(m)))
+                    .Where(f => !set.Contains(f.Id))
                     .ToList();
                 _fileInfos.AddRange(files);
             }

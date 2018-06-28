@@ -30,16 +30,16 @@ namespace OverWeightControl.Clients.ActsUI.Database
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ActDbView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MonitorDbView));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.filtersDockControl1 = new OverWeightControl.Clients.ActsUI.Database.FiltersDockControl();
+            this.actGridControl1 = new OverWeightControl.Clients.ActsUI.PpvkMonitor.MonitorGridControl();
             this.editActButton = new System.Windows.Forms.Button();
             this.columnsListEditButton = new System.Windows.Forms.Button();
             this.openOriginalFileButton = new System.Windows.Forms.Button();
             this.butonsPanel = new System.Windows.Forms.Panel();
             this.excelExportButton = new System.Windows.Forms.Button();
             this.updateDataButton = new System.Windows.Forms.Button();
-            this.filtersDockControl1 = new OverWeightControl.Clients.ActsUI.Database.FiltersDockControl();
-            this.actGridControl1 = new OverWeightControl.Clients.ActsUI.PpvkMonitor.MonitorGridControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -66,6 +66,22 @@ namespace OverWeightControl.Clients.ActsUI.Database
             this.splitContainer1.Size = new System.Drawing.Size(806, 584);
             this.splitContainer1.SplitterDistance = 87;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // filtersDockControl1
+            // 
+            this.filtersDockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filtersDockControl1.Location = new System.Drawing.Point(0, 0);
+            this.filtersDockControl1.Name = "filtersDockControl1";
+            this.filtersDockControl1.Size = new System.Drawing.Size(806, 87);
+            this.filtersDockControl1.TabIndex = 1;
+            // 
+            // actGridControl1
+            // 
+            this.actGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.actGridControl1.Location = new System.Drawing.Point(0, 0);
+            this.actGridControl1.Name = "actGridControl1";
+            this.actGridControl1.Size = new System.Drawing.Size(806, 493);
+            this.actGridControl1.TabIndex = 0;
             // 
             // editActButton
             // 
@@ -130,23 +146,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             this.updateDataButton.Text = "Обновить данные";
             this.updateDataButton.UseVisualStyleBackColor = true;
             // 
-            // filtersDockControl1
-            // 
-            this.filtersDockControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filtersDockControl1.Location = new System.Drawing.Point(0, 0);
-            this.filtersDockControl1.Name = "filtersDockControl1";
-            this.filtersDockControl1.Size = new System.Drawing.Size(806, 87);
-            this.filtersDockControl1.TabIndex = 1;
-            // 
-            // actGridControl1
-            // 
-            this.actGridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.actGridControl1.Location = new System.Drawing.Point(0, 0);
-            this.actGridControl1.Name = "actGridControl1";
-            this.actGridControl1.Size = new System.Drawing.Size(806, 493);
-            this.actGridControl1.TabIndex = 0;
-            // 
-            // ActDbView
+            // MonitorDbView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -155,8 +155,8 @@ namespace OverWeightControl.Clients.ActsUI.Database
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(990, 39);
-            this.Name = "ActDbView";
-            this.Text = "Просмотр сохранённых актов";
+            this.Name = "MonitorDbView";
+            this.Text = "Монитор актов";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

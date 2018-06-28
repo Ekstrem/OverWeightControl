@@ -422,10 +422,11 @@ namespace OverWeightControl.Clients.ActsUI.PpvkMonitor
                     foreach (var e in columns)
                     {
                         var value = flatAct.GetType().GetProperty(e.Name)?.GetValue(flatAct, null);
+                        var isDateType = flatAct.GetType().GetProperty(e.Name)?.PropertyType == typeof(DateTime);
                         var res = DateTime.TryParse(value?.ToString(), out var buf)
                             ? (buf.Equals(DateTime.MinValue) ? String.Empty : buf.ToString())
                             : string.Empty;
-                        actGridView.Rows[index].Cells[e.Name].Value = res;
+                        actGridView.Rows[index].Cells[e.Name].Value = isDateType ? res : value;
                     }
                 }
 
