@@ -26,7 +26,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
         private readonly IConsoleService _console;
         private readonly IUnityContainer _container;
         private readonly ModelContext _context;
-        private List<Act> _acts;
+        private Task<ICollection<Act>> _acts;
 
         public ActDbView()
         {
@@ -59,13 +59,20 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             editActButton.Click += (s, e) =>
               {
-                  Guid index = actGridControl1.GetMarked();
-                  var act = _acts.FirstOrDefault(f => f.Id == index);
-                  ActEditForm.ShowModal(_container, act);
-                  int changed = _context.SaveChanges();
-                  _console.AddEvent($"Внесено {changed} изменений");
-                  if (changed != 0)
-                      LoadDataToGrid();
+                  try
+                  {
+                      Guid index = actGridControl1.GetMarked();
+                      var act = _acts.Result.FirstOrDefault(f => f.Id == index);
+                      ActEditForm.ShowModal(_container, act);
+                      int changed = _context.SaveChanges();
+                      _console.AddEvent($"Внесено {changed} изменений");
+                      if (changed != 0)
+                          LoadDataToGrid();
+                  }
+                  catch (Exception exception)
+                  {
+                      _console.AddException(exception);
+                  }
               };
             columnsListEditButton.Click += (s, e) =>
             {
@@ -93,7 +100,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                 try
                 {
                     Guid index = actGridControl1.GetMarked();
-                    var act = _acts.FirstOrDefault(f => f.Id == index);
+                    var act = _acts.Result.FirstOrDefault(f => f.Id == index);
                     string directory = _settings[ArgsKeyList.BackUpPath];
                     var fileName = Directory.GetFiles(
                         _settings[ArgsKeyList.BackUpPath]
@@ -108,8 +115,12 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     _console?.AddException(ex);
                 }
             };
-            updateDataButton.Click += (s, e) => Task.Factory.StartNew(
-                () => Invoke((Action)LoadDataToGrid));
+            updateDataButton.Click += async (s, e) =>
+            {
+                LoadDataFromDataBaseAsync();
+                await _acts;
+                LoadDataToGrid();
+            };
             excelExportButton.Click += (s, e) => ExportToExcel();
             Load += (s, e) => Task.Factory.StartNew(
                 () => Invoke((Action)LoadDataToGrid));
@@ -119,12 +130,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
         {
             try
             {
-                if (_acts == null || !_acts.Any())
-                {
-                    LoadDataFromDataBase();
-                }
-
-                actGridControl1.LoadData(_acts.Select(FlatAct.Expand).ToList());
+                actGridControl1.LoadData(_acts.Result.Select(FlatAct.Expand).ToList());
 
                 // загрузка отображаемых колонок
                 if (File.Exists(_fileName))
@@ -135,7 +141,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
                     filtersDockControl1.InitColumns(columns);
                 }
 
-                _console?.AddEvent($"Loaded acts from DB. Count: {_acts.Count}");
+                _console?.AddEvent($"Loaded acts from DB. Count: {_acts.Result.Count}");
             }
             catch (Exception e)
             {
@@ -144,23 +150,28 @@ namespace OverWeightControl.Clients.ActsUI.Database
             }
         }
 
-        private void LoadDataFromDataBase()
-        {
-            try
+        public void LoadDataFromDataBaseAsync()
             {
-                _acts = _context
-                    .Set<Act>()
-                    .Include(d => d.Driver)
-                    .Include(c => c.Cargo)
-                    .Include(w => w.Weighter)
-                    .Include(v => v.Vehicle)
-                    .ToList();
+                try
+                {
+                    if (_acts != null && _acts.Status == TaskStatus.Running)
+                        return;
+                    _acts = Task<ICollection<Act>>.Factory.StartNew(
+                        function: () => _context
+                            .Set<Act>()
+                            .Include(d => d.Driver)
+                            .Include(c => c.Cargo)
+                            .Include(a => a.Cargo.Axises)
+                            .Include(w => w.Weighter)
+                            .Include(v => v.Vehicle)
+                            .Include(vd => vd.Vehicle.Detail)
+                            .ToList());
+                }
+                catch (Exception e)
+                {
+                    _console?.AddException(e);
+                }
             }
-            catch (Exception e)
-            {
-                _console?.AddException(e);
-            }
-        }
 
         private void ExportToExcel()
         {
