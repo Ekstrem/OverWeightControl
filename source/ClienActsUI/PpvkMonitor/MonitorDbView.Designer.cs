@@ -92,6 +92,7 @@ namespace OverWeightControl.Clients.ActsUI.Database
             this.editActButton.TabIndex = 1;
             this.editActButton.Text = "Просмотр и редактирование";
             this.editActButton.UseVisualStyleBackColor = true;
+            this.editActButton.Enabled = false;
             // 
             // columnsListEditButton
             // 
