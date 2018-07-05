@@ -14,6 +14,7 @@ namespace OverWeightControl.Core.Upgrade
     {
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
+        private readonly Proxy _proxy;
 
         [InjectionConstructor]
         public UpdateClient(
@@ -23,11 +24,23 @@ namespace OverWeightControl.Core.Upgrade
         {
             _console = console;
             _settings = settings;
-            if (proxy != null)
+            _proxy = proxy;
+        }
+
+        public void Initial()
+        {
+            try
             {
-                var downloader = proxy.CreateRemoteProxy<IDownloader>();
-                if (proxy.State != CommunicationState.Faulted && downloader != null)
-                    Task.Factory.StartNew(() => GetVersion(downloader));
+                if (_proxy != null)
+                {
+                    var downloader = _proxy.CreateRemoteProxy<IDownloader>();
+                    if (_proxy.State != CommunicationState.Faulted && downloader != null)
+                        Task.Factory.StartNew(() => GetVersion(downloader));
+                }
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
             }
         }
 
