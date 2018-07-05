@@ -9,7 +9,6 @@ namespace OverWeightControl.Clients.ActsUI
 {
     public partial class ActEditForm : Form
     {
-        private readonly IUnityContainer _container;
 
         public ActEditForm()
         {
@@ -17,9 +16,9 @@ namespace OverWeightControl.Clients.ActsUI
         }
 
         [InjectionConstructor]
-        public ActEditForm(IUnityContainer container)
+        public ActEditForm(ActControl control)
         {
-            _container = container;
+            actControl1 = control;
             InitializeComponent();
         }
 

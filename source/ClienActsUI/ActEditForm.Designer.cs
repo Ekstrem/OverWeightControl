@@ -34,7 +34,14 @@ namespace OverWeightControl.Clients.ActsUI
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            //
+            // actControl1
             // 
+            this.actControl1.Location = new System.Drawing.Point(0, 0);
+            this.actControl1.Name = "actControl1";
+            this.actControl1.Size = new System.Drawing.Size(636, 857);
+            this.actControl1.TabIndex = 0;
+            //  
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -62,6 +69,7 @@ namespace OverWeightControl.Clients.ActsUI
             this.ClientSize = new System.Drawing.Size(640, 878);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
+            this.Controls.Add(this.actControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
