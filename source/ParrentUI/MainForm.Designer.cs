@@ -172,7 +172,7 @@ namespace OverWeightControl.Clients.ParrentUI
             // 
             // openHelpToolStripMenuItem
             // 
-            this.openHelpToolStripMenuItem.Enabled = false;
+            this.openHelpToolStripMenuItem.Enabled = true;
             this.openHelpToolStripMenuItem.Name = "openHelpToolStripMenuItem";
             this.openHelpToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
             this.openHelpToolStripMenuItem.Text = "Помощь";

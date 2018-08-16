@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -40,6 +41,21 @@ namespace OverWeightControl.Clients.ParrentUI
             // Администрирование
             settingsToolStripMenuItem.Click += (s, e) => StartForm("EditorSettingsStorage");
             nodeRolesToolStripMenuItem.Click += (s, e) => StartForm("PackageAdmining");
+            
+            openHelpToolStripMenuItem.Click += (s, e) =>
+            {
+                try
+                {
+                    var fileName = $"..\\docs\\help.pdf";
+                    if (!File.Exists(fileName))
+                        throw new FileNotFoundException("Help.pdf not found");
+                    System.Diagnostics.Process.Start(fileName);
+                }
+                catch (Exception ex)
+                {
+                    _console.AddException(ex);
+                }
+            };
         }
 
         private void IntitForms()
@@ -66,7 +82,6 @@ namespace OverWeightControl.Clients.ParrentUI
                 bool debug = Boolean.TryParse(_settings[ArgsKeyList.IsDebugMode], out debug) && debug;
                 if (roles == null || (adminMode && !debug))
                     return;
-
                 foreach (var role in roles)
                 {
                     switch (role)
@@ -113,7 +128,6 @@ namespace OverWeightControl.Clients.ParrentUI
             {
                 _console.AddException(e);
             }
-        }
 
         private async Task ActViewFunc()
         {

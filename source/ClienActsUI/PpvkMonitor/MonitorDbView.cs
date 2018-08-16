@@ -94,7 +94,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
             {
                 try
                 {
-                    throw new ApplicationException();
                     Guid index = actGridControl1.GetMarked();
                     var pfi = _fileInfos.FirstOrDefault(f => f.Id == index);
                     string directory = _settings[ArgsKeyList.BackUpPath];

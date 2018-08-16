@@ -20,7 +20,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
         IObserver<IDictionary<ColumnInfo, SearchingTerm>>,
         IObserver<IList<DateFilter>>
     {
-        //private readonly IDictionary<int, Guid> _fastAccess;
         private readonly IConsoleService _console;
         private readonly ISettingsStorage _settings;
         private IDictionary<ColumnInfo, SearchingTerm> _filters;
@@ -32,7 +31,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public ActGridControl()
         {
-            //_fastAccess = new Dictionary<int, Guid>();
             InitializeComponent();
             InitialComponentsEvents();
             CreateFields<FlatAct>();
@@ -40,11 +38,6 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         private void InitialComponentsEvents()
         {
-            pageTextBox.KeyPress += (s, e) =>
-            {
-                var s2 = s;
-                var e2 = e;
-            };
             actGridView.ColumnHeaderMouseClick += (s, e) =>
             {
                 try
@@ -278,7 +271,8 @@ namespace OverWeightControl.Clients.ActsUI.Database
 
         public Guid GetMarked()
         {
-            return (Guid?)actGridView?.CurrentRow?.Cells["Id"]?.Value ?? Guid.Empty;
+            return (Guid?) actGridView?.CurrentRow?.Cells["Id"]?.Value
+                   ?? (Guid) actGridView?.Rows[0].Cells["Id"].Value;
         }
 
         public bool UpdateData(ICollection<FlatAct> data)
