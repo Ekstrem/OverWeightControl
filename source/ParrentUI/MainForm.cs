@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using OverWeightControl.Common.Model;
 using OverWeightControl.Core.Console;
 using OverWeightControl.Core.Settings;
 using OverWeightControl.Core.Upgrade;
@@ -17,6 +20,7 @@ namespace OverWeightControl.Clients.ParrentUI
         private readonly ISettingsStorage _settings;
         private readonly IConsoleService _console;
         private readonly UpdateClient _updateClient;
+        private Form _actDbView;
 
         [InjectionConstructor]
         public MainForm(
@@ -32,9 +36,7 @@ namespace OverWeightControl.Clients.ParrentUI
             InitializeComponent();
             TopLevel = true;
 
-            // Станция верфикации
-            actListVerificationToolStripMenuItem.Click += (s, e) => StartForm("ActDbView");
-            actVerificationWizardToolStripMenuItem.Click += (s, e) => StartForm("MonitorDbView");
+            IntitForms();
 
             // Администрирование
             settingsToolStripMenuItem.Click += (s, e) => StartForm("EditorSettingsStorage");
@@ -56,7 +58,16 @@ namespace OverWeightControl.Clients.ParrentUI
             };
         }
 
-        public void Initial(ICollection<NodeRole> roles, bool adminMode = false)
+        private void IntitForms()
+        {
+            // Станция верфикации
+            actListVerificationToolStripMenuItem.Text = @"Просмотр актов";
+            actListVerificationToolStripMenuItem.Click += (s, e) => _actDbView?.ShowDialog(); //StartForm("ActDbView");
+            actVerificationWizardToolStripMenuItem.Text = @"Монитор Актов"; //TODO: это должно быть на другом пунте меню.
+            actVerificationWizardToolStripMenuItem.Click += (s, e) => StartForm("MonitorDbView");
+        }
+
+        public async void Initial(ICollection<NodeRole> roles, bool adminMode = false)
         {
             try
             {
@@ -71,7 +82,6 @@ namespace OverWeightControl.Clients.ParrentUI
                 bool debug = Boolean.TryParse(_settings[ArgsKeyList.IsDebugMode], out debug) && debug;
                 if (roles == null || (adminMode && !debug))
                     return;
-
                 foreach (var role in roles)
                 {
                     switch (role)
@@ -90,6 +100,7 @@ namespace OverWeightControl.Clients.ParrentUI
                             verificationStationToolStripMenuItem.Visible = true;
                             label1.Visible = true;
                             progressListControl1.Visible = true;
+                            await ActViewFunc();
                             break;
                         case NodeRole.ReportsStation:
                             reportsStationToolStripMenuItem.Visible = true;
@@ -112,6 +123,20 @@ namespace OverWeightControl.Clients.ParrentUI
                 // form.TopLevel = false;
                 // form.Parent = this;
                 form.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                _console.AddException(e);
+            }
+
+        private async Task ActViewFunc()
+        {
+            try
+            {
+                const string methodName = @"LoadDataFromDataBaseAsync";
+                _actDbView = _container.Resolve<Form>("ActDbView");
+                MethodInfo m = _actDbView.GetType().GetMethod(methodName);
+                await Task.Factory.StartNew(() => m.Invoke(_actDbView, null));
             }
             catch (Exception e)
             {

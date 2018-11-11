@@ -106,6 +106,7 @@
     <Compile Include="CargoControl.Designer.cs">
       <DependentUpon>CargoControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Database\ActDataHeating.cs" />
     <Compile Include="Database\ActDbView.cs">
       <SubType>Form</SubType>
     </Compile>
